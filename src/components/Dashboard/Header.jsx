@@ -32,8 +32,9 @@ const Header = () => {
 
   return (
     <div className="grid md:grid-cols-5 grid-cols-2 justify-between gap-2">
-      {headers?.map((header) => (
+      {headers?.map((header, index) => (
         <Card
+          key={index}
           title={header.title}
           number={header.number}
           color={header.color}

@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Patients = () => {
   const patients = [
@@ -131,22 +132,24 @@ const Patients = () => {
         </thead>
         <tbody>
           {patients?.map((patient) => (
-            <tr
-              key={patient.id}
-              className="grid grid-cols-8 min-w-max items-center p-2 border-b"
-            >
-              <td className="whitespace-nowrap">{patient.id}</td>
-              <td className="flex items-center gap-2 whitespace-nowrap">
-                <img className="rounded-full" src={patient.img} width={40} />
-                <span>{patient.name}</span>
-              </td>
-              <td className="whitespace-nowrap">{patient.engagementDate}</td>
-              <td className="whitespace-nowrap">{patient.providers}</td>
-              <td className="whitespace-nowrap">{patient.conditions}</td>
-              <td className="whitespace-nowrap">{patient.offTime}</td>
-              <td className="whitespace-nowrap">{patient.LFC}</td>
-              <td className="whitespace-nowrap">{patient.LTC}</td>
-            </tr>
+            <NavLink to={"patient/fds"}>
+              <tr
+                key={patient.id}
+                className="grid grid-cols-8 min-w-max items-center p-2 border-b"
+              >
+                <td className="whitespace-nowrap">{patient.id}</td>
+                <td className="flex items-center gap-2 whitespace-nowrap">
+                  <img className="rounded-full" src={patient.img} width={40} />
+                  <span>{patient.name}</span>
+                </td>
+                <td className="whitespace-nowrap">{patient.engagementDate}</td>
+                <td className="whitespace-nowrap">{patient.providers}</td>
+                <td className="whitespace-nowrap">{patient.conditions}</td>
+                <td className="whitespace-nowrap">{patient.offTime}</td>
+                <td className="whitespace-nowrap">{patient.LFC}</td>
+                <td className="whitespace-nowrap">{patient.LTC}</td>
+              </tr>
+            </NavLink>
           ))}
         </tbody>
       </table>

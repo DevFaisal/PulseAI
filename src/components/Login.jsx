@@ -2,9 +2,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import FormInput from "./Inputs/FormInput";
 import Button from "./Inputs/Button";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
 
   const onSubmit = (data) => {
     console.log(data);
@@ -41,7 +43,13 @@ const Login = () => {
             placeholder={"******"}
             name={"password"}
           />
-          <Button type={"submit"} name={"Login"} />
+          <Button
+            onClick={() => {
+              navigate("/dashboard");
+            }}
+            type={"submit"}
+            name={"Login"}
+          />
         </form>
       </div>
     </>
