@@ -6,10 +6,9 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 class PieChart extends Component {
   render() {
     const options = {
-      exportEnabled: true,
       animationEnabled: true,
       title: {
-        text: "Billing and Claim",
+        // text: "Billing and Claim",
       },
       data: [
         {
@@ -29,7 +28,7 @@ class PieChart extends Component {
       ],
     };
     return (
-      <div className="bg-white md:w-1/4 rounded-sm">
+      <div className="bg-white md:w-1/4 rounded-lg ring-1 ring-gray-400">
         <CanvasJSChart
           options={options}
           /* onRef={ref => this.chart = ref} */

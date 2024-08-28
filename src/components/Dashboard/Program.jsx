@@ -42,7 +42,7 @@ const Program = ({ className }) => {
   ];
 
   return (
-    <div className="bg-white md:w-1/2 rounded-sm p-2">
+    <div className="bg-white md:w-1/2 rounded-lg p-2 ring-1 ring-gray-400">
       <h1 className="text-2xl font-semibold">Program</h1>
       <div className="grid grid-cols-3 gap-2 overflow-scroll">
         {programs?.map((program, index) => (

@@ -1,52 +1,12 @@
 import React, { useState } from "react";
 import Wrapper from "../../components/Wrapper";
-import Card from "../../components/Card";
 import clsx from "clsx";
 import SplineChart from "../../components/SplineChart";
+import PatientInfo from "../../components/Patient/PatientInfo";
+import demoData from "../../data/demo.json";
+import { useParams } from "react-router-dom";
 
 const Vitals = () => {
-  const medReport = [
-    {
-      title: "Blood Pressure",
-      number: "150/23",
-      sign: "mmHg",
-      predicted: "4% Higher",
-      time: "01-02-2203",
-      color: "red",
-    },
-    {
-      title: "Heart Rate",
-      number: "75",
-      sign: "bpm",
-      predicted: "Normal",
-      time: "01-02-2203",
-      color: "blue",
-    },
-    {
-      title: "Blood Sugar",
-      number: "110",
-      sign: "mg/dL",
-      predicted: "Stable",
-      time: "01-02-2203",
-      color: "green",
-    },
-    {
-      title: "Oxygen Saturation",
-      number: "98",
-      sign: "%",
-      predicted: "Normal",
-      time: "01-02-2203",
-      color: "pink",
-    },
-    {
-      title: "Cholesterol",
-      number: "200",
-      sign: "mg/dL",
-      predicted: "Borderline",
-      time: "01-02-2203",
-      color: "violet",
-    },
-  ];
   const categories = [
     {
       Header: "Blood Pressure",
@@ -92,8 +52,73 @@ const Vitals = () => {
         { x: new Date(2023, 7, 19, 20, 0), y: 99 },
       ],
     },
+    {
+      Header: "Body Temperature",
+      unit: "°F",
+      yAxisTitle: "Body Temperature (in °F)",
+      dataPoints: [
+        { x: new Date(2023, 7, 19, 8, 0), y: 98.6 },
+        { x: new Date(2023, 7, 19, 12, 0), y: 98.4 },
+        { x: new Date(2023, 7, 19, 16, 0), y: 98.2 },
+        { x: new Date(2023, 7, 19, 20, 0), y: 98.8 },
+      ],
+    },
   ];
   const [category, setCategory] = useState(categories[0].Header);
+
+  const { id } = useParams();
+
+  const patient = demoData.find((u) => {
+    return u.patient_id == id;
+  });
+
+  const vitals = patient.vitals;
+
+  const medReport = [
+    {
+      title: "Blood Pressure",
+      number:
+        vitals.blood_pressure.systolic + "/" + vitals.blood_pressure.diastolic,
+      sign: vitals.blood_pressure.unit,
+      predicted: vitals.blood_pressure.status,
+      time: new Date(vitals.blood_pressure.timestamp).toLocaleString(),
+      color: "red",
+    },
+    {
+      title: "Heart Rate",
+      number: vitals.heart_rate.bpm,
+      sign: "bpm",
+      predicted: vitals.heart_rate.status,
+      time: new Date(vitals.heart_rate.timestamp).toLocaleString(),
+      color: "blue",
+    },
+    {
+      title: "Blood Sugar",
+      number: vitals.blood_glucose.level,
+      sign: vitals.blood_glucose.unit,
+      predicted: vitals.blood_glucose.status,
+      time: new Date(vitals.blood_glucose.timestamp).toLocaleString(),
+      color: "green",
+    },
+    {
+      title: "Oxygen Saturation",
+      number: vitals.oxygen_saturation.spO2,
+      sign: vitals.oxygen_saturation.unit,
+      predicted: vitals.oxygen_saturation.status,
+      time: new Date(vitals.oxygen_saturation.timestamp).toLocaleString(),
+      color: "pink",
+    },
+    {
+      title: "Body Temperature",
+      number: vitals.body_temperature.temperature,
+      sign: vitals.body_temperature.unit,
+      predicted: vitals.body_temperature.status,
+      time: new Date(vitals.body_temperature.timestamp).toLocaleString(),
+      color: "violet",
+    },
+  ];
+
+  console.log(patient.vitals);
 
   return (
     <Wrapper>
@@ -101,37 +126,9 @@ const Vitals = () => {
         <div className="flex flex-col gap-4">
           <div className="flex justify-between gap-4 h-44">
             {/*First Card*/}
-            <div className="flex items-center justify-between p-4 gap-6 bg-white w-2/3 rounded-md shadow-md">
-              <div className="flex items-center gap-4">
-                <img
-                  className="rounded-full w-24 h-24 bg-cover"
-                  src="https://media.istockphoto.com/id/1472635214/photo/portrait-of-a-beautiful-mixed-race-senior-woman-in-her-home.jpg?s=612x612&w=0&k=20&c=4empJynZ0Yk7a-s4X33IWnQ5-r0SkkH6jU51yGEjAOI="
-                  alt="Patient"
-                />
-                <div className="flex flex-col">
-                  <h1 className="text-2xl font-bold">Stephen West</h1>
-                  <p className="text-gray-500">
-                    <span>01</span> | <span>Male</span> | <span>72 Years</span>
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-2">
-                <h1 className="text-xl font-semibold">Condition</h1>
-                <ul className="text-gray-500 list-disc pl-5">
-                  <li>High Blood Pressure</li>
-                  <li>Fever</li>
-                </ul>
-              </div>
-              <div className="flex flex-col gap-2">
-                <h1 className="text-xl font-semibold">Device</h1>
-                <ul className="text-gray-500 list-disc pl-5">
-                  <li>Glucometer</li>
-                  <li>Thermometer</li>
-                </ul>
-              </div>
-            </div>
+            <PatientInfo patient={patient} />
             {/*Second Card*/}
-            <div className="bg-white w-1/4 p-4 flex flex-col justify-between rounded-md shadow-md">
+            <div className="bg-white w-1/4 p-4 flex flex-col justify-between rounded-md ring-1 ring-gray-400">
               <h1 className="text-xl font-semibold">
                 Monthly Data Compliances
               </h1>
@@ -141,7 +138,7 @@ const Vitals = () => {
               </div>
             </div>
             {/*Third Card*/}
-            <div className="bg-white w-1/4 p-4 flex flex-col justify-between rounded-md shadow-md">
+            <div className="bg-white w-1/4 p-4 flex flex-col justify-between rounded-md ring-1 ring-gray-400">
               <h1 className="text-xl font-semibold">Billing Threshold</h1>
               <div>
                 <span className="h-[6px] block rounded-xl w-96 bg-green-500"></span>
@@ -149,7 +146,7 @@ const Vitals = () => {
               </div>
             </div>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 ">
             {medReport?.map((rep, index) => (
               <MedInfoCard
                 key={index}
@@ -165,7 +162,7 @@ const Vitals = () => {
               />
             ))}
           </div>
-          <div className="bg-white p-4">
+          <div>
             {categories?.map(
               (cat, index) =>
                 category.toLowerCase() === cat.Header.toLowerCase() && (
@@ -206,12 +203,11 @@ export function MedInfoCard({
         colorClasses[color]
       )}
     >
-      
-      <div className="flex gap-3 items-center">
+      <div className="flex gap-1 items-end">
         <h1 className="text-4xl font-bold">{number}</h1>
-        <span className="font-semibold">{sign}</span>
+        <span className="font-semibold text-sm mb-1">{sign}</span>
       </div>
-      <div>
+      <div className="flex flex-col items-start">
         <h1 className="text-2xl font-bold">{title}</h1>
         <div className="flex text-xs gap-2 justify-between font-semibold">
           <p>{predicted}</p>

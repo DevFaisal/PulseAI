@@ -16,7 +16,7 @@ const Login = () => {
     <>
       <div className="flex flex-col h-screen justify-around items-center">
         <header className=" w-1/2 flex flex-col justify-around h-1/2 gap-6">
-          <h1 className="text-6xl font-bold text-center font-mono">
+          <h1 className="text-6xl font-bold text-center">
             Pulse <span className="text-violet-600">AI</span>{" "}
           </h1>
           <div>
