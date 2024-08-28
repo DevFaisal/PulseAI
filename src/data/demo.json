@@ -1,62 +1,70 @@
 [
   {
-    "patient_id": "P1236",
-    "name": "Salem Al Suwaidi",
-    "dob": "1970-06-10",
+    "patient_id": "P1243",
+    "name": "Ahmed Al Mansoori",
+    "dob": "1985-02-20",
     "gender": "Male",
     "contact_info": {
-      "email": "salem.suwaidi@gmail.com",
-      "phone_number": "+971-50-345-6789",
-      "address": "Al Bateen, Abu Dhabi, UAE"
+      "email": "ahmed.mansoori@gmail.com",
+      "phone_number": "+971-50-123-4567",
+      "address": "Downtown, Dubai, UAE"
     },
     "insurance_info": {
-      "insurance_name": "Oman Insurance",
-      "insurance_id": "1239876543",
-      "holder_name": "Salem Al Suwaidi",
+      "insurance_name": "AXA",
+      "insurance_id": "7894561230",
+      "holder_name": "Ahmed Al Mansoori",
       "relationship_to_insured": "Self"
     },
     "vitals": {
       "blood_pressure": {
-        "systolic": 145,
-        "diastolic": 95,
+        "systolic": 135,
+        "diastolic": 88,
         "unit": "mmHg",
-        "timestamp": "2024-08-13T09:30:00Z",
-        "status": "Elevated"
+        "timestamp": "2024-08-13T08:30:00Z",
+        "status": "Normal"
       },
       "blood_glucose": {
-        "level": 7.2,
+        "level": 6.2,
         "unit": "mmol/L",
-        "timestamp": "2024-08-13T09:30:00Z",
-        "status": "High"
+        "timestamp": "2024-08-13T08:30:00Z",
+        "status": "Normal"
       },
       "heart_rate": {
-        "bpm": 85,
-        "timestamp": "2024-08-13T09:30:00Z",
+        "bpm": 72,
+        "timestamp": "2024-08-13T08:30:00Z",
         "status": "Normal"
       },
       "body_temperature": {
         "temperature": 37.0,
         "unit": "°C",
-        "timestamp": "2024-08-13T09:30:00Z",
+        "timestamp": "2024-08-13T08:30:00Z",
         "status": "Normal"
       },
       "oxygen_saturation": {
-        "spO2": 97,
+        "spO2": 98,
         "unit": "%",
-        "timestamp": "2024-08-13T09:30:00Z",
+        "timestamp": "2024-08-13T08:30:00Z",
         "status": "Normal"
       },
       "respiratory_rate": {
         "rate": 17,
         "unit": "breaths/min",
-        "timestamp": "2024-08-13T09:30:00Z",
+        "timestamp": "2024-08-13T08:30:00Z",
         "status": "Normal"
       }
     },
     "medications": [
       {
-        "medication_name": "Losartan",
-        "dosage": "50mg",
+        "medication_name": "Amlodipine",
+        "dosage": "5mg",
+        "route": "Oral",
+        "status": "Active",
+        "prescribed_for_days": 30,
+        "note": "Take once daily"
+      },
+      {
+        "medication_name": "Aspirin",
+        "dosage": "81mg",
         "route": "Oral",
         "status": "Active",
         "prescribed_for_days": 30,
@@ -65,52 +73,60 @@
     ],
     "programs": [
       {
-        "program_name": "Hypertension Control",
-        "start_date": "2024-06-01",
-        "duration_in_months": 6,
+        "program_name": "Cardiac Care",
+        "start_date": "2024-05-15",
+        "duration_in_months": 12,
         "status": "Active",
         "monitored_trackers": {
           "blood_pressure": {
             "systolic": 130,
-            "diastolic": 80,
+            "diastolic": 85,
             "unit": "mmHg"
           },
+          "cholesterol": {
+            "level": 180,
+            "unit": "mg/dL"
+          }
+        }
+      },
+      {
+        "program_name": "Diabetes Management",
+        "start_date": "2024-03-10",
+        "duration_in_months": 12,
+        "status": "Active",
+        "monitored_trackers": {
           "blood_glucose": {
-            "level": 6.5,
+            "level": 6.8,
             "unit": "mmol/L"
           },
-          "temperature": {
-            "temperature": 37.0,
-            "unit": "°C"
+          "hba1c": {
+            "level": 6.5,
+            "unit": "%"
           }
         }
       }
     ],
-    "assigned_doctor_id": "D456",
-    "alerts": [
-      {
-        "alert_id": "A002",
-        "alert_type": "Blood Pressure",
-        "description": "Blood Pressure is higher than the target range",
-        "timestamp": "2024-08-13T09:32:00Z",
-        "status": "Unresolved"
-      }
-    ]
+    "conditions": ["Hypertension", "Type 2 Diabetes"],
+    "off_time": "2024-08-14T18:00:00Z",
+    "last_fellow_call": "2024-08-10T12:00:00Z",
+    "last_time_call_to_patient": "2024-08-13T09:00:00Z",
+    "assigned_doctor_id": "D463",
+    "alerts": []
   },
   {
-    "patient_id": "P1237",
-    "name": "Aisha Al Qubaisi",
-    "dob": "1985-11-15",
+    "patient_id": "P1244",
+    "name": "Mariam Al Suwaidi",
+    "dob": "1995-09-15",
     "gender": "Female",
     "contact_info": {
-      "email": "aisha.qubaisi@gmail.com",
-      "phone_number": "+971-55-876-5432",
-      "address": "Mirdif, Dubai, UAE"
+      "email": "mariam.suwaidi@gmail.com",
+      "phone_number": "+971-55-345-6789",
+      "address": "Al Nahda, Sharjah, UAE"
     },
     "insurance_info": {
-      "insurance_name": "Daman Health",
-      "insurance_id": "8745632109",
-      "holder_name": "Aisha Al Qubaisi",
+      "insurance_name": "MedNet",
+      "insurance_id": "5647382910",
+      "holder_name": "Mariam Al Suwaidi",
       "relationship_to_insured": "Self"
     },
     "vitals": {
@@ -118,181 +134,217 @@
         "systolic": 120,
         "diastolic": 80,
         "unit": "mmHg",
-        "timestamp": "2024-08-13T11:00:00Z",
+        "timestamp": "2024-08-12T14:00:00Z",
         "status": "Normal"
       },
       "blood_glucose": {
-        "level": 5.6,
+        "level": 5.5,
         "unit": "mmol/L",
-        "timestamp": "2024-08-13T11:00:00Z",
+        "timestamp": "2024-08-12T14:00:00Z",
         "status": "Normal"
       },
       "heart_rate": {
-        "bpm": 72,
-        "timestamp": "2024-08-13T11:00:00Z",
+        "bpm": 76,
+        "timestamp": "2024-08-12T14:00:00Z",
         "status": "Normal"
       },
       "body_temperature": {
         "temperature": 36.8,
         "unit": "°C",
-        "timestamp": "2024-08-13T11:00:00Z",
-        "status": "Normal"
-      },
-      "oxygen_saturation": {
-        "spO2": 99,
-        "unit": "%",
-        "timestamp": "2024-08-13T11:00:00Z",
-        "status": "Normal"
-      },
-      "respiratory_rate": {
-        "rate": 15,
-        "unit": "breaths/min",
-        "timestamp": "2024-08-13T11:00:00Z",
-        "status": "Normal"
-      }
-    },
-    "medications": [
-      {
-        "medication_name": "Metformin",
-        "dosage": "500mg",
-        "route": "Oral",
-        "status": "Active",
-        "prescribed_for_days": 90,
-        "note": "Take twice daily"
-      }
-    ],
-    "programs": [
-      {
-        "program_name": "Diabetes Control",
-        "start_date": "2024-04-01",
-        "duration_in_months": 12,
-        "status": "Active",
-        "monitored_trackers": {
-          "blood_glucose": {
-            "level": 5.5,
-            "unit": "mmol/L"
-          },
-          "blood_pressure": {
-            "systolic": 120,
-            "diastolic": 80,
-            "unit": "mmHg"
-          },
-          "temperature": {
-            "temperature": 36.8,
-            "unit": "°C"
-          }
-        }
-      }
-    ],
-    "assigned_doctor_id": "D457",
-    "alerts": []
-  },
-  {
-    "patient_id": "P1238",
-    "name": "Nasser Al Rumaithi",
-    "dob": "1990-03-25",
-    "gender": "Male",
-    "contact_info": {
-      "email": "nasser.rumaithi@gmail.com",
-      "phone_number": "+971-50-654-3210",
-      "address": "Al Khalidiyah, Abu Dhabi, UAE"
-    },
-    "insurance_info": {
-      "insurance_name": "ADNIC",
-      "insurance_id": "7654321098",
-      "holder_name": "Nasser Al Rumaithi",
-      "relationship_to_insured": "Self"
-    },
-    "vitals": {
-      "blood_pressure": {
-        "systolic": 125,
-        "diastolic": 85,
-        "unit": "mmHg",
-        "timestamp": "2024-08-13T08:45:00Z",
-        "status": "Normal"
-      },
-      "blood_glucose": {
-        "level": 5.9,
-        "unit": "mmol/L",
-        "timestamp": "2024-08-13T08:45:00Z",
-        "status": "Normal"
-      },
-      "heart_rate": {
-        "bpm": 76,
-        "timestamp": "2024-08-13T08:45:00Z",
-        "status": "Normal"
-      },
-      "body_temperature": {
-        "temperature": 37.1,
-        "unit": "°C",
-        "timestamp": "2024-08-13T08:45:00Z",
+        "timestamp": "2024-08-12T14:00:00Z",
         "status": "Normal"
       },
       "oxygen_saturation": {
         "spO2": 98,
         "unit": "%",
-        "timestamp": "2024-08-13T08:45:00Z",
+        "timestamp": "2024-08-12T14:00:00Z",
         "status": "Normal"
       },
       "respiratory_rate": {
-        "rate": 16,
+        "rate": 15,
         "unit": "breaths/min",
-        "timestamp": "2024-08-13T08:45:00Z",
+        "timestamp": "2024-08-12T14:00:00Z",
         "status": "Normal"
       }
     },
     "medications": [
       {
-        "medication_name": "Atorvastatin",
-        "dosage": "20mg",
+        "medication_name": "Ibuprofen",
+        "dosage": "400mg",
+        "route": "Oral",
+        "status": "As needed",
+        "prescribed_for_days": 14,
+        "note": "Take every 6 hours for pain"
+      },
+      {
+        "medication_name": "Vitamin D",
+        "dosage": "1000 IU",
         "route": "Oral",
         "status": "Active",
-        "prescribed_for_days": 60,
-        "note": "Take once daily at night"
+        "prescribed_for_days": 90,
+        "note": "Take once daily with food"
       }
     ],
     "programs": [
       {
-        "program_name": "Cholesterol Management",
-        "start_date": "2024-02-01",
+        "program_name": "Women's Health",
+        "start_date": "2024-07-01",
         "duration_in_months": 6,
         "status": "Active",
         "monitored_trackers": {
-          "blood_pressure": {
-            "systolic": 120,
-            "diastolic": 80,
-            "unit": "mmHg"
+          "menstrual_cycle": {
+            "average_length": 28,
+            "unit": "days"
           },
-          "cholesterol": {
-            "ldl": 2.0,
-            "hdl": 1.0,
-            "total": 4.5,
-            "unit": "mmol/L"
-          },
-          "temperature": {
-            "temperature": 37.0,
-            "unit": "°C"
+          "bone_density": {
+            "t_score": -1.0
+          }
+        }
+      },
+      {
+        "program_name": "Pain Management",
+        "start_date": "2024-06-15",
+        "duration_in_months": 3,
+        "status": "Active",
+        "monitored_trackers": {
+          "pain_level": {
+            "scale": 3,
+            "unit": "1-10"
           }
         }
       }
     ],
-    "assigned_doctor_id": "D458",
+    "conditions": ["Chronic Pain", "Osteopenia"],
+    "off_time": "2024-08-14T19:00:00Z",
+    "last_fellow_call": "2024-08-11T15:30:00Z",
+    "last_time_call_to_patient": "2024-08-12T16:00:00Z",
+    "assigned_doctor_id": "D464",
     "alerts": []
   },
   {
-    "patient_id": "P1239",
-    "name": "Hind Al Nahyan",
-    "dob": "1978-02-02",
-    "gender": "Female",
+    "patient_id": "P1245",
+    "name": "Ali Al Nuaimi",
+    "dob": "1980-04-17",
+    "gender": "Male",
     "contact_info": {
-      "email": "hind.nahyan@gmail.com",
-      "phone_number": "+971-55-432-1098",
-      "address": "Al Mushrif, Abu Dhabi, UAE"
+      "email": "ali.nuaimi@gmail.com",
+      "phone_number": "+971-50-987-6543",
+      "address": "Al Ain, Abu Dhabi, UAE"
     },
     "insurance_info": {
-      "insurance_name": "Oman Insurance",
-      "insurance_id": "5432109876",
-      "holder_name": "Hind Al Nahyan",
+      "insurance_name": "Thiqa",
+      "insurance_id": "1230984567",
+      "holder_name": "Ali Al Nuaimi",
+      "relationship_to_insured": "Self"
+    },
+    "vitals": {
+      "blood_pressure": {
+        "systolic": 140,
+        "diastolic": 90,
+        "unit": "mmHg",
+        "timestamp": "2024-08-11T11:30:00Z",
+        "status": "High"
+      },
+      "blood_glucose": {
+        "level": 7.5,
+        "unit": "mmol/L",
+        "timestamp": "2024-08-11T11:30:00Z",
+        "status": "High"
+      },
+      "heart_rate": {
+        "bpm": 80,
+        "timestamp": "2024-08-11T11:30:00Z",
+        "status": "Normal"
+      },
+      "body_temperature": {
+        "temperature": 37.2,
+        "unit": "°C",
+        "timestamp": "2024-08-11T11:30:00Z",
+        "status": "Normal"
+      },
+      "oxygen_saturation": {
+        "spO2": 97,
+        "unit": "%",
+        "timestamp": "2024-08-11T11:30:00Z",
+        "status": "Normal"
+      },
+      "respiratory_rate": {
+        "rate": 16,
+        "unit": "breaths/min",
+        "timestamp": "2024-08-11T11:30:00Z",
+        "status": "Normal"
+      }
+    },
+    "medications": [
+      {
+        "medication_name": "Lisinopril",
+        "dosage": "10mg",
+        "route": "Oral",
+        "status": "Active",
+        "prescribed_for_days": 30,
+        "note": "Take once daily"
+      },
+      {
+        "medication_name": "Metformin",
+        "dosage": "500mg",
+        "route": "Oral",
+        "status": "Active",
+        "prescribed_for_days": 30,
+        "note": "Take twice daily with meals"
+      }
+    ],
+    "programs": [
+      {
+        "program_name": "Hypertension Management",
+        "start_date": "2024-07-01",
+        "duration_in_months": 6,
+        "status": "Active",
+        "monitored_trackers": {
+          "blood_pressure": {
+            "systolic": 135,
+            "diastolic": 85,
+            "unit": "mmHg"
+          }
+        }
+      },
+      {
+        "program_name": "Diabetes Management",
+        "start_date": "2024-06-01",
+        "duration_in_months": 12,
+        "status": "Active",
+        "monitored_trackers": {
+          "blood_glucose": {
+            "level": 7.2,
+            "unit": "mmol/L"
+          },
+          "hba1c": {
+            "level": 6.8,
+            "unit": "%"
+          }
+        }
+      }
+    ],
+    "conditions": ["Hypertension", "Type 2 Diabetes"],
+    "off_time": "2024-08-14T20:00:00Z",
+    "last_fellow_call": "2024-08-11T13:00:00Z",
+    "last_time_call_to_patient": "2024-08-13T11:00:00Z",
+    "assigned_doctor_id": "D465",
+    "alerts": []
+  },
+  {
+    "patient_id": "P1246",
+    "name": "Laila Al Zarooni",
+    "dob": "2005-11-25",
+    "gender": "Female",
+    "contact_info": {
+      "email": "laila.zarooni@gmail.com",
+      "phone_number": "+971-55-678-1234",
+      "address": "Mirdif, Dubai, UAE"
+    },
+    "insurance_info": {
+      "insurance_name": "Daman",
+      "insurance_id": "9876543210",
+      "holder_name": "Laila Al Zarooni",
       "relationship_to_insured": "Self"
     },
     "vitals": {
@@ -300,163 +352,96 @@
         "systolic": 110,
         "diastolic": 70,
         "unit": "mmHg",
-        "timestamp": "2024-08-13T12:15:00Z",
+        "timestamp": "2024-08-10T09:00:00Z",
         "status": "Normal"
       },
       "blood_glucose": {
-        "level": 4.8,
+        "level": 4.9,
         "unit": "mmol/L",
-        "timestamp": "2024-08-13T12:15:00Z",
+        "timestamp": "2024-08-10T09:00:00Z",
         "status": "Normal"
       },
       "heart_rate": {
-        "bpm": 68,
-        "timestamp": "2024-08-13T12:15:00Z",
+        "bpm": 72,
+        "timestamp": "2024-08-10T09:00:00Z",
         "status": "Normal"
       },
       "body_temperature": {
         "temperature": 36.6,
         "unit": "°C",
-        "timestamp": "2024-08-13T12:15:00Z",
+        "timestamp": "2024-08-10T09:00:00Z",
         "status": "Normal"
       },
       "oxygen_saturation": {
         "spO2": 99,
         "unit": "%",
-        "timestamp": "2024-08-13T12:15:00Z",
+        "timestamp": "2024-08-10T09:00:00Z",
         "status": "Normal"
       },
       "respiratory_rate": {
         "rate": 14,
         "unit": "breaths/min",
-        "timestamp": "2024-08-13T12:15:00Z",
+        "timestamp": "2024-08-10T09:00:00Z",
         "status": "Normal"
       }
     },
     "medications": [
       {
-        "medication_name": "Levothyroxine",
-        "dosage": "50mcg",
+        "medication_name": "Cetirizine",
+        "dosage": "10mg",
+        "route": "Oral",
+        "status": "As needed",
+        "prescribed_for_days": 14,
+        "note": "Take once daily for allergy symptoms"
+      },
+      {
+        "medication_name": "Amoxicillin",
+        "dosage": "500mg",
         "route": "Oral",
         "status": "Active",
-        "prescribed_for_days": 30,
-        "note": "Take on an empty stomach"
+        "prescribed_for_days": 7,
+        "note": "Take every 8 hours"
       }
     ],
     "programs": [
       {
-        "program_name": "Thyroid Management",
-        "start_date": "2024-05-01",
-        "duration_in_months": 12,
-        "status": "Active",
-        "monitored_trackers": {
-          "tsh": {
-            "level": 2.5,
-            "unit": "mIU/L"
-          },
-          "blood_pressure": {
-            "systolic": 110,
-            "diastolic": 70,
-            "unit": "mmHg"
-          },
-          "temperature": {
-            "temperature": 36.6,
-            "unit": "°C"
-          }
-        }
-      }
-    ],
-    "assigned_doctor_id": "D459",
-    "alerts": []
-  },
-  {
-    "patient_id": "P1240",
-    "name": "Mariam Al Muhairi",
-    "dob": "1995-09-05",
-    "gender": "Female",
-    "contact_info": {
-      "email": "mariam.muhairi@gmail.com",
-      "phone_number": "+971-50-123-9876",
-      "address": "JLT, Dubai, UAE"
-    },
-    "insurance_info": {
-      "insurance_name": "Daman Health",
-      "insurance_id": "1234509876",
-      "holder_name": "Mariam Al Muhairi",
-      "relationship_to_insured": "Self"
-    },
-    "vitals": {
-      "blood_pressure": {
-        "systolic": 115,
-        "diastolic": 75,
-        "unit": "mmHg",
-        "timestamp": "2024-08-13T07:45:00Z",
-        "status": "Normal"
-      },
-      "blood_glucose": {
-        "level": 5.3,
-        "unit": "mmol/L",
-        "timestamp": "2024-08-13T07:45:00Z",
-        "status": "Normal"
-      },
-      "heart_rate": {
-        "bpm": 70,
-        "timestamp": "2024-08-13T07:45:00Z",
-        "status": "Normal"
-      },
-      "body_temperature": {
-        "temperature": 36.9,
-        "unit": "°C",
-        "timestamp": "2024-08-13T07:45:00Z",
-        "status": "Normal"
-      },
-      "oxygen_saturation": {
-        "spO2": 98,
-        "unit": "%",
-        "timestamp": "2024-08-13T07:45:00Z",
-        "status": "Normal"
-      },
-      "respiratory_rate": {
-        "rate": 15,
-        "unit": "breaths/min",
-        "timestamp": "2024-08-13T07:45:00Z",
-        "status": "Normal"
-      }
-    },
-    "medications": [
-      {
-        "medication_name": "Vitamin D",
-        "dosage": "2000 IU",
-        "route": "Oral",
-        "status": "Active",
-        "prescribed_for_days": 60,
-        "note": "Take with breakfast"
-      }
-    ],
-    "programs": [
-      {
-        "program_name": "Wellness Program",
-        "start_date": "2024-07-01",
+        "program_name": "Allergy Management",
+        "start_date": "2024-08-01",
         "duration_in_months": 3,
         "status": "Active",
         "monitored_trackers": {
-          "blood_pressure": {
-            "systolic": 115,
-            "diastolic": 75,
-            "unit": "mmHg"
+          "allergy_symptoms": {
+            "severity": 2,
+            "unit": "1-10"
           },
-          "blood_glucose": {
-            "level": 5.3,
-            "unit": "mmol/L"
+          "medication_effectiveness": {
+            "scale": 7,
+            "unit": "1-10"
+          }
+        }
+      },
+      {
+        "program_name": "General Wellness",
+        "start_date": "2024-06-01",
+        "duration_in_months": 12,
+        "status": "Active",
+        "monitored_trackers": {
+          "physical_activity": {
+            "duration": 60,
+            "unit": "minutes/day"
           },
-          "temperature": {
-            "temperature": 36.9,
-            "unit": "°C"
+          "sleep_quality": {
+            "scale": 8,
+            "unit": "1-10"
           }
         }
       }
     ],
-    "assigned_doctor_id": "D460",
+    "conditions": ["Allergies", "Recurrent Infections"],
+    "off_time": "2024-08-14T21:00:00Z",
+    "last_fellow_call": "2024-08-10T10:00:00Z",
+    "last_time_call_to_patient": "2024-08-13T10:30:00Z",
+    "assigned_doctor_id": "D466",
     "alerts": []
   }
 ]

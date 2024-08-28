@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Wrapper from "../../components/Wrapper";
 import clsx from "clsx";
-import SplineChart from "../../components/SplineChart";
+import SplineChart from "../../components/Charts/SplineChart";
 import PatientInfo from "../../components/Patient/PatientInfo";
 import demoData from "../../data/demo.json";
 import { useParams } from "react-router-dom";

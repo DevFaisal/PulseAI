@@ -10,6 +10,10 @@ const Patients = () => {
     dob: data.dob,
     gender: data.gender,
     img: "https://tech.shutterstock.com/assets/img/posts/2019/0312-02.jpg",
+    conditions: data.conditions.join(", "),
+    offTime: new Date(data.off_time).toLocaleString().split(",")[0],
+    LFC: new Date(data.last_fellow_call).toLocaleString().split(",")[0],
+    LTC: new Date(data.last_time_call_to_patient).toLocaleString().split(",")[0],
   }));
 
   return (
@@ -41,7 +45,11 @@ const Patients = () => {
                 </td>
                 <td className="whitespace-nowrap">{patient.gender}</td>
                 <td className="whitespace-nowrap">{patient.dob}</td>
-                <td className="whitespace-nowrap">{patient.conditions}</td>
+                <td className="whitespace-nowrap">{
+                patient.conditions.length > 20
+                  ? patient.conditions.slice(0, 20) + "..."
+                  : patient.conditions
+                }</td>
                 <td className="whitespace-nowrap">{patient.offTime}</td>
                 <td className="whitespace-nowrap">{patient.LFC}</td>
                 <td className="whitespace-nowrap">{patient.LTC}</td>

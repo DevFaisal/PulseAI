@@ -1,9 +1,9 @@
 import Dashboard from "./pages/Dashboard";
 import PatientPage from "./pages/Patient/PatientPage";
 import LoginPage from "./pages/LoginPage";
+import Vitals from "./pages/Patient/Vitals";
 import { createBrowserRouter } from "react-router-dom";
 import Root from "./layout/Root";
-import Vitals from "./pages/Patient/Vitals";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       {
-        path: "",
+        index: true,
         element: <Dashboard />,
       },
       {
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
         element: <Root />,
         children: [
           {
-            path: "",
+            index: true,
             element: <PatientPage />,
           },
           {
