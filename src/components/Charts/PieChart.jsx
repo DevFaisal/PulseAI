@@ -28,7 +28,7 @@ class PieChart extends Component {
       ],
     };
     return (
-      <div className="bg-white md:w-1/4 rounded-lg ring-1 ring-gray-400">
+      <div className="bg-white md:w-1/4 rounded-lg ring-1 ring-gray-400 overflow-hidden">
         <CanvasJSChart
           options={options}
           /* onRef={ref => this.chart = ref} */

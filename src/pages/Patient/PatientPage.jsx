@@ -3,11 +3,12 @@ import Wrapper from "../../components/Wrapper";
 import Card from "../../components/Card";
 import { useParams } from "react-router-dom";
 import demoData from "../../data/demo.json";
-
 import PatientInfo from "../../components/Patient/PatientInfo";
 import Diagnoses from "../../components/Patient/Diagnoses";
 import Medication from "../../components/Patient/Medication";
 import CurrentProgram from "../../components/Patient/CurrentProgram";
+import Insurance from "../../components/Patient/Insurance";
+
 const PatientPage = () => {
   const { id } = useParams();
 
@@ -25,20 +26,7 @@ const PatientPage = () => {
             {/*Second Card*/}
             <Diagnoses patient={patient} />
             {/*Third Card*/}
-            <div className="bg-white w-1/4 p-4 rounded-lg ring-1 ring-gray-400">
-              <h1 className="text-xl font-semibold">Follow-Up</h1>
-              <div className="flex flex-wrap gap-2 mt-2">
-                <span className="p-2 rounded-md bg-green-500 text-white">
-                  Call Scheduled
-                </span>
-                <span className="p-2 rounded-md bg-green-500 text-white">
-                  Medication Updated
-                </span>
-                <span className="p-2 rounded-md bg-green-500 text-white">
-                  Visit Planned
-                </span>
-              </div>
-            </div>
+            <Insurance patient={patient} />
           </div>
           <div className="flex gap-4">
             <Card number={"Vitals"} link={"vitals"} color="bg-red-400" />
@@ -48,7 +36,7 @@ const PatientPage = () => {
             <Card number={"Reports"} color="bg-sky-400" />
           </div>
         </div>
-        <div className="flex gap-2 ">
+        <div className="flex gap-2">
           <CurrentProgram patient={patient} />
           <Medication patient={patient} />
         </div>

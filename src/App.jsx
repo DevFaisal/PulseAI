@@ -2,8 +2,8 @@ import Dashboard from "./pages/Dashboard";
 import PatientPage from "./pages/Patient/PatientPage";
 import LoginPage from "./pages/LoginPage";
 import Vitals from "./pages/Patient/Vitals";
-import { createBrowserRouter } from "react-router-dom";
 import Root from "./layout/Root";
+import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
