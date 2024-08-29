@@ -11,7 +11,6 @@ import Insurance from "../../components/Patient/Insurance";
 
 const PatientPage = () => {
   const { id } = useParams();
-
   const patient = demoData.find((u) => {
     return u.patient_id == id;
   });

@@ -120,69 +120,65 @@ const Vitals = () => {
 
   return (
     <Wrapper>
-      <div>
-        <div className="flex flex-col gap-4">
-          <div
-            className="
-          grid grid-cols-1 grid-flow-row lg:grid-cols-3 md:grid-cols-2 gap-4
-          "
-          >
-            {/* First Card */}
-            <PatientInfo patient={patient} />
-            {/* Second Card */}
-            <div className="bg-white p-4 flex flex-col justify-between rounded-md ring-1 ring-gray-400">
-              <h1 className="text-xl font-semibold">
-                Monthly Data Compliances
-              </h1>
-              <div>
-                <span className="h-[6px] block rounded-xl w-1/2 bg-green-500"></span>
-                <h2>08 Days of Device data in Aug</h2>
-              </div>
-            </div>
-            {/* Third Card */}
-            <div className="bg-white p-4 flex flex-col justify-between rounded-md ring-1 ring-gray-400">
-              <h1 className="text-xl font-semibold">Billing Threshold</h1>
-              <div>
-                <span className="h-[6px] block rounded-xl w-3/12 bg-green-500"></span>
-                <h2>03 Minutes Reviewed in June</h2>
-              </div>
+      <div className="flex flex-col gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <PatientInfo patient={patient} />
+          <div className="bg-white p-4 rounded-md ring-1 ring-gray-400">
+            <h1 className="text-lg sm:text-xl font-semibold">
+              Monthly Data Compliances
+            </h1>
+            <div className="mt-2">
+              <span className="block h-[6px] rounded-xl w-1/2 bg-green-500"></span>
+              <h2 className="text-sm sm:text-base">
+                08 Days of Device data in Aug
+              </h2>
             </div>
           </div>
-          <div className="flex gap-4 p-3 overflow-scroll">
-            {medReport.map((rep, index) => (
-              <MedInfoCard
-                key={index}
-                title={rep.title}
-                number={rep.number}
-                sign={rep.sign}
-                predicted={rep.predicted}
-                time={rep.time}
-                color={rep.color}
-                onClick={() => {
-                  setCategory(rep.title);
-                }}
-              />
-            ))}
+          <div className="bg-white p-4 rounded-md ring-1 ring-gray-400">
+            <h1 className="text-lg sm:text-xl font-semibold">
+              Billing Threshold
+            </h1>
+            <div className="mt-2">
+              <span className="block h-[6px] rounded-xl w-3/12 bg-green-500"></span>
+              <h2 className="text-sm sm:text-base">
+                03 Minutes Reviewed in June
+              </h2>
+            </div>
           </div>
+        </div>
 
-          <div>
-            {categories.map(
-              (cat, index) =>
-                category.toLowerCase() === cat.Header.toLowerCase() && (
-                  <Line
-                    key={index}
-                    data={{
-                      label: cat.Header,
-                      labels: cat.dataPoints.map((data) =>
-                        data.x.toLocaleTimeString()
-                      ),
-                      data: cat.dataPoints.map((data) => data.y),
-                      unit: cat.unit,
-                    }}
-                  />
-                )
-            )}
-          </div>
+        <div className="flex overflow-x-auto gap-4 p-3">
+          {medReport.map((rep, index) => (
+            <MedInfoCard
+              key={index}
+              title={rep.title}
+              number={rep.number}
+              sign={rep.sign}
+              predicted={rep.predicted}
+              time={rep.time}
+              color={rep.color}
+              onClick={() => setCategory(rep.title)}
+            />
+          ))}
+        </div>
+
+        <div className="mt-4">
+          {categories.map(
+            (cat, index) =>
+              category.toLowerCase() === cat.Header.toLowerCase() && (
+                <Line
+                  key={index}
+                  data={{
+                    label: cat.Header,
+                    labels: cat.dataPoints.map((data) =>
+                      data.x.toLocaleTimeString()
+                    ),
+                    data: cat.dataPoints.map((data) => data.y),
+                    unit: cat.unit,
+                  }}
+                />
+              )
+          )}
         </div>
       </div>
     </Wrapper>
@@ -212,17 +208,17 @@ export function MedInfoCard({
     <button
       onClick={onClick}
       className={clsx(
-        "p-4 ring-4 flex flex-col flex-grow justify-between gap-4 rounded-xl hover:shadow-lg shadow-black hover:bg-white hover:cursor-pointer duration-500",
+        "p-3 sm:p-4 flex flex-col gap-4 flex-grow rounded-xl ring-4 hover:shadow-lg hover:bg-white cursor-pointer transition duration-300",
         colorClasses[color]
       )}
     >
       <div className="flex gap-1 items-end">
-        <h1 className="text-4xl font-bold">{number}</h1>
-        <span className="font-semibold text-sm mb-1">{sign}</span>
+        <h1 className="text-3xl sm:text-4xl font-bold">{number}</h1>
+        <span className="text-sm sm:text-base font-semibold mb-1">{sign}</span>
       </div>
       <div className="flex flex-col items-start">
-        <h1 className="text-2xl font-bold">{title}</h1>
-        <div className="flex text-xs gap-2 justify-between font-semibold">
+        <h1 className="text-lg sm:text-2xl font-bold">{title}</h1>
+        <div className="text-xs sm:text-sm flex gap-2 font-semibold">
           <p>{predicted}</p>
           <p>{time}</p>
         </div>
