@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "../components/Dashboard/Header";
 import Program from "../components/Dashboard/Program";
-import PieChart from "../components/Charts/PieChart";
 import Devices from "../components/Dashboard/Devices";
 import Patients from "../components/Dashboard/Patients";
 import Wrapper from "../components/Wrapper";
