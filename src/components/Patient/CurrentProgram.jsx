@@ -2,7 +2,7 @@ import React from "react";
 
 const CurrentProgram = ({ patient }) => {
   return (
-    <div className="bg-white w-1/2 p-6 rounded-lg ring-1 ring-gray-400">
+    <div className="bg-white p-6 rounded-lg ring-1 ring-gray-400">
       <h1 className="text-xl font-bold mb-4">Current RPM Program</h1>
       <table className="w-full border-collapse">
         <thead>

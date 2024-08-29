@@ -2,7 +2,7 @@ import React from "react";
 
 const Medication = ({ patient }) => {
   return (
-    <div className="bg-white w-1/2 p-6 rounded-lg ring-1 ring-gray-400">
+    <div className="bg-white p-6 rounded-lg ring-1 ring-gray-400 overflow-scroll">
       <h1 className="text-xl font-bold mb-4">Medications</h1>
       <table className="w-full border-collapse">
         <thead>

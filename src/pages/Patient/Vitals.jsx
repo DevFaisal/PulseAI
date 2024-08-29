@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Wrapper from "../../components/Wrapper";
 import clsx from "clsx";
-import SplineChart from "../../components/Charts/SplineChart";
+import Line from "../../components/Charts/Line";
 import PatientInfo from "../../components/Patient/PatientInfo";
 import demoData from "../../data/demo.json";
 import { useParams } from "react-router-dom";
@@ -64,90 +64,92 @@ const Vitals = () => {
       ],
     },
   ];
+
   const [category, setCategory] = useState(categories[0].Header);
 
   const { id } = useParams();
 
-  const patient = demoData.find((u) => {
-    return u.patient_id == id;
-  });
-
-  const vitals = patient.vitals;
+  const patient = demoData.find((u) => u.patient_id === id);
+  const vitals = patient?.vitals || {};
 
   const medReport = [
     {
       title: "Blood Pressure",
-      number:
-        vitals.blood_pressure.systolic + "/" + vitals.blood_pressure.diastolic,
-      sign: vitals.blood_pressure.unit,
-      predicted: vitals.blood_pressure.status,
-      time: new Date(vitals.blood_pressure.timestamp).toLocaleString(),
+      number: `${vitals.blood_pressure?.systolic || 0}/${
+        vitals.blood_pressure?.diastolic || 0
+      }`,
+      sign: vitals.blood_pressure?.unit || "",
+      predicted: vitals.blood_pressure?.status || "",
+      time: new Date(vitals.blood_pressure?.timestamp).toLocaleString() || "",
       color: "red",
     },
     {
       title: "Heart Rate",
-      number: vitals.heart_rate.bpm,
+      number: vitals.heart_rate?.bpm || 0,
       sign: "bpm",
-      predicted: vitals.heart_rate.status,
-      time: new Date(vitals.heart_rate.timestamp).toLocaleString(),
+      predicted: vitals.heart_rate?.status || "",
+      time: new Date(vitals.heart_rate?.timestamp).toLocaleString() || "",
       color: "blue",
     },
     {
       title: "Blood Sugar",
-      number: vitals.blood_glucose.level,
-      sign: vitals.blood_glucose.unit,
-      predicted: vitals.blood_glucose.status,
-      time: new Date(vitals.blood_glucose.timestamp).toLocaleString(),
+      number: vitals.blood_glucose?.level || 0,
+      sign: vitals.blood_glucose?.unit || "",
+      predicted: vitals.blood_glucose?.status || "",
+      time: new Date(vitals.blood_glucose?.timestamp).toLocaleString() || "",
       color: "green",
     },
     {
       title: "Oxygen Saturation",
-      number: vitals.oxygen_saturation.spO2,
-      sign: vitals.oxygen_saturation.unit,
-      predicted: vitals.oxygen_saturation.status,
-      time: new Date(vitals.oxygen_saturation.timestamp).toLocaleString(),
+      number: vitals.oxygen_saturation?.spO2 || 0,
+      sign: vitals.oxygen_saturation?.unit || "",
+      predicted: vitals.oxygen_saturation?.status || "",
+      time:
+        new Date(vitals.oxygen_saturation?.timestamp).toLocaleString() || "",
       color: "pink",
     },
     {
       title: "Body Temperature",
-      number: vitals.body_temperature.temperature,
-      sign: vitals.body_temperature.unit,
-      predicted: vitals.body_temperature.status,
-      time: new Date(vitals.body_temperature.timestamp).toLocaleString(),
+      number: vitals.body_temperature?.temperature || 0,
+      sign: vitals.body_temperature?.unit || "",
+      predicted: vitals.body_temperature?.status || "",
+      time: new Date(vitals.body_temperature?.timestamp).toLocaleString() || "",
       color: "violet",
     },
   ];
-
-  console.log(patient.vitals);
 
   return (
     <Wrapper>
       <div>
         <div className="flex flex-col gap-4">
-          <div className="flex justify-between gap-4 h-44">
-            {/*First Card*/}
+          <div
+            className="
+          grid grid-cols-1 grid-flow-row lg:grid-cols-3 md:grid-cols-2 gap-4
+          "
+          >
+            {/* First Card */}
             <PatientInfo patient={patient} />
-            {/*Second Card*/}
-            <div className="bg-white w-1/4 p-4 flex flex-col justify-between rounded-md ring-1 ring-gray-400">
+            {/* Second Card */}
+            <div className="bg-white p-4 flex flex-col justify-between rounded-md ring-1 ring-gray-400">
               <h1 className="text-xl font-semibold">
                 Monthly Data Compliances
               </h1>
               <div>
-                <span className="h-[6px] block rounded-xl w-96 bg-green-500"></span>
+                <span className="h-[6px] block rounded-xl w-1/2 bg-green-500"></span>
                 <h2>08 Days of Device data in Aug</h2>
               </div>
             </div>
-            {/*Third Card*/}
-            <div className="bg-white w-1/4 p-4 flex flex-col justify-between rounded-md ring-1 ring-gray-400">
+            {/* Third Card */}
+            <div className="bg-white p-4 flex flex-col justify-between rounded-md ring-1 ring-gray-400">
               <h1 className="text-xl font-semibold">Billing Threshold</h1>
               <div>
-                <span className="h-[6px] block rounded-xl w-96 bg-green-500"></span>
+                <span className="h-[6px] block rounded-xl w-3/12 bg-green-500"></span>
                 <h2>03 Minutes Reviewed in June</h2>
               </div>
             </div>
           </div>
-          <div className="flex gap-4 ">
-            {medReport?.map((rep, index) => (
+          <div className="flex gap-4 p-3 overflow-scroll">
+            {medReport.map((rep, index) => (
               <MedInfoCard
                 key={index}
                 title={rep.title}
@@ -162,11 +164,22 @@ const Vitals = () => {
               />
             ))}
           </div>
+
           <div>
-            {categories?.map(
+            {categories.map(
               (cat, index) =>
                 category.toLowerCase() === cat.Header.toLowerCase() && (
-                  <SplineChart key={index} categories={[cat]} />
+                  <Line
+                    key={index}
+                    data={{
+                      label: cat.Header,
+                      labels: cat.dataPoints.map((data) =>
+                        data.x.toLocaleTimeString()
+                      ),
+                      data: cat.dataPoints.map((data) => data.y),
+                      unit: cat.unit,
+                    }}
+                  />
                 )
             )}
           </div>

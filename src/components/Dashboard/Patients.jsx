@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import demoData from "../../data/demo.json";
 
 const Patients = () => {
-  console.log(demoData);
   const patients = demoData?.map((data) => ({
     id: data.patient_id,
     name: data.name,
@@ -13,7 +12,9 @@ const Patients = () => {
     conditions: data.conditions.join(", "),
     offTime: new Date(data.off_time).toLocaleString().split(",")[0],
     LFC: new Date(data.last_fellow_call).toLocaleString().split(",")[0],
-    LTC: new Date(data.last_time_call_to_patient).toLocaleString().split(",")[0],
+    LTC: new Date(data.last_time_call_to_patient)
+      .toLocaleString()
+      .split(",")[0],
   }));
 
   return (
@@ -45,11 +46,11 @@ const Patients = () => {
                 </td>
                 <td className="whitespace-nowrap">{patient.gender}</td>
                 <td className="whitespace-nowrap">{patient.dob}</td>
-                <td className="whitespace-nowrap">{
-                patient.conditions.length > 20
-                  ? patient.conditions.slice(0, 20) + "..."
-                  : patient.conditions
-                }</td>
+                <td className="whitespace-nowrap">
+                  {patient.conditions.length > 20
+                    ? patient.conditions.slice(0, 20) + "..."
+                    : patient.conditions}
+                </td>
                 <td className="whitespace-nowrap">{patient.offTime}</td>
                 <td className="whitespace-nowrap">{patient.LFC}</td>
                 <td className="whitespace-nowrap">{patient.LTC}</td>

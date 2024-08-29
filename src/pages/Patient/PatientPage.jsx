@@ -18,9 +18,9 @@ const PatientPage = () => {
 
   return (
     <Wrapper>
-      <div className="flex flex-col gap-3 ">
+      <div className="flex flex-col gap-3">
         <div className="flex flex-col gap-4">
-          <div className="flex justify-between gap-4 h-44">
+          <div className="grid grid-cols-1 grid-flow-row lg:grid-cols-3 md:grid-cols-2 gap-4">
             {/*First Card*/}
             <PatientInfo patient={patient} />
             {/*Second Card*/}
@@ -28,7 +28,7 @@ const PatientPage = () => {
             {/*Third Card*/}
             <Insurance patient={patient} />
           </div>
-          <div className="flex gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4">
             <Card number={"Vitals"} link={"vitals"} color="bg-red-400" />
             <Card number={"Treatment"} color="bg-blue-400" />
             <Card number={"Appointments"} color="bg-pink-400" />
@@ -36,7 +36,7 @@ const PatientPage = () => {
             <Card number={"Reports"} color="bg-sky-400" />
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <CurrentProgram patient={patient} />
           <Medication patient={patient} />
         </div>

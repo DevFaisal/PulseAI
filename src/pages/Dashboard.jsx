@@ -5,6 +5,7 @@ import PieChart from "../components/Charts/PieChart";
 import Devices from "../components/Dashboard/Devices";
 import Patients from "../components/Dashboard/Patients";
 import Wrapper from "../components/Wrapper";
+import Doughnut from "../components/Charts/Doughnut";
 
 const Dashboard = () => {
   return (
@@ -13,7 +14,7 @@ const Dashboard = () => {
         <Header />
         <div className="flex flex-col md:flex-row gap-2">
           <Program />
-          {/* <PieChart /> */}
+          <Doughnut />
           <Devices />
         </div>
         <Patients />

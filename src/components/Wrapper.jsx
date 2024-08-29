@@ -3,11 +3,11 @@ import Logo from "./Logo";
 
 const Wrapper = ({ children }) => {
   return (
-    <div className="flex flex-col justify-center gap-2 max-w-auto p-4 bg-gray-200 h-screen">
-      <div className="p-1">
+    <div className="flex flex-col min-h-screen bg-slate-100">
+      <div className="flex justify-start pl-5 items-center h-16">
         <Logo />
       </div>
-      <div>{children}</div>
+      <div className="container mx-auto p-3 md:p-0 m-0 ">{children}</div>
     </div>
   );
 };
