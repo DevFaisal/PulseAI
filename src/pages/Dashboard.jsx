@@ -13,7 +13,7 @@ const Dashboard = () => {
         <Header />
         <div className="flex flex-col md:flex-row gap-2">
           <Program />
-          <PieChart />
+          {/* <PieChart /> */}
           <Devices />
         </div>
         <Patients />
