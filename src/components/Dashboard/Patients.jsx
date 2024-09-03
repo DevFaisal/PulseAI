@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import patients from "../../lib/patients.json";
+import { useFirebase } from "../../context/Firebase";
 
 const Patients = () => {
+  const firebase = useFirebase();
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const patientsData = await firebase.getAllPatientsFromHospitals();
+        console.log(patientsData);
+      } catch (error) {
+        console.error("Failed to fetch patients", error);
+      }
+    };
+    fetchPatients();
+  }, []);
+
   const refined_patient = patients?.map((data) => ({
     id: data.patient_id,
     name: data.name,

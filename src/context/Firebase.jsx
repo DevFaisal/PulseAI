@@ -9,10 +9,10 @@ import {
 } from "firebase/auth";
 import { addDoc, collection, getDocs, getFirestore } from "firebase/firestore";
 
-// Create Firebase context
+
 const FirebaseContext = createContext(null);
 
-// Firebase configuration
+
 const firebaseConfig = {
   apiKey: "AIzaSyBaarQ6rhdNZukaBYcMQoLtEV1ya5SSbGI",
   authDomain: "pulseai-3a709.firebaseapp.com",
@@ -25,10 +25,10 @@ const firebaseConfig = {
     "https://pulseai-3a709-default-rtdb.asia-southeast1.firebasedatabase.app/",
 };
 
-// Custom hook to use Firebase context
+
 export const useFirebase = () => useContext(FirebaseContext);
 
-// Initialize Firebase
+
 const firebaseApp = initializeApp(firebaseConfig);
 const firebaseAuth = getAuth(firebaseApp);
 const fireStore = getFirestore(firebaseApp);
@@ -42,22 +42,20 @@ export const FirebaseProvider = ({ children }) => {
     hospitalName: "",
   });
 
-  // Monitor authentication state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
         setIsLoggedIn(true);
-        checkRole(user.email); // Call checkRole to populate user data
+        checkRole(user.email); 
       } else {
         setIsLoggedIn(false);
-        setUser({ email: "", role: "", hospitalId: "", hospitalName: "" }); // Reset user state when logged out
+        setUser({ email: "", role: "", hospitalId: "", hospitalName: "" }); 
       }
     });
 
     return () => unsubscribe();
   }, []);
 
-  // Login function
   const LoginUserWithEmailAndPassword = async (email, password) => {
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -87,7 +85,7 @@ export const FirebaseProvider = ({ children }) => {
         email,
         password
       );
-      const result = await addDoc(collection(fireStore, "users"), {
+      await addDoc(collection(fireStore, "users"), {
         email,
         role,
         hospitalId,
@@ -127,7 +125,6 @@ export const FirebaseProvider = ({ children }) => {
           hospitalId: userData.hospitalId,
           hospitalName: userData.hospitalName,
         });
-        console.log("User data set:", userData);
         return userData.role;
       } else {
         console.log("User not found");
@@ -150,7 +147,14 @@ export const FirebaseProvider = ({ children }) => {
     try {
       return await addDoc(
         collection(fireStore, `Hospital/${user.hospitalId}/patients`),
-        { name, age, doctorAssigned, hospitalId, symptoms, diagnosis }
+        {
+          name,
+          age,
+          doctorAssigned,
+          hospitalId: user.hospitalId,
+          symptoms,
+          diagnosis,
+        }
       );
     } catch (error) {
       console.error("Error creating new patient:", error);
@@ -203,6 +207,42 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
+  // Get all patients from all hospitals
+  const getAllPatientsFromHospitals = async () => {
+    try {
+      // Get all hospitals
+      const hospitalsSnapshot = await getDocs(
+        collection(fireStore, "Hospital")
+      );
+
+      const patients = [];
+
+      // Iterate over each hospital
+      for (const hospitalDoc of hospitalsSnapshot.docs) {
+        const hospitalId = hospitalDoc.id;
+        console.log("Hospital ID", hospitalId);
+
+        // Get all patients from the current hospital
+        const patientsSnapshot = await getDocs(
+          collection(fireStore, `Hospital/${hospitalId}/patients`)
+        );
+
+        // Add patients to the array
+        patientsSnapshot.forEach((patientDoc) => {
+          patients.push({
+            ...patientDoc.data(),
+            hospitalId: hospitalId,
+          });
+        });
+      }
+
+      return patients;
+    } catch (error) {
+      console.error("Error getting patients:", error);
+      throw error;
+    }
+  };
+
   return (
     <FirebaseContext.Provider
       value={{
@@ -211,6 +251,7 @@ export const FirebaseProvider = ({ children }) => {
         isLoggedIn,
         createNewPatient,
         getPatients,
+        getAllPatientsFromHospitals,
         createNewDoctor,
         getDoctors,
         checkRole,

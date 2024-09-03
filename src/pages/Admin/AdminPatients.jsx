@@ -3,6 +3,8 @@ import { useFirebase } from "../../context/Firebase";
 
 const AdminPatients = () => {
   const [patients, setPatients] = useState([]);
+  const [doctorAssigned, setDoctorAssigned] = useState([]);
+
   const [form, setForm] = useState({
     name: "",
     age: "",
@@ -16,16 +18,18 @@ const AdminPatients = () => {
   console.log(firebase.user);
 
   useEffect(() => {
-    const fetchPatients = async () => {
+    const fetchPatients_Doctors = async () => {
       try {
         const patientsData = await firebase.getPatients();
+        const doctorsData = await firebase.getDoctors();
         setPatients(patientsData);
+        setDoctorAssigned(doctorsData);
       } catch (error) {
         console.error("Failed to fetch patients", error);
       }
     };
 
-    fetchPatients();
+    fetchPatients_Doctors();
   }, [firebase]);
 
   const handleChange = (e) => {
@@ -53,7 +57,6 @@ const AdminPatients = () => {
         name: "",
         age: "",
         doctorAssigned: "",
-        hospitalId: "",
         symptoms: "",
         diagnosis: "",
       });
@@ -116,31 +119,30 @@ const AdminPatients = () => {
             >
               Doctor Assigned
             </label>
-            <input
+            <select
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              name="doctorAssigned"
+              value={form.doctorAssigned}
+              required
+              onChange={handleChange}
+            >
+              <option defaultChecked value="">
+                --Select Doctor--
+              </option>
+              {doctorAssigned?.map((doctor, index) => (
+                <option key={index} value={doctor.name}>
+                  {doctor.name}
+                </option>
+              ))}
+            </select>
+            {/* <input
               type="text"
               name="doctorAssigned"
               value={form.doctorAssigned}
               onChange={handleChange}
               required
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="hospitalId"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Hospital ID
-            </label>
-            <input
-              type="text"
-              name="hospitalId"
-              value={form.hospitalId}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
+            /> */}
           </div>
 
           <div>
