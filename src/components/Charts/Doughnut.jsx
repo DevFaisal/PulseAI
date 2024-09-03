@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Chart as ChartJS, defaults } from "chart.js/auto";
 import { Doughnut as DoughnutChart } from "react-chartjs-2";

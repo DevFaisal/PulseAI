@@ -1,9 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import demoData from "../../data/demo.json";
+import patients from "../../lib/patients.json";
 
 const Patients = () => {
-  const patients = demoData?.map((data) => ({
+  const refined_patient = patients?.map((data) => ({
     id: data.patient_id,
     name: data.name,
     dob: data.dob,
@@ -39,7 +39,7 @@ const Patients = () => {
           </tr>
         </thead>
         <tbody>
-          {patients?.map((patient) => (
+          {refined_patient?.map((patient) => (
             <NavLink to={`patient/${patient.id}`} key={patient.id}>
               <tr className="grid grid-cols-4 sm:grid-cols-8 min-w-max items-center p-2 border-b hover:bg-gray-100">
                 <td className="whitespace-nowrap">#{String(patient.id)}</td>

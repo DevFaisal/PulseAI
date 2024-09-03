@@ -1,17 +1,17 @@
 import React from "react";
-import Wrapper from "../../components/Wrapper";
-import Card from "../../components/Card";
+import Wrapper from "../../../components/Wrapper";
+import Card from "../../../components/Card";
 import { useParams } from "react-router-dom";
-import demoData from "../../data/demo.json";
-import PatientInfo from "../../components/Patient/PatientInfo";
-import Diagnoses from "../../components/Patient/Diagnoses";
-import Medication from "../../components/Patient/Medication";
-import CurrentProgram from "../../components/Patient/CurrentProgram";
-import Insurance from "../../components/Patient/Insurance";
+import patients from "../../../lib/patients.json";
+import PatientInfo from "../../../components/Patient/PatientInfo";
+import Diagnoses from "../../../components/Patient/Diagnoses";
+import Medication from "../../../components/Patient/Medication";
+import CurrentProgram from "../../../components/Patient/CurrentProgram";
+import Insurance from "../../../components/Patient/Insurance";
 
 const PatientPage = () => {
   const { id } = useParams();
-  const patient = demoData.find((u) => {
+  const patient = patients.find((u) => {
     return u.patient_id == id;
   });
 

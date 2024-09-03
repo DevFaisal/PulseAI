@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Wrapper from "../../components/Wrapper";
+import Wrapper from "../../../components/Wrapper";
 import clsx from "clsx";
-import Line from "../../components/Charts/Line";
-import PatientInfo from "../../components/Patient/PatientInfo";
-import demoData from "../../data/demo.json";
+import Line from "../../../components/Charts/Line";
+import PatientInfo from "../../../components/Patient/PatientInfo";
+import patients from "../../../lib/patients.json";
 import { useParams } from "react-router-dom";
 
 const Vitals = () => {
@@ -69,7 +69,7 @@ const Vitals = () => {
 
   const { id } = useParams();
 
-  const patient = demoData.find((u) => u.patient_id === id);
+  const patient = patients.find((u) => u.patient_id === id);
   const vitals = patient?.vitals || {};
 
   const medReport = [

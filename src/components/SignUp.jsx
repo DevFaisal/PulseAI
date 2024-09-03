@@ -1,39 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import FormInput from "./Inputs/FormInput";
 import Button from "./Inputs/Button";
 import { useNavigate } from "react-router-dom";
-import credentials from "../lib/credentials";
 import Select from "react-select";
 import ErrorBanner from "./ErrorBanner";
 import { useFirebase } from "../context/Firebase";
 
-const Login = () => {
+const SignUp = () => {
   const firebase = useFirebase();
-
-  useEffect(() => {
-    if (firebase.isLoggedIn) {
-      if (firebase.user.role === "user") {
-        navigate("/user-dashboard");
-      } else if (firebase.user.role === "admin") {
-        navigate("/admin-dashboard");
-      } else if (firebase.user.role === "doctor") {
-        navigate("/doctor-dashboard");
-      }
-    }
-  }, [firebase.isLoggedIn, firebase.user.role]);
-
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
   const clearError = () => setError("");
-
   const navigate = useNavigate();
-  const [value, setValue] = useState("");
-  const [formData, setFormData] = useState({
-    role: "",
-    email: "",
-    password: "",
-  });
+  const [role, setRole] = useState("");
 
   const options = [
     { value: "user", label: "User" },
@@ -42,23 +22,27 @@ const Login = () => {
   ];
 
   const onSubmit = async (data) => {
-    data.role = value;
+    console.log(data);
+    data.role = role;
+    console.log(
+      data.email,
+      data.password,
+      data.role,
+      data.hospitalId,
+      data.hospitalName
+    );
     try {
-      const result = await firebase.LoginUserWithEmailAndPassword(
+      // Register user with email and password
+      const userCredential = await firebase.SignUpWithEmailAndPassword(
         data.email,
-        data.password
+        data.password,
+        data.role,
+        data.hospitalId,
+        data.hospitalName
       );
-      const checkRole = await firebase.checkRole(result.user.email);
-      console.log("Role is", checkRole);
-      if (checkRole === "user") {
-        navigate("/user-dashboard");
-      } else if (checkRole === "admin") {
-        navigate(`/admin-dashboard`);
-      } else if (checkRole === "doctor") {
-        navigate("/doctor-dashboard");
-      }
+      console.log("User signed up successfully", userCredential);
     } catch (error) {
-      console.log(error);
+      console.error("Error signing up:", error);
       setError(error.message);
     }
   };
@@ -71,10 +55,10 @@ const Login = () => {
           Pulse <span className="text-violet-600">AI</span>
         </h1>
         <div className="flex flex-col md:px-44 px-5">
-          <h2 className="text-2xl font-semibold mb-5">Welcome Back 👋</h2>
+          <h2 className="text-2xl font-semibold mb-5">Sign Up 👋</h2>
           <p>
-            Log in to access your dashboard. Enter your credentials for secure
-            access to Pulse AI's intelligent solutions.
+            Create an account to access your dashboard and Pulse AI's
+            intelligent solutions.
           </p>
         </div>
       </header>
@@ -87,15 +71,31 @@ const Login = () => {
             Role
           </label>
           <Select
-            className=" ring-1 ring-gray-300 rounded-lg"
+            className="ring-1 ring-gray-300 rounded-lg"
             options={options}
             placeholder="Select your role"
             required={true}
-            value={options.find((c) => c.value === value)}
-            onChange={(e) => setValue(e.value)}
+            value={options.find((c) => c.value === role)}
+            onChange={(e) => setRole(e.value)}
           />
         </div>
 
+        <FormInput
+          label="Hospital ID"
+          type="number"
+          placeholder="Hospital ID"
+          name="hospitalId"
+          register={register}
+          error={setError}
+        />
+        <FormInput
+          label="Hospital Name"
+          type="text"
+          placeholder="Hospital Name"
+          name="hospitalName"
+          register={register}
+          error={setError}
+        />
         <FormInput
           label="Email"
           type="email"
@@ -114,10 +114,10 @@ const Login = () => {
           error={setError}
         />
 
-        <Button type="submit" name="Login" />
+        <Button type="submit" name="Sign Up" />
       </form>
     </div>
   );
 };
 
-export default Login;
+export default SignUp;
