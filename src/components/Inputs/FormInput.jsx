@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // You can use any icon library you prefer
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const FormInput = ({ label, type, name, placeholder, register, error }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -9,20 +9,26 @@ const FormInput = ({ label, type, name, placeholder, register, error }) => {
   };
 
   return (
-    <div className="p-2 rounded-md flex flex-col relative">
-      <label className="font-semibold">{label}</label>
+    <div className="relative flex flex-col p-2 rounded-md">
+      <label htmlFor={name} className="font-semibold text-gray-700 mb-1">
+        {label}
+      </label>
       <input
-        className="bg-white rounded-md border w-96 border-black px-3 py-2 pr-10"
+        id={name}
+        name={name}
+        type={type === "password" && showPassword ? "text" : type}
         placeholder={placeholder}
-        type={showPassword ? "text" : type}
         {...register(name)}
+        className={`bg-white border border-gray-300 rounded-md w-full px-3 py-2 pr-12 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+          error ? "border-red-500" : ""
+        }`}
       />
-      {error && <p className="text-red-500 text-sm">{error.message}</p>}
+      {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
       {type === "password" && (
         <button
           type="button"
           onClick={handleTogglePassword}
-          className="absolute right-5 bottom-2 transform -translate-y-1/2 focus:outline-none"
+          className="absolute inset-y-0 top-5 right-5 flex items-center"
         >
           {showPassword ? (
             <FaEyeSlash color="gray" size={20} />

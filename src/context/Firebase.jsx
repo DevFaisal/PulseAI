@@ -9,7 +9,6 @@ import {
 } from "firebase/auth";
 import { addDoc, collection, getDocs, getFirestore } from "firebase/firestore";
 
-
 const FirebaseContext = createContext(null);
 
 //Firebase configuration should be in .env file
@@ -25,9 +24,7 @@ const firebaseConfig = {
     "https://pulseai-3a709-default-rtdb.asia-southeast1.firebasedatabase.app/",
 };
 
-
 export const useFirebase = () => useContext(FirebaseContext);
-
 
 const firebaseApp = initializeApp(firebaseConfig);
 const firebaseAuth = getAuth(firebaseApp);
@@ -46,10 +43,10 @@ export const FirebaseProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
         setIsLoggedIn(true);
-        checkRole(user.email); 
+        checkRole(user.email);
       } else {
         setIsLoggedIn(false);
-        setUser({ email: "", role: "", hospitalId: "", hospitalName: "" }); 
+        setUser({ email: "", role: "", hospitalId: "", hospitalName: "" });
       }
     });
 
@@ -209,39 +206,57 @@ export const FirebaseProvider = ({ children }) => {
 
   // Get all patients from all hospitals
   const getAllPatientsFromHospitals = async () => {
+    console.log("Getting all patients from all hospitals");
+
     try {
       // Get all hospitals
       const hospitalsSnapshot = await getDocs(
         collection(fireStore, "Hospital")
       );
+      console.log("Hospitals:", hospitalsSnapshot);
 
-      const patients = [];
+      const allPatients = [];
 
       // Iterate over each hospital
       for (const hospitalDoc of hospitalsSnapshot.docs) {
         const hospitalId = hospitalDoc.id;
-        console.log("Hospital ID", hospitalId);
+        console.log("Fetching patients for hospital ID:", hospitalId);
 
         // Get all patients from the current hospital
         const patientsSnapshot = await getDocs(
           collection(fireStore, `Hospital/${hospitalId}/patients`)
         );
+        console.log(
+          "Patients Snapshot for hospital ID",
+          hospitalId,
+          ":",
+          patientsSnapshot
+        );
 
         // Add patients to the array
         patientsSnapshot.forEach((patientDoc) => {
-          patients.push({
+          allPatients.push({
             ...patientDoc.data(),
             hospitalId: hospitalId,
           });
         });
       }
 
-      return patients;
+      return allPatients;
     } catch (error) {
-      console.error("Error getting patients:", error);
+      console.error("Error fetching patients:", error);
       throw error;
     }
   };
+
+  // Example usage
+  getAllPatientsFromHospitals()
+    .then((patients) => {
+      console.log("Patients:", patients);
+    })
+    .catch((error) => {
+      console.error("Error fetching patients:", error);
+    });
 
   return (
     <FirebaseContext.Provider

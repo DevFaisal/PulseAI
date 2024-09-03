@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useFirebase } from "../../context/Firebase";
+import { useForm } from "react-hook-form";
+import FormInput from "../../components/Inputs/FormInput";
 
 const ManageDoctors = () => {
   const [doctors, setDoctors] = useState([]);
-  const [form, setForm] = useState({
-    name: "",
-    specialty: "",
-    hospitalId: "",
-    contact: "",
-    email: "",
-  });
-
   const firebase = useFirebase();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: "",
+      specialty: "",
+      contact: "",
+      email: "",
+    },
+  });
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -26,151 +33,96 @@ const ManageDoctors = () => {
     fetchDoctors();
   }, [firebase]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
     try {
       const result = await firebase.createNewDoctor(
-        form.name,
-        form.specialty,
-        form.contact,
-        form.email
+        data.name,
+        data.specialty,
+        data.contact,
+        data.email
       );
       console.log("Doctor added successfully", result);
-      setDoctors((prevDoctors) => [...prevDoctors, form]);
-      setForm({
-        name: "",
-        specialty: "",
-        contact: "",
-        email: "",
-      });
+      setDoctors((prevDoctors) => [...prevDoctors, data]);
+      reset();
     } catch (error) {
       console.error("Failed to add doctor", error);
     }
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
+    <div className="">
+      <h1 className="text-2xl md:text-4xl font-extrabold text-gray-900 text-center mb-8">
         Manage Doctors
       </h1>
-      <div className="bg-white shadow-md rounded-lg p-6 mb-8">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+      <div className="bg-white rounded-lg p-2 md:p-6 mb-8">
+        <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4">
           Add New Doctor
         </h2>
-        <form
-          onSubmit={handleSubmit}
-          className="grid grid-cols-1 gap-6 md:grid-cols-2"
-        >
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="specialty"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Specialty
-            </label>
-            <input
-              type="text"
-              name="specialty"
-              value={form.specialty}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="contact"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Contact Number
-            </label>
-            <input
-              type="text"
-              name="contact"
-              value={form.contact}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
-          <div className="md:col-span-2">
-            <button
-              type="submit"
-              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow"
-            >
-              Add Doctor
-            </button>
-          </div>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <FormInput
+            label="Name"
+            type="text"
+            name="name"
+            placeholder="Enter doctor's name"
+            register={register}
+            error={errors.name}
+          />
+          <FormInput
+            label="Specialty"
+            type="text"
+            name="specialty"
+            placeholder="Enter doctor's specialty"
+            register={register}
+            error={errors.specialty}
+          />
+          <FormInput
+            label="Contact Number"
+            type="text"
+            name="contact"
+            placeholder="Enter doctor's contact number"
+            register={register}
+            error={errors.contact}
+          />
+          <FormInput
+            label="Email"
+            type="email"
+            name="email"
+            placeholder="Enter doctor's email"
+            register={register}
+            error={errors.email}
+          />
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md"
+          >
+            Add Doctor
+          </button>
         </form>
       </div>
 
-      <div className="bg-white shadow-md rounded-lg p-6">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+      <div className="bg-white shadow-lg rounded-lg p-6">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
           Doctors List
         </h2>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {doctors?.map((doctor, index) => (
+          {doctors.map((doctor, index) => (
             <div
               key={index}
               className="border border-gray-300 p-4 rounded-lg shadow-sm"
             >
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
                 {doctor.name}
               </h3>
-              <p className="text-gray-600">
+              <p className="text-gray-700">
                 <strong>Specialty:</strong> {doctor.specialty}
               </p>
-              <p className="text-gray-600">
+              <p className="text-gray-700">
                 <strong>Hospital ID:</strong> {doctor.hospitalId}
               </p>
-              <p className="text-gray-600">
+              <p className="text-gray-700">
                 <strong>Contact:</strong> {doctor.contact}
               </p>
-              <p className="text-gray-600">
+              <p className="text-gray-700">
                 <strong>Email:</strong> {doctor.email}
               </p>
             </div>
