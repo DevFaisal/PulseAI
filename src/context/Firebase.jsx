@@ -12,7 +12,7 @@ import { addDoc, collection, getDocs, getFirestore } from "firebase/firestore";
 
 const FirebaseContext = createContext(null);
 
-
+//Firebase configuration should be in .env file
 const firebaseConfig = {
   apiKey: "AIzaSyBaarQ6rhdNZukaBYcMQoLtEV1ya5SSbGI",
   authDomain: "pulseai-3a709.firebaseapp.com",
