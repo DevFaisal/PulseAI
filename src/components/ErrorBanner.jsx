@@ -15,12 +15,13 @@ const ErrorBanner = ({ error, clearError }) => {
 
   return (
     <header
-      className="absolute top-0 w-full right-0 text-center p-2 bg-red-600"
+      className="absolute top-0 w-full right-0 text-center p-2 bg-red-600 text-white"
       style={{
-        animation: "slideDown 0.5s ease-out, fadeIn 0.5s ease-out",
+        animation:
+          "slideDown 0.5s ease-out, fadeIn 0.5s ease-out, fadeOut 0.5s 4.5s, slideUp 0.5s 4.5s",
       }}
     >
-      <h1 className="text-white font-bold">{error}</h1>
+      <h1 className="text-white text-sm md:text-md font-bold">{error}</h1>
     </header>
   );
 };

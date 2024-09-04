@@ -43,7 +43,6 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     data.role = role;
-    console.log("Login data:", data);
     try {
       const result = await firebase.LoginUserWithEmailAndPassword(
         data.email,
