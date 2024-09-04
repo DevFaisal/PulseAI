@@ -85,8 +85,8 @@ const Login = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-semibold mb-2">
-            Login as
+          <label className="block text-gray-700 text-md font-semibold mb-2">
+            Login As
           </label>
           <Select
             defaultValue={options[0]}

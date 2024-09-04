@@ -42,12 +42,6 @@ const AdminDashboard = () => {
           </h2>
           <p className="text-4xl font-bold text-blue-500">{totalDoctors}</p>
         </div>
-        <div className="bg-white shadow-md rounded-lg p-6 ring-1 ring-gray-300">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-2">
-            Total Hospitals
-          </h2>
-          <p className="text-4xl font-bold text-blue-500">{totalHospitals}</p>
-        </div>
       </div>
       <div className="mt-8 bg-white shadow-md rounded-lg p-6 ring-1 ring-gray-300">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">
