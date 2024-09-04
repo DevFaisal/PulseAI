@@ -5,21 +5,22 @@ import Logo from "../components/Logo";
 import { HospitalIcon } from "lucide-react";
 import { useFirebase } from "../context/Firebase";
 
-const AdminDashboardOutlet = ({
-  headerTitle = "Admin Dashboard",
-  sidebar = "bg-gray-800",
-  bannerColor = "bg-violet-500",
-}) => {
+const DoctorDashboardOutlet = () => {
+  const links = [
+    { name: "Dashboard", path: "/doctor-dashboard" },
+    { name: "Patients", path: "/doctor-dashboard/patients" },
+  ];
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
-  const links = [
-    { name: "Dashboard", path: "/admin-dashboard" },
-    { name: "Patients", path: "/admin-dashboard/patients" },
-    { name: "Doctors", path: "/admin-dashboard/doctors" },
-    { name: "Users", path: "/admin-dashboard/users" },
-  ];
+
   const firebase = useFirebase();
 
+  const user = firebase.user;
+
+  if (user.role !== "doctor") {
+    navigate("/");
+    return null;
+  }
   const handleLogOut = async () => {
     try {
       await firebase.Logout();
@@ -37,7 +38,7 @@ const AdminDashboardOutlet = ({
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full ${sidebar} w-64 transition-transform transform ${
+        className={`fixed top-0 left-0 h-full bg-green-900 w-64 transition-transform transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0 lg:w-64 lg:fixed lg:top-0 lg:left-0 lg:h-full z-50`}
       >
@@ -78,11 +79,9 @@ const AdminDashboardOutlet = ({
           <Menu />
         </button>
 
-        <header
-          className={`flex ${bannerColor} p-5 justify-between items-center`}
-        >
+        <header className={`flex bg-red-900 p-5 justify-between items-center`}>
           <h1 className="text-lg text-white md:text-3xl lg:text-4xl font-bold">
-            {headerTitle}
+            Doctor Dashboard
           </h1>
           <div className="flex gap-2 items-center">
             <HospitalIcon
@@ -105,4 +104,4 @@ const AdminDashboardOutlet = ({
   );
 };
 
-export default AdminDashboardOutlet;
+export default DoctorDashboardOutlet;

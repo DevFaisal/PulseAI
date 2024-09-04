@@ -22,22 +22,15 @@ const SignUp = () => {
   ];
 
   const onSubmit = async (data) => {
-    console.log(data);
     data.role = role;
-    console.log(
-      data.email,
-      data.password,
-      data.role,
-      data.hospitalId,
-      data.hospitalName
-    );
+    console.log(data);
     try {
       // Register user with email and password
       const userCredential = await firebase.SignUpWithEmailAndPassword(
         data.email,
         data.password,
         data.role,
-        data.hospitalId,
+        data.address,
         data.hospitalName
       );
       console.log("User signed up successfully", userCredential);
@@ -81,18 +74,18 @@ const SignUp = () => {
         </div>
 
         <FormInput
-          label="Hospital ID"
-          type="number"
-          placeholder="Hospital ID"
-          name="hospitalId"
-          register={register}
-          error={setError}
-        />
-        <FormInput
           label="Hospital Name"
           type="text"
           placeholder="Hospital Name"
           name="hospitalName"
+          register={register}
+          error={setError}
+        />
+        <FormInput
+          label="Address"
+          type="text"
+          placeholder="Hospital Address"
+          name="address"
           register={register}
           error={setError}
         />

@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-const FormInput = ({ label, type, name, placeholder, register, error }) => {
+const FormInput = ({
+  label,
+  type,
+  name,
+  placeholder,
+  register,
+  error,
+  value,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePassword = () => {

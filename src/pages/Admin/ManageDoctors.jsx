@@ -17,6 +17,7 @@ const ManageDoctors = () => {
       specialty: "",
       contact: "",
       email: "",
+      password: "",
     },
   });
 
@@ -36,10 +37,11 @@ const ManageDoctors = () => {
   const onSubmit = async (data) => {
     try {
       const result = await firebase.createNewDoctor(
-        data.name,
+        "Dr. " + data.name,
         data.specialty,
         data.contact,
-        data.email
+        data.email,
+        data.password
       );
       console.log("Doctor added successfully", result);
       setDoctors((prevDoctors) => [...prevDoctors, data]);
@@ -90,6 +92,14 @@ const ManageDoctors = () => {
             placeholder="Enter doctor's email"
             register={register}
             error={errors.email}
+          />
+          <FormInput
+            label="Password"
+            type="password"
+            name="password"
+            placeholder="Set doctor's password"
+            register={register}
+            error={errors.password}
           />
           <button
             type="submit"

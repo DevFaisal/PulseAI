@@ -47,6 +47,7 @@ const Login = () => {
         data.email,
         data.password
       );
+      console.log("User logged in successfully", result);
       const userRole = await firebase.checkRole(result.user.email);
       switch (userRole) {
         case "user":

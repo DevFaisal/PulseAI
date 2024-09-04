@@ -9,6 +9,10 @@ import AdminDashboardOutlet from "./layout/AdminDashboardOutlet";
 import ManageDoctors from "./pages/Admin/ManageDoctors";
 import AdminPatients from "./pages/Admin/AdminPatients";
 import SignUp from "./components/SignUp";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import DoctorDashboard from "./pages/Doctor/DoctorDashboard";
+import DoctorDashboardOutlet from "./layout/DoctorDashboardOutlet";
+import ManageUsers from "./pages/Admin/ManageUsers";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +53,9 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <AdminDashboard />,
+      },
+      {
         path: "patients",
         element: <AdminPatients />,
       },
@@ -56,7 +63,29 @@ const router = createBrowserRouter([
         path: "doctors",
         element: <ManageDoctors />,
       },
+      {
+        path: "users",
+        element: <ManageUsers />,
+      },
     ],
+  },
+  {
+    path: "/doctor-dashboard",
+    element: <DoctorDashboardOutlet />,
+    children: [
+      {
+        index: true,
+        element: <DoctorDashboard />,
+      },
+      {
+        path: "patients",
+        element: <h1>Doctor Patients</h1>,
+      },
+    ],
+  },
+  {
+    path: "*",
+    element: <h1>Not Found</h1>,
   },
 ]);
 

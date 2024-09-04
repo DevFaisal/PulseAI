@@ -1,95 +1,63 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import patients from "../../lib/patients.json";
 import { useFirebase } from "../../context/Firebase";
 
 const Patients = () => {
-  const firebase = useFirebase();
+  const { getPatients } = useFirebase();
+  const [patients, setPatients] = useState([]);
+
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const patientsData = await firebase.getAllPatientsFromHospitals();
-        console.log(patientsData);
+        const patientsData = await getPatients();
+        console.log("Patients data", patientsData);
+        setPatients(patientsData);
       } catch (error) {
         console.error("Failed to fetch patients", error);
       }
     };
     fetchPatients();
-  }, []);
-
-  const refined_patient = patients?.map((data) => ({
-    id: data.patient_id,
-    name: data.name,
-    dob: data.dob,
-    gender: data.gender,
-    img: "https://tech.shutterstock.com/assets/img/posts/2019/0312-02.jpg",
-    conditions: data.conditions.join(", "),
-    offTime: new Date(data.off_time).toLocaleString().split(",")[0],
-    LFC: new Date(data.last_fellow_call).toLocaleString().split(",")[0],
-    LTC: new Date(data.last_time_call_to_patient)
-      .toLocaleString()
-      .split(",")[0],
-  }));
+  }, [getPatients]);
 
   return (
     <div className="bg-white max-w-full h-80 overflow-x-auto overflow-y-scroll p-2 ring-1 ring-gray-400 rounded-lg">
       <table className="min-w-full text-sm sm:text-base">
         <thead>
-          <tr className="grid grid-cols-4 sm:grid-cols-8 min-w-max bg-gray-200 text-left p-2">
-            <th className="whitespace-nowrap">Patient ID</th>
-            <th className="whitespace-nowrap">Patient Name</th>
-            <th className="whitespace-nowrap hidden sm:table-cell">Gender</th>
-            <th className="whitespace-nowrap hidden sm:table-cell">DOB</th>
-            <th className="whitespace-nowrap hidden sm:table-cell">
-              Conditions
-            </th>
-            <th className="whitespace-nowrap hidden sm:table-cell">Off Time</th>
-            <th className="whitespace-nowrap hidden sm:table-cell">
-              Last Fellow Call
-            </th>
-            <th className="whitespace-nowrap hidden sm:table-cell">
-              Last Time Call
-            </th>
+          <tr className="bg-gray-200 text-left">
+            <th className="p-2 whitespace-nowrap">#</th>
+            <th className="p-2 whitespace-nowrap">Name</th>
+            <th className="p-2 whitespace-nowrap">Age</th>
+            <th className="p-2 whitespace-nowrap">Doctor Assigned</th>
+            <th className="p-2 whitespace-nowrap">Symptoms</th>
+            <th className="p-2 whitespace-nowrap">Diagnosis</th>
           </tr>
         </thead>
         <tbody>
-          {refined_patient?.map((patient) => (
-            <NavLink to={`patient/${patient.id}`} key={patient.id}>
-              <tr className="grid grid-cols-4 sm:grid-cols-8 min-w-max items-center p-2 border-b hover:bg-gray-100">
-                <td className="whitespace-nowrap">#{String(patient.id)}</td>
-                <td className="flex items-center gap-2 whitespace-nowrap">
-                  <img
-                    className="rounded-full"
-                    src={patient.img}
-                    alt={patient.name}
-                    width={30}
-                    height={30}
-                  />
-                  <span>{patient.name}</span>
+          {patients.length > 0 ? (
+            patients.map((patient, index) => (
+              <tr key={patient.id} className="hover:bg-gray-100">
+                <td className="p-2">{index + 1}</td>
+                <td className="p-2">
+                  <NavLink
+                    to={`patient/${patient.id}`}
+                    className="text-blue-500 hover:underline"
+                  >
+                    {patient.name}
+                  </NavLink>
                 </td>
-                <td className="whitespace-nowrap hidden sm:table-cell">
-                  {patient.gender}
-                </td>
-                <td className="whitespace-nowrap hidden sm:table-cell">
-                  {patient.dob}
-                </td>
-                <td className="whitespace-nowrap hidden sm:table-cell">
-                  {patient.conditions.length > 20
-                    ? patient.conditions.slice(0, 20) + "..."
-                    : patient.conditions}
-                </td>
-                <td className="whitespace-nowrap hidden sm:table-cell">
-                  {patient.offTime}
-                </td>
-                <td className="whitespace-nowrap hidden sm:table-cell">
-                  {patient.LFC}
-                </td>
-                <td className="whitespace-nowrap hidden sm:table-cell">
-                  {patient.LTC}
-                </td>
+                <td className="p-2">{patient.age}</td>
+                <td className="p-2">{patient.doctorAssigned}</td>
+                <td className="p-2">{patient.symptoms}</td>
+                <td className="p-2">{patient.diagnosis}</td>
               </tr>
-            </NavLink>
-          ))}
+            ))
+          ) : (
+            <tr>
+              <td colSpan="7" className="p-4 text-center text-gray-500">
+                No patients found.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

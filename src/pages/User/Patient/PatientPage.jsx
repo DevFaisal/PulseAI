@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Wrapper from "../../../components/Wrapper";
 import Card from "../../../components/Card";
 import { useParams } from "react-router-dom";
@@ -8,12 +8,21 @@ import Diagnoses from "../../../components/Patient/Diagnoses";
 import Medication from "../../../components/Patient/Medication";
 import CurrentProgram from "../../../components/Patient/CurrentProgram";
 import Insurance from "../../../components/Patient/Insurance";
+import { useFirebase } from "../../../context/Firebase";
 
 const PatientPage = () => {
   const { id } = useParams();
-  const patient = patients.find((u) => {
-    return u.patient_id == id;
-  });
+  const firebase = useFirebase();
+
+  const [patient, setPatient] = React.useState({});
+
+  useEffect(() => {
+    const fetchPatient = async () => {
+      const res = await firebase.getSinglePatient(id);
+      setPatient(res);
+    };
+    fetchPatient();
+  }, [id, firebase]);
 
   return (
     <Wrapper>
@@ -25,7 +34,7 @@ const PatientPage = () => {
             {/*Second Card*/}
             <Diagnoses patient={patient} />
             {/*Third Card*/}
-            <Insurance patient={patient} />
+            {/* <Insurance patient={patient} /> */}
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4">
             <Card number={"Vitals"} link={"vitals"} color="bg-red-400" />
@@ -36,8 +45,8 @@ const PatientPage = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <CurrentProgram patient={patient} />
-          <Medication patient={patient} />
+          {/* <CurrentProgram patient={patient} />
+          <Medication patient={patient} /> */}
         </div>
         <div className="flex gap-2 ring-1 rounded-lg ring-gray-400">
           <div className="bg-white w-full h-80 p-6 rounded-lg shadow-lg">

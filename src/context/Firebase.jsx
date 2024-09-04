@@ -7,7 +7,14 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { addDoc, collection, getDocs, getFirestore } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+} from "firebase/firestore";
 
 const FirebaseContext = createContext(null);
 
@@ -68,12 +75,25 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
+  const addHospital = async (name, location) => {
+    try {
+      return await addDoc(collection(fireStore, "hospital"), {
+        name,
+        location,
+      });
+    } catch (error) {
+      console.error("Error adding hospital:", error);
+      throw error;
+    }
+  };
+
   // Sign up function
+
   const SignUpWithEmailAndPassword = async (
     email,
     password,
     role,
-    hospitalId,
+    address,
     hospitalName
   ) => {
     try {
@@ -82,10 +102,12 @@ export const FirebaseProvider = ({ children }) => {
         email,
         password
       );
+
+      const hospital = await addHospital(hospitalName, address);
       await addDoc(collection(fireStore, "users"), {
         email,
         role,
-        hospitalId,
+        hospitalId: hospital.id,
         hospitalName,
       });
       checkRole(email);
@@ -143,7 +165,7 @@ export const FirebaseProvider = ({ children }) => {
   ) => {
     try {
       return await addDoc(
-        collection(fireStore, `Hospital/${user.hospitalId}/patients`),
+        collection(fireStore, `hospital/${user.hospitalId}/patients`),
         {
           name,
           age,
@@ -160,10 +182,16 @@ export const FirebaseProvider = ({ children }) => {
   };
 
   // Create a new doctor
-  const createNewDoctor = async (name, specialty, contact, email) => {
+  const createNewDoctor = async (name, specialty, contact, email, password) => {
     try {
-      return await addDoc(
-        collection(fireStore, `Hospital/${user.hospitalId}/doctors`),
+      const userCredential = await createUserWithEmailAndPassword(
+        firebaseAuth,
+        email,
+        password
+      );
+
+      await addDoc(
+        collection(fireStore, `hospital/${user.hospitalId}/doctors`),
         {
           name,
           specialty,
@@ -172,8 +200,26 @@ export const FirebaseProvider = ({ children }) => {
           email,
         }
       );
+      await addDoc(collection(fireStore, "users"), {
+        email,
+        role: "doctor",
+        hospitalId: user.hospitalId,
+      });
+      return userCredential;
     } catch (error) {
       console.error("Error creating new doctor:", error);
+      throw error;
+    }
+  };
+
+  const getSinglePatient = async (id) => {
+    try {
+      const patientDoc = await getDoc(
+        doc(fireStore, `hospital/${user.hospitalId}/patients/${id}`)
+      );
+      return patientDoc.data();
+    } catch (error) {
+      console.error("Error fetching patient:", error);
       throw error;
     }
   };
@@ -182,9 +228,12 @@ export const FirebaseProvider = ({ children }) => {
   const getPatients = async () => {
     try {
       const patientsSnapshot = await getDocs(
-        collection(fireStore, `Hospital/${user.hospitalId}/patients`)
+        collection(fireStore, `hospital/${user.hospitalId}/patients`)
       );
-      return patientsSnapshot.docs.map((doc) => doc.data());
+      const patients = patientsSnapshot.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id };
+      });
+      return patients;
     } catch (error) {
       console.error("Error fetching patients:", error);
       throw error;
@@ -195,7 +244,7 @@ export const FirebaseProvider = ({ children }) => {
   const getDoctors = async () => {
     try {
       const doctorsSnapshot = await getDocs(
-        collection(fireStore, `Hospital/${user.hospitalId}/doctors`)
+        collection(fireStore, `hospital/${user.hospitalId}/doctors`)
       );
       return doctorsSnapshot.docs.map((doc) => doc.data());
     } catch (error) {
@@ -204,33 +253,36 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
+  // Get all hospitals
+  const getHospitals = async () => {
+    try {
+      const hospitalsSnapshot = await getDocs(
+        collection(fireStore, "hospital")
+      );
+      return hospitalsSnapshot.docs.map((doc) => doc.data());
+    } catch (error) {
+      console.error("Error fetching hospitals:", error);
+      throw error;
+    }
+  };
+
   // Get all patients from all hospitals
   const getAllPatientsFromHospitals = async () => {
-    console.log("Getting all patients from all hospitals");
-
     try {
       // Get all hospitals
       const hospitalsSnapshot = await getDocs(
-        collection(fireStore, "Hospital")
+        collection(fireStore, "hospital")
       );
-      console.log("Hospitals:", hospitalsSnapshot);
 
       const allPatients = [];
 
       // Iterate over each hospital
       for (const hospitalDoc of hospitalsSnapshot.docs) {
         const hospitalId = hospitalDoc.id;
-        console.log("Fetching patients for hospital ID:", hospitalId);
 
         // Get all patients from the current hospital
         const patientsSnapshot = await getDocs(
-          collection(fireStore, `Hospital/${hospitalId}/patients`)
-        );
-        console.log(
-          "Patients Snapshot for hospital ID",
-          hospitalId,
-          ":",
-          patientsSnapshot
+          collection(fireStore, `hospital/${hospitalId}/patients`)
         );
 
         // Add patients to the array
@@ -238,6 +290,7 @@ export const FirebaseProvider = ({ children }) => {
           allPatients.push({
             ...patientDoc.data(),
             hospitalId: hospitalId,
+            id: patientDoc.id,
           });
         });
       }
@@ -249,15 +302,6 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
-  // Example usage
-  getAllPatientsFromHospitals()
-    .then((patients) => {
-      console.log("Patients:", patients);
-    })
-    .catch((error) => {
-      console.error("Error fetching patients:", error);
-    });
-
   return (
     <FirebaseContext.Provider
       value={{
@@ -265,9 +309,11 @@ export const FirebaseProvider = ({ children }) => {
         SignUpWithEmailAndPassword,
         isLoggedIn,
         createNewPatient,
+        getSinglePatient,
         getPatients,
         getAllPatientsFromHospitals,
         createNewDoctor,
+        getHospitals,
         getDoctors,
         checkRole,
         user,

@@ -29,7 +29,6 @@ const AdminPatients = () => {
           label: `${doctor.name} — ${doctor.specialty.toUpperCase()}`,
           specialty: doctor.specialty,
         }));
-
         setPatients(patientsData);
         setDoctorOptions(formattedDoctors);
       } catch (error) {
@@ -50,7 +49,6 @@ const AdminPatients = () => {
         data.name,
         data.age,
         data.doctorAssigned,
-        data.hospitalId,
         data.symptoms,
         data.diagnosis
       );
@@ -105,14 +103,6 @@ const AdminPatients = () => {
               className="mt-1 block w-full"
             />
           </div>
-          <FormInput
-            label="Hospital ID"
-            type="text"
-            name="hospitalId"
-            register={register}
-            placeholder="Enter hospital ID"
-            error={errors.hospitalId}
-          />
           <FormInput
             label="Symptoms"
             type="text"
