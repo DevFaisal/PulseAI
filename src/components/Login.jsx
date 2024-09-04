@@ -86,7 +86,7 @@ const Login = () => {
       >
         <div className="mb-6">
           <label className="block text-gray-700 text-sm font-semibold mb-2">
-            Role
+            Login as
           </label>
           <Select
             defaultValue={options[0]}
