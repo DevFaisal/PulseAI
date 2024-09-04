@@ -60,14 +60,20 @@ export const FirebaseProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  const LoginUserWithEmailAndPassword = async (email, password) => {
+  const LoginUserWithEmailAndPassword = async (email, password, role) => {
     try {
+      const checkedRole = await checkRole(email);
+      console.log("Given role:", role);
+      console.log("Checked role:", checkedRole);
+      if (checkedRole !== role) {
+        throw new Error("Invalid role");
+      }
       const userCredential = await signInWithEmailAndPassword(
         firebaseAuth,
         email,
         password
       );
-      checkRole(email); // Call checkRole after successful login
+
       return userCredential;
     } catch (error) {
       console.error("Error logging in:", error);

@@ -16,9 +16,9 @@ const Login = () => {
   const [role, setRole] = useState("");
 
   const options = [
-    { value: "user", label: "User", icon: <HospitalIcon /> },
-    { value: "admin", label: "Admin", icon: <HospitalIcon /> },
-    { value: "doctor", label: "Doctor", icon: <HospitalIcon /> },
+    { value: "user", label: "User" },
+    { value: "admin", label: "Admin" },
+    { value: "doctor", label: "Doctor" },
   ];
 
   const clearError = () => setError("");
@@ -42,10 +42,13 @@ const Login = () => {
   }, [firebase.isLoggedIn, firebase.user.role, navigate]);
 
   const onSubmit = async (data) => {
+    data.role = role;
+    console.log("Login data:", data);
     try {
       const result = await firebase.LoginUserWithEmailAndPassword(
         data.email,
-        data.password
+        data.password,
+        data.role
       );
       console.log("User logged in successfully", result);
       const userRole = await firebase.checkRole(result.user.email);
@@ -89,7 +92,6 @@ const Login = () => {
             Login As
           </label>
           <Select
-            defaultValue={options[0]}
             className="w-full rounded-md border-gray-300 shadow-sm focus:ring-violet-500 focus:border-violet-500"
             options={options}
             placeholder="Select your role"
