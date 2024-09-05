@@ -16,7 +16,7 @@ const DoctorPatients = () => {
   useEffect(() => {
     const getPatientsOfDoctor = async () => {
       try {
-        const patients = await firebase.getPatientsOfDoctor(user.uid); // Fetch patients of the current doctor
+        const patients = await firebase.getPatientsOfDoctor(user.uid);
         setPatients(patients);
         setLoading(false);
       } catch (error) {
@@ -30,8 +30,9 @@ const DoctorPatients = () => {
     }
   }, [firebase, user]);
 
+
   const handleEdit = (patient) => {
-    setEditingPatientId(patient.id); // Enable editing mode for the selected patient
+    setEditingPatientId(patient.id);
     setDiagnosis(patient.diagnosis || "");
     setNote(patient.note || "");
   };

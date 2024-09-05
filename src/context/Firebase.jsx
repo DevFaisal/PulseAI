@@ -15,6 +15,7 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  updateDoc,
 } from "firebase/firestore";
 
 const FirebaseContext = createContext(null);
@@ -416,6 +417,18 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
+  const updatePatient = async (id, diagnosis, note) => {
+    try {
+      await updateDoc(
+        doc(fireStore, `hospital/${user.hospitalId}/patients/${id}`),
+        diagnosis,
+        note
+      );
+    } catch (error) {
+      console.error("Error updating patient:", error);
+      throw error;
+    }
+  };
   return (
     <FirebaseContext.Provider
       value={{
@@ -434,6 +447,7 @@ export const FirebaseProvider = ({ children }) => {
         deletePatient,
         getHospitals,
         getDoctors,
+        updatePatient,
         checkRole,
         createUser,
         user,

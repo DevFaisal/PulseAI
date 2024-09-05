@@ -31,9 +31,7 @@ const ManageUsers = () => {
         data.email,
         data.password
       );
-      if (!user) {
-        throw new Error("Failed to create user");
-      }
+      console.log("User created successfully", user);
       toast.success("User created successfully");
     } catch (error) {
       console.error(error);
