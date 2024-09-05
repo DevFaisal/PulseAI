@@ -165,12 +165,7 @@ export const FirebaseProvider = ({ children }) => {
   };
 
   // Create a new patient
-  const createNewPatient = async (
-    name,
-    age,
-    doctorAssigned,
-    symptoms,
-  ) => {
+  const createNewPatient = async (name, age, doctorAssigned, symptoms) => {
     try {
       return await addDoc(
         collection(fireStore, `hospital/${user.hospitalId}/patients`),
@@ -183,7 +178,6 @@ export const FirebaseProvider = ({ children }) => {
         }
       );
     } catch (error) {
-      
       console.error("Error creating new patient:", error);
       throw error;
     }
@@ -226,7 +220,7 @@ export const FirebaseProvider = ({ children }) => {
       const hospitalDoc = await getDoc(
         doc(fireStore, `hospital/${hospitalId}`)
       );
-      return hospitalDoc.data().name;
+      return hospitalDoc.data();
     } catch (error) {
       console.error("Error fetching hospital name:", error);
       throw error;
@@ -417,18 +411,22 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
-  const updatePatient = async (id, diagnosis, note) => {
+  const updatePatient = async (id, updatedPatient) => {
+    
     try {
       await updateDoc(
         doc(fireStore, `hospital/${user.hospitalId}/patients/${id}`),
-        diagnosis,
-        note
+        {
+          ...updatedPatient,
+        }
       );
+      console.log("Patient updated successfully");
     } catch (error) {
       console.error("Error updating patient:", error);
       throw error;
     }
   };
+
   return (
     <FirebaseContext.Provider
       value={{

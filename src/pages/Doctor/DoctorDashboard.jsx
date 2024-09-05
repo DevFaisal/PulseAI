@@ -31,18 +31,6 @@ const DoctorDashboard = () => {
           </h2>
           <p className="text-3xl font-bold text-blue-600">{patients.length}</p>
         </div>
-        {/* <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-            Appointments Today
-          </h2>
-          <p className="text-3xl font-bold text-green-600">8</p>
-        </div>
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-            Pending Reports
-          </h2>
-          <p className="text-3xl font-bold text-red-600">3</p>
-        </div> */}
       </div>
 
       {/* Patients List Section */}
