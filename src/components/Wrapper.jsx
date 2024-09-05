@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Logo from "./Logo";
 import { useFirebase } from "../context/Firebase";
 import { useNavigate } from "react-router-dom";
+import { LogOut } from "lucide-react";
 
 const Wrapper = ({ children }) => {
   useEffect(() => {
@@ -21,9 +22,9 @@ const Wrapper = ({ children }) => {
         <Logo />
         <button
           onClick={handleLogout}
-          className="ml-auto mr-5 font-bold bg-red-300 p-2 rounded-md"
+          className="ml-auto mr-5 font-bold  p-2 rounded-md"
         >
-          Logout
+          <LogOut strokeWidth={3} />{" "}
         </button>
       </div>
       <div className="container mx-auto p-3 md:p-0 m-0 ">{children}</div>
