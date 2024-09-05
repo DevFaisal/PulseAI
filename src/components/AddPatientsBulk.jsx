@@ -39,7 +39,7 @@ const AddPatientsBulk = () => {
   };
 
   return (
-    <div className="bg-white shadow-md ring-1 ring-gray-300 rounded-lg p-4 overflow-scroll">
+    <div className="bg-white my-4 shadow-md ring-1 ring-gray-300 rounded-lg p-4 overflow-scroll">
       <h1 className="text-2xl font-semibold text-gray-700 mb-4">
         Add Patients in Bulk
       </h1>
