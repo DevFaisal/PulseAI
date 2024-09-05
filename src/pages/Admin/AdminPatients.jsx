@@ -63,13 +63,13 @@ const AdminPatients = () => {
         data.name,
         data.age,
         data.doctorAssigned,
-        data.symptoms,
-        data.diagnosis
+        data.symptoms
       );
       toast.success("Patient added successfully");
       setPatients((prevPatients) => [...prevPatients, data]);
       reset();
     } catch (error) {
+      toast.error("Failed to add patient");
       console.error("Failed to add patient", error);
     }
   };

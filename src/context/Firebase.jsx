@@ -17,6 +17,7 @@ import {
   getFirestore,
   updateDoc,
 } from "firebase/firestore";
+import toast from "react-hot-toast";
 
 const FirebaseContext = createContext(null);
 
@@ -169,7 +170,6 @@ export const FirebaseProvider = ({ children }) => {
     age,
     doctorAssigned,
     symptoms,
-    diagnosis
   ) => {
     try {
       return await addDoc(
@@ -180,10 +180,10 @@ export const FirebaseProvider = ({ children }) => {
           doctorAssigned,
           hospitalId: user.hospitalId,
           symptoms,
-          diagnosis,
         }
       );
     } catch (error) {
+      
       console.error("Error creating new patient:", error);
       throw error;
     }
