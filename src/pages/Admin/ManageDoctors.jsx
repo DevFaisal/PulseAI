@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useFirebase } from "../../context/Firebase";
 import { useForm } from "react-hook-form";
 import FormInput from "../../components/Inputs/FormInput";
+import toast from "react-hot-toast";
 
 const ManageDoctors = () => {
   const [doctors, setDoctors] = useState([]);
@@ -40,10 +41,10 @@ const ManageDoctors = () => {
         "Dr. " + data.name,
         data.specialty,
         data.contact,
-        data.email,
+        data.email.toLowerCase(),
         data.password
       );
-      console.log("Doctor added successfully", result);
+      toast.success("Doctor added successfully");
       setDoctors((prevDoctors) => [...prevDoctors, data]);
       reset();
     } catch (error) {

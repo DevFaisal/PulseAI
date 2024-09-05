@@ -10,7 +10,6 @@ const Patients = () => {
     const fetchPatients = async () => {
       try {
         const patientsData = await getPatients();
-        console.log("Patients data", patientsData);
         setPatients(patientsData);
       } catch (error) {
         console.error("Failed to fetch patients", error);
@@ -34,7 +33,7 @@ const Patients = () => {
         </thead>
         <tbody>
           {patients.length > 0 ? (
-            patients.map((patient, index) => (
+            patients?.map((patient, index) => (
               <tr key={patient.id} className="hover:bg-gray-100">
                 <td className="p-2">{index + 1}</td>
                 <td className="p-2">

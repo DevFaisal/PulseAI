@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react"; // Import Menu and X icons from lucide-react
 import Logo from "../components/Logo";
@@ -11,11 +11,27 @@ const DoctorDashboardOutlet = () => {
     { name: "Patients", path: "/doctor-dashboard/patients" },
   ];
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [doctor, setDoctor] = useState(null);
+  const [hospitalName, setHospitalName] = useState("");
   const navigate = useNavigate();
 
   const firebase = useFirebase();
-
   const user = firebase.user;
+
+
+  useEffect(() => {
+    const fetchHospitalName = async () => {
+      try {
+        const name = await firebase.getHospitalName(firebase.user?.hospitalId);
+        const doctor = await firebase.getDoctorByEmail(user.email);
+        setDoctor(doctor);
+        setHospitalName(name);
+      } catch (error) {
+        console.error("Failed to fetch hospital name", error);
+      }
+    };
+    fetchHospitalName();
+  }, [firebase]);
 
   if (user.role !== "doctor") {
     navigate("/");
@@ -89,14 +105,17 @@ const DoctorDashboardOutlet = () => {
               className="text-xl md:text-2xl lg:text-3xl"
             />
             <h1 className="text-md md:text-xl lg:text-2xl font-bold">
-              <span className="text-white">
-                {firebase.user.hospitalName || "ABC"}{" "}
-              </span>
+              <span className="text-white">{hospitalName || "ABC"} </span>
               <span className="text-red-200">Hospital</span>
             </h1>
           </div>
         </header>
         <main className="bg-white flex-1 p-4 overflow-y-auto">
+          <div>
+            <h1 className="text-2xl font-semibold text-gray-800 mb-4">
+              Welcome <span className="text-red-600">{doctor?.name}</span>
+            </h1>
+          </div>
           <Outlet />
         </main>
       </div>

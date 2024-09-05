@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useFirebase } from "../../context/Firebase";
 
 const DoctorDashboard = () => {
+  
   return (
     <div className="container mx-auto p-6">
       {/* Metrics Section */}

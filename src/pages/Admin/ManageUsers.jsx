@@ -1,31 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import FormInput from "../../components/Inputs/FormInput"; // Assuming you have this component
+import { useFirebase } from "../../context/Firebase";
+import toast from "react-hot-toast";
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    role: "",
-    status: "",
-  });
+  const firebase = useFirebase();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: value,
-    }));
-  };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setUsers((prevUsers) => [...prevUsers, form]);
-    setForm({
-      name: "",
-      email: "",
-      role: "",
-      status: "",
-    });
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const users = await firebase.getUsers();
+      setUsers(users);
+    };
+
+    fetchUsers();
+  }, []);
+
+  const onSubmit = async (data) => {
+    try {
+      const user = await firebase.createUser(
+        data.name,
+        data.email,
+        data.password
+      );
+      if (!user) {
+        throw new Error("Failed to create user");
+      }
+      toast.success("User created successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error(`Failed to create user: ${error.message}`);
+    }
+
+    setUsers((prevUsers) => [...prevUsers, data]);
+    reset();
   };
 
   return (
@@ -40,88 +56,36 @@ const ManageUsers = () => {
           Add New User
         </h2>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           className="grid grid-cols-1 gap-6 md:grid-cols-2"
         >
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="role"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Role
-            </label>
-            <select
-              name="role"
-              value={form.role}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="" disabled>
-                Select Role
-              </option>
-              <option value="Admin">Admin</option>
-              <option value="Doctor">Doctor</option>
-              <option value="Nurse">Nurse</option>
-              <option value="Receptionist">Receptionist</option>
-            </select>
-          </div>
-
-          <div>
-            <label
-              htmlFor="status"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Status
-            </label>
-            <select
-              name="status"
-              value={form.status}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="" disabled>
-                Select Status
-              </option>
-              <option value="Active">Active</option>
-              <option value="Inactive">Inactive</option>
-            </select>
-          </div>
+          <FormInput
+            label="Name"
+            type="text"
+            name="name"
+            register={register}
+            placeholder="Enter user's name"
+            error={errors.name}
+            required
+          />
+          <FormInput
+            label="Email"
+            type="email"
+            name="email"
+            register={register}
+            placeholder="Enter user's email"
+            error={errors.email}
+            required
+          />
+          <FormInput
+            label="Password"
+            type="password"
+            name="password"
+            register={register}
+            placeholder="Enter password"
+            error={errors.password}
+            required
+          />
 
           <div className="md:col-span-2">
             <button
@@ -150,12 +114,6 @@ const ManageUsers = () => {
               </h3>
               <p className="text-gray-600">
                 <strong>Email:</strong> {user.email}
-              </p>
-              <p className="text-gray-600">
-                <strong>Role:</strong> {user.role}
-              </p>
-              <p className="text-gray-600">
-                <strong>Status:</strong> {user.status}
               </p>
             </div>
           ))}

@@ -10,7 +10,7 @@ const LoginPage = () => {
       <div className="sm:flex bg-contain justify-center items-center bg-yellow-400 h-full w-full sm:w-1/2">
         <img
           className="object-cover w-full h-full md:flex hidden "
-          src="https://img.freepik.com/free-photo/cartoon-ai-robot-scene_23-2151675016.jpg?t=st=1725380494~exp=1725384094~hmac=ce5be1496517176f7ffa89a6d2f34f0a846c7f46a9fa7150562778def7e5c2d3&w=2000"
+          src="https://plus.unsplash.com/premium_photo-1699387204475-9b09a8ef2d7a?q=80&w=3478&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="Login page background"
         />
       </div>

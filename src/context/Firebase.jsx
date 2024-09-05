@@ -10,6 +10,7 @@ import {
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -63,8 +64,6 @@ export const FirebaseProvider = ({ children }) => {
   const LoginUserWithEmailAndPassword = async (email, password, role) => {
     try {
       const checkedRole = await checkRole(email);
-      console.log("Given role:", role);
-      console.log("Checked role:", checkedRole);
       if (checkedRole !== role) {
         throw new Error("Invalid role");
       }
@@ -141,10 +140,12 @@ export const FirebaseProvider = ({ children }) => {
       const userDoc = usersSnapshot.docs.find(
         (doc) => doc.data().email === email
       );
+
       if (userDoc) {
         const userData = userDoc.data();
 
         setUser({
+          id: userDoc.id,
           email: userData.email,
           role: userData.role,
           hospitalId: userData.hospitalId,
@@ -218,6 +219,19 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
+  // Get Hospital Name
+  const getHospitalName = async (hospitalId) => {
+    try {
+      const hospitalDoc = await getDoc(
+        doc(fireStore, `hospital/${hospitalId}`)
+      );
+      return hospitalDoc.data().name;
+    } catch (error) {
+      console.error("Error fetching hospital name:", error);
+      throw error;
+    }
+  };
+
   const getSinglePatient = async (id) => {
     try {
       const patientDoc = await getDoc(
@@ -272,6 +286,61 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
+  const getDoctorByEmail = async (email) => {
+    try {
+      const doctorsSnapshot = await getDocs(
+        collection(fireStore, `hospital/${user.hospitalId}/doctors`)
+      );
+      const doctors = doctorsSnapshot.docs.map((doc) => doc.data());
+      const doctor = doctors.find((doc) => doc.email === email);
+      return doctor;
+    } catch (error) {
+      console.error("Error fetching doctor:", error);
+      throw error;
+    }
+  };
+
+  //Get all patient of a doctor mapped
+  const getPatientsOfDoctor = async () => {
+    try {
+      const patientsSnapshot = await getDocs(
+        collection(fireStore, `hospital/${user.hospitalId}/patients`)
+      );
+
+      const doctorsSnapshot = await getDocs(
+        collection(fireStore, `hospital/${user.hospitalId}/doctors`)
+      );
+
+      const doctors = doctorsSnapshot.docs.map((doc) => doc.data());
+      const doctor = doctors.find((doc) => doc.email === user.email);
+
+      const patients = patientsSnapshot.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id };
+      });
+
+      const particularPatients = patients.filter(
+        (patient) =>
+          patient.doctorAssigned.toLowerCase() === doctor.name.toLowerCase()
+      );
+      return particularPatients;
+    } catch (error) {
+      console.error("Error fetching patients:", error);
+      throw error;
+    }
+  };
+
+  //Delete a patient
+  const deletePatient = async (id) => {
+    try {
+      return await deleteDoc(
+        doc(fireStore, `hospital/${user.hospitalId}/patients/${id}`)
+      );
+    } catch (error) {
+      console.error("Error deleting patient:", error);
+      throw error;
+    }
+  };
+
   // Get all patients from all hospitals
   const getAllPatientsFromHospitals = async () => {
     try {
@@ -308,20 +377,65 @@ export const FirebaseProvider = ({ children }) => {
     }
   };
 
+  const createUser = async (name, email, password, role = "user") => {
+    try {
+      const signUpUser = await createUserWithEmailAndPassword(
+        firebaseAuth,
+        email,
+        password
+      );
+      const newUser = await addDoc(
+        collection(fireStore, `hospital/${user.hospitalId}/users`),
+        {
+          name,
+          email,
+          role,
+          hospitalId: user.hospitalId,
+        }
+      );
+      const usersTable = await addDoc(collection(fireStore, "users"), {
+        email,
+        role,
+        hospitalId: user.hospitalId,
+      });
+    } catch (error) {
+      console.error("Error creating user:", error);
+      throw error;
+    }
+  };
+
+  const getUsers = async () => {
+    try {
+      const usersSnapshot = await getDocs(
+        collection(fireStore, `hospital/${user.hospitalId}/users`)
+      );
+      return usersSnapshot.docs.map((doc) => doc.data());
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      throw error;
+    }
+  };
+
   return (
     <FirebaseContext.Provider
       value={{
         LoginUserWithEmailAndPassword,
         SignUpWithEmailAndPassword,
         isLoggedIn,
+        getHospitalName,
         createNewPatient,
         getSinglePatient,
         getPatients,
         getAllPatientsFromHospitals,
+        getPatientsOfDoctor,
         createNewDoctor,
+        getDoctorByEmail,
+        getUsers,
+        deletePatient,
         getHospitals,
         getDoctors,
         checkRole,
+        createUser,
         user,
         Logout,
       }}

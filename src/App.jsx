@@ -13,6 +13,7 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import DoctorDashboard from "./pages/Doctor/DoctorDashboard";
 import DoctorDashboardOutlet from "./layout/DoctorDashboardOutlet";
 import ManageUsers from "./pages/Admin/ManageUsers";
+import DoctorPatients from "./pages/Doctor/DoctorPatients";
 
 const router = createBrowserRouter([
   {
@@ -79,7 +80,7 @@ const router = createBrowserRouter([
       },
       {
         path: "patients",
-        element: <h1>Doctor Patients</h1>,
+        element: <DoctorPatients />,
       },
     ],
   },

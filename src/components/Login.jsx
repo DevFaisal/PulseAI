@@ -43,6 +43,12 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     data.role = role;
+
+    if (!data.role || !data.email || !data.password) {
+      setError("Please fill all the fields");
+      return;
+    }
+
     try {
       const result = await firebase.LoginUserWithEmailAndPassword(
         data.email,

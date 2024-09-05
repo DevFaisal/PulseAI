@@ -3,6 +3,7 @@ import { useFirebase } from "../../context/Firebase";
 import Select from "react-select";
 import { useForm } from "react-hook-form";
 import FormInput from "../../components/Inputs/FormInput";
+import toast from "react-hot-toast";
 
 const AdminPatients = () => {
   const [patients, setPatients] = useState([]);
@@ -43,6 +44,20 @@ const AdminPatients = () => {
     setValue("doctorAssigned", selectedOption ? selectedOption.value : "");
   };
 
+  const handleDeletePatient = async (id) => {
+    console.log("Delete patient", id);
+    try {
+      const result = await firebase.deletePatient(id);
+      setPatients((prevPatients) =>
+        prevPatients.filter((patient) => patient.id !== id)
+      );
+      toast.success("Patient deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete patient", error);
+      toast.error("Failed to delete patient");
+    }
+  };
+
   const onSubmit = async (data) => {
     try {
       const result = await firebase.createNewPatient(
@@ -52,7 +67,7 @@ const AdminPatients = () => {
         data.symptoms,
         data.diagnosis
       );
-      console.log("Patient added successfully", result);
+      toast.success("Patient added successfully");
       setPatients((prevPatients) => [...prevPatients, data]);
       reset();
     } catch (error) {
@@ -156,6 +171,9 @@ const AdminPatients = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Diagnosis
                 </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Action
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -178,6 +196,17 @@ const AdminPatients = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {patient.diagnosis}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <button className="text-blue-500 hover:underline">
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeletePatient(patient.id)}
+                      className="ml-2 text-red-500 hover:underline"
+                    >
+                      <span>Delete</span>
+                    </button>
                   </td>
                 </tr>
               ))}
