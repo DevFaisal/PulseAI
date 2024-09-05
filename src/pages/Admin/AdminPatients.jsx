@@ -4,6 +4,7 @@ import Select from "react-select";
 import { useForm } from "react-hook-form";
 import FormInput from "../../components/Inputs/FormInput";
 import toast from "react-hot-toast";
+import AddPatientsBulk from "../../components/AddPatientsBulk";
 
 const AdminPatients = () => {
   const [patients, setPatients] = useState([]);
@@ -136,7 +137,7 @@ const AdminPatients = () => {
           </div>
         </form>
       </div>
-
+      <AddPatientsBulk />
       <div className="bg-white shadow-md ring-1 ring-gray-300 rounded-lg p-4 overflow-scroll">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">
           Patients List
