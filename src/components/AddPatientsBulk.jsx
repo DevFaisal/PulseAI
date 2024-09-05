@@ -9,7 +9,7 @@ const AddPatientsBulk = () => {
 
   const handleBulkUpload = () => {
     if (!csvFile) {
-      alert("Please upload a CSV file");
+      toast.error("Please upload a CSV file");
       return;
     }
 
