@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Menu, X } from "lucide-react"; // Import Menu and X icons from lucide-react
+import { Menu, X } from "lucide-react";
 import Logo from "../components/Logo";
 import { HospitalIcon } from "lucide-react";
 import { useFirebase } from "../context/Firebase";
