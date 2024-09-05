@@ -14,6 +14,7 @@ import DoctorDashboard from "./pages/Doctor/DoctorDashboard";
 import DoctorDashboardOutlet from "./layout/DoctorDashboardOutlet";
 import ManageUsers from "./pages/Admin/ManageUsers";
 import DoctorPatients from "./pages/Doctor/DoctorPatients";
+import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -86,7 +87,7 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <h1>Not Found</h1>,
+    element: <NotFound />,
   },
 ]);
 
