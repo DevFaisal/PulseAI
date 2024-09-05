@@ -45,7 +45,6 @@ const AdminPatients = () => {
   };
 
   const handleDeletePatient = async (id) => {
-    console.log("Delete patient", id);
     try {
       const result = await firebase.deletePatient(id);
       setPatients((prevPatients) =>
@@ -126,14 +125,7 @@ const AdminPatients = () => {
             placeholder="Enter symptoms"
             error={errors.symptoms}
           />
-          <FormInput
-            label="Diagnosis"
-            type="text"
-            name="diagnosis"
-            register={register}
-            placeholder="Enter diagnosis"
-            error={errors.diagnosis}
-          />
+
           <div className="md:col-span-2">
             <button
               type="submit"
@@ -198,9 +190,6 @@ const AdminPatients = () => {
                     {patient.diagnosis}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <button className="text-blue-500 hover:underline">
-                      Edit
-                    </button>
                     <button
                       onClick={() => handleDeletePatient(patient.id)}
                       className="ml-2 text-red-500 hover:underline"
