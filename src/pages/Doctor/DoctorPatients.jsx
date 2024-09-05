@@ -71,7 +71,9 @@ const DoctorPatients = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">Patients Assigned</h1>
+      <h1 className="text-3xl font-bold text-gray-800 mb-4">
+        Patients Assigned
+      </h1>
 
       {loading ? (
         <p className="text-gray-500">Loading patients...</p>
@@ -82,10 +84,18 @@ const DoctorPatients = () => {
               key={patient.id}
               className="border border-gray-300 p-4 rounded-lg shadow-sm"
             >
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">{patient.name}</h2>
-              <p className="text-gray-600"><strong>Age:</strong> {patient.age}</p>
-              <p className="text-gray-600"><strong>Hospital ID:</strong> {patient.hospitalId}</p>
-              <p className="text-gray-600"><strong>Symptoms:</strong> {patient.symptoms}</p>
+              <h2 className="text-xl font-semibold text-gray-800 mb-2">
+                {patient.name}
+              </h2>
+              <p className="text-gray-600">
+                <strong>Age:</strong> {patient.age}
+              </p>
+              <p className="text-gray-600">
+                <strong>Hospital ID:</strong> {patient.hospitalId}
+              </p>
+              <p className="text-gray-600">
+                <strong>Symptoms:</strong> {patient.symptoms}
+              </p>
 
               {/* Diagnosis and Notes Section */}
               {editingPatientId === patient.id ? (
@@ -105,7 +115,9 @@ const DoctorPatients = () => {
                   />
 
                   {/* Clinical Notes */}
-                  <label className="block text-gray-700 mt-4">Clinical Notes</label>
+                  <label className="block text-gray-700 mt-4">
+                    Clinical Notes
+                  </label>
                   <textarea
                     value={clinicalNotes}
                     onChange={(e) => setClinicalNotes(e.target.value)}
@@ -113,19 +125,31 @@ const DoctorPatients = () => {
                   />
 
                   {/* Thresholds */}
-                  <label className="block text-gray-700 mt-4">Set Thresholds</label>
+                  <label className="block text-gray-700 mt-4">
+                    Set Thresholds
+                  </label>
                   <input
                     type="number"
                     placeholder="Heart Rate"
                     value={thresholds.heartRate}
-                    onChange={(e) => setThresholds({ ...thresholds, heartRate: e.target.value })}
+                    onChange={(e) =>
+                      setThresholds({
+                        ...thresholds,
+                        heartRate: e.target.value,
+                      })
+                    }
                     className="block w-full border border-gray-300 p-2 rounded mb-2"
                   />
                   <input
                     type="text"
                     placeholder="Blood Pressure"
                     value={thresholds.bloodPressure}
-                    onChange={(e) => setThresholds({ ...thresholds, bloodPressure: e.target.value })}
+                    onChange={(e) =>
+                      setThresholds({
+                        ...thresholds,
+                        bloodPressure: e.target.value,
+                      })
+                    }
                     className="block w-full border border-gray-300 p-2 rounded mb-4"
                   />
 
@@ -148,40 +172,60 @@ const DoctorPatients = () => {
                         type="text"
                         placeholder="Medicine Name"
                         value={med.name}
-                        onChange={(e) => handleMedicineChange(index, "name", e.target.value)}
+                        onChange={(e) =>
+                          handleMedicineChange(index, "name", e.target.value)
+                        }
                         className="block w-full border border-gray-300 p-2 rounded"
                       />
                       <input
                         type="text"
                         placeholder="Dosage"
                         value={med.dosage}
-                        onChange={(e) => handleMedicineChange(index, "dosage", e.target.value)}
+                        onChange={(e) =>
+                          handleMedicineChange(index, "dosage", e.target.value)
+                        }
                         className="block w-full border border-gray-300 p-2 rounded"
                       />
                     </div>
                   ))}
-                  <button
-                    type="button"
-                    onClick={addMedicine}
-                    className="mt-2 text-blue-500 hover:underline"
-                  >
-                    + Add Medicine
-                  </button>
+                  <div className="flex justify-between">
+                    <button
+                      type="button"
+                      onClick={addMedicine}
+                      className="mt-2 text-blue-500 hover:underline"
+                    >
+                      + Add Medicine
+                    </button>
 
-                  {/* Save Button */}
-                  <button
-                    onClick={() => handleSave(patient.id)}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-                  >
-                    Save
-                  </button>
+                    {/* Save Button */}
+                    <button
+                      onClick={() => handleSave(patient.id)}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                    >
+                      Save
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div>
-                  <p className="text-gray-600"><strong>Diagnosis:</strong> {patient.diagnosis || "N/A"}</p>
-                  <p className="text-gray-600"><strong>Clinical Notes:</strong> {patient.clinicalNotes || "N/A"}</p>
-                  <p className="text-gray-600"><strong>Thresholds:</strong> HR: {patient.thresholds?.heartRate || "N/A"}, BP: {patient.thresholds?.bloodPressure || "N/A"}</p>
-                  <p className="text-gray-600"><strong>Medicines:</strong> {patient.medicines?.map(med => `${med.name} (${med.dosage})`).join(", ") || "N/A"}</p>
+                  <p className="text-gray-600">
+                    <strong>Diagnosis:</strong> {patient.diagnosis || "N/A"}
+                  </p>
+                  <p className="text-gray-600">
+                    <strong>Clinical Notes:</strong>{" "}
+                    {patient.clinicalNotes || "N/A"}
+                  </p>
+                  <p className="text-gray-600">
+                    <strong>Thresholds:</strong> HR:{" "}
+                    {patient.thresholds?.heartRate || "N/A"}, BP:{" "}
+                    {patient.thresholds?.bloodPressure || "N/A"}
+                  </p>
+                  <p className="text-gray-600">
+                    <strong>Medicines:</strong>{" "}
+                    {patient.medicines
+                      ?.map((med) => `${med.name} (${med.dosage})`)
+                      .join(", ") || "N/A"}
+                  </p>
                   <button
                     onClick={() => handleEdit(patient)}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
