@@ -1,6 +1,7 @@
 import React from "react";
 
 const CurrentProgram = ({ patient }) => {
+  
   return (
     <div className="bg-white p-4 sm:p-6 rounded-lg ring-1 ring-gray-400">
       <h1 className="text-lg sm:text-xl font-bold mb-4">Current RPM Program</h1>
@@ -22,7 +23,7 @@ const CurrentProgram = ({ patient }) => {
           </tr>
         </thead>
         <tbody>
-          {patient.programs?.map((p, index) => (
+          {/* {patient.programs?.map((p, index) => (
             <tr key={index} className="hover:bg-gray-100 rounded-lg">
               <td className="p-1 sm:p-2 border-b text-sm sm:text-base">
                 {p.program_name}
@@ -41,7 +42,7 @@ const CurrentProgram = ({ patient }) => {
                 {p.status}
               </td>
             </tr>
-          ))}
+          ))} */}
         </tbody>
       </table>
     </div>

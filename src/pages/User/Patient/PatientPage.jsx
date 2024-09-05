@@ -45,8 +45,8 @@ const PatientPage = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {/* <CurrentProgram patient={patient} />
-          <Medication patient={patient} /> */}
+          <CurrentProgram patient={patient} />
+           <Medication patient={patient} />
         </div>
         <div className="flex gap-2 ring-1 rounded-lg ring-gray-400">
           <div className="bg-white w-full h-80 p-6 rounded-lg shadow-lg">

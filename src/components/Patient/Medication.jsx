@@ -24,7 +24,10 @@ const Medication = ({ patient }) => {
           </tr>
         </thead>
         <tbody>
-          {patient?.medications.map((med) => (
+          <tr>
+            <td className="p-1 sm:p-2 border-b text-sm sm:text-base"></td>
+          </tr>
+          {/* {patient?.medications.map((med) => (
             <tr key={med.id} className="hover:bg-gray-100">
               <td className="p-1 sm:p-2 border-b text-sm sm:text-base">
                 {med.medication_name}
@@ -49,7 +52,7 @@ const Medication = ({ patient }) => {
                 {med.status}
               </td>
             </tr>
-          ))}
+          ))} */}
         </tbody>
       </table>
     </div>

@@ -1,6 +1,7 @@
 import React from "react";
 
 const PatientInfo = ({ patient }) => {
+
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between px-4 py-4 sm:px-10 sm:py-6 gap-4 sm:gap-6 bg-white rounded-md ring-1 ring-gray-400">
       <img
