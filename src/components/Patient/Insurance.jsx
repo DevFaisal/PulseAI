@@ -1,6 +1,17 @@
 import React from "react";
 
 const Insurance = ({ patient }) => {
+  if (!patient.insurance_info) {
+    return (
+      <div className="bg-white p-4 rounded-lg ring-1 ring-gray-400">
+        <h1 className="text-xl font-semibold">Insurance Information</h1>
+        <div className="flex flex-wrap gap-2 mt-2">
+          <h1>No insurance information available</h1>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white p-4 rounded-lg ring-1 ring-gray-400">
       <h1 className="text-xl font-semibold">Insurance Information</h1>

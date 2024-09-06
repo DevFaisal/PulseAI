@@ -15,24 +15,12 @@ const PatientInfo = ({ patient }) => {
             {patient.name}
           </h1>
           <p className="text-gray-500">
-            <span>{patient.id}</span> |{" "}
-            {/* <span>{patient.gender || ""}</span> |{" "} */}
+            <span>{patient.id}</span> | <span>{patient.gender || ""}</span> |{" "}
             <span>
-              {/* {new Date().getFullYear() - new Date(patient.dob).getFullYear()}{" "}
-              Years */}
+              {patient.age} {patient.age > 1 ? "years" : "year"}
             </span>
           </p>
         </div>
-      </div>
-      <div className="flex flex-col gap-2 mt-4 sm:mt-0 text-center sm:text-left">
-        {/* <h1 className="text-md sm:text-lg md:text-xl font-semibold">
-          Condition
-        </h1> */}
-        {/* <ul className="text-gray-500 list-disc pl-5">
-          {/* {patient.conditions.map((condition, index) => (
-            <li key={index}>{condition}</li>
-          ))} */}
-        {/* </ul>  */}
       </div>
     </div>
   );

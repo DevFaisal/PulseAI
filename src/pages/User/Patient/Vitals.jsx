@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Wrapper from "../../../components/Wrapper";
 import clsx from "clsx";
 import Line from "../../../components/Charts/Line";
 import PatientInfo from "../../../components/Patient/PatientInfo";
-import patients from "../../../lib/patients.json";
+import Medication from "../../../components/Patient/Medication";
 import { useParams } from "react-router-dom";
+import { useFirebase } from "../../../context/Firebase";
+import { AlertCircleIcon } from "lucide-react";
 
 const Vitals = () => {
+  const firebase = useFirebase();
+  const { id } = useParams();
+  const [patient, setPatient] = useState({});
+
+  useEffect(() => {
+    const fetchPatient = async () => {
+      const res = await firebase.getSinglePatient(id);
+      setPatient(res);
+    };
+    fetchPatient();
+  }, [id, firebase]);
+
   const categories = [
     {
       Header: "Blood Pressure",
@@ -66,11 +80,8 @@ const Vitals = () => {
   ];
 
   const [category, setCategory] = useState(categories[0].Header);
-
-  const { id } = useParams();
-
-  const patient = patients.find((u) => u.patient_id === id);
   const vitals = patient?.vitals || {};
+  const threshold = patient?.thresholds || {};
 
   const medReport = [
     {
@@ -79,82 +90,79 @@ const Vitals = () => {
         vitals.blood_pressure?.diastolic || 0
       }`,
       sign: vitals.blood_pressure?.unit || "",
-      predicted: vitals.blood_pressure?.status || "",
-      time: new Date(vitals.blood_pressure?.timestamp).toLocaleString() || "",
+      threshold: threshold.blood_pressure || "",
+      time: vitals.blood_pressure?.timestamp
+        ? new Date(vitals.blood_pressure.timestamp).toLocaleString()
+        : "",
       color: "red",
     },
     {
       title: "Heart Rate",
       number: vitals.heart_rate?.bpm || 0,
       sign: "bpm",
-      predicted: vitals.heart_rate?.status || "",
-      time: new Date(vitals.heart_rate?.timestamp).toLocaleString() || "",
+      threshold: threshold.heart_rate || "",
+      time: vitals.heart_rate?.timestamp
+        ? new Date(vitals.heart_rate.timestamp).toLocaleString()
+        : "",
       color: "blue",
     },
     {
       title: "Blood Sugar",
       number: vitals.blood_glucose?.level || 0,
       sign: vitals.blood_glucose?.unit || "",
-      predicted: vitals.blood_glucose?.status || "",
-      time: new Date(vitals.blood_glucose?.timestamp).toLocaleString() || "",
+      threshold: threshold.blood_glucose || "",
+      time: vitals.blood_glucose?.timestamp
+        ? new Date(vitals.blood_glucose.timestamp).toLocaleString()
+        : "",
       color: "green",
     },
     {
       title: "Oxygen Saturation",
       number: vitals.oxygen_saturation?.spO2 || 0,
       sign: vitals.oxygen_saturation?.unit || "",
-      predicted: vitals.oxygen_saturation?.status || "",
-      time:
-        new Date(vitals.oxygen_saturation?.timestamp).toLocaleString() || "",
+      threshold: threshold.oxygen_saturation || "",
+      time: vitals.oxygen_saturation?.timestamp
+        ? new Date(vitals.oxygen_saturation.timestamp).toLocaleString()
+        : "",
       color: "pink",
     },
     {
       title: "Body Temperature",
       number: vitals.body_temperature?.temperature || 0,
       sign: vitals.body_temperature?.unit || "",
-      predicted: vitals.body_temperature?.status || "",
-      time: new Date(vitals.body_temperature?.timestamp).toLocaleString() || "",
+      threshold: threshold.body_temperature || "",
+      time: vitals.body_temperature?.timestamp
+        ? new Date(vitals.body_temperature.timestamp).toLocaleString()
+        : "",
       color: "violet",
     },
   ];
 
   return (
     <Wrapper>
-      <div className="flex flex-col gap-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="flex flex-col gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           <PatientInfo patient={patient} />
+          <Medication patient={patient} />
           <div className="bg-white p-4 rounded-md ring-1 ring-gray-400">
-            <h1 className="text-lg sm:text-xl font-semibold">
-              Monthly Data Compliances
-            </h1>
+            <h1 className="text-lg sm:text-xl font-semibold">Threshold</h1>
             <div className="mt-2">
-              <span className="block h-[6px] rounded-xl w-1/2 bg-green-500"></span>
-              <h2 className="text-sm sm:text-base">
-                08 Days of Device data in Aug
-              </h2>
-            </div>
-          </div>
-          <div className="bg-white p-4 rounded-md ring-1 ring-gray-400">
-            <h1 className="text-lg sm:text-xl font-semibold">
-              Billing Threshold
-            </h1>
-            <div className="mt-2">
-              <span className="block h-[6px] rounded-xl w-3/12 bg-green-500"></span>
-              <h2 className="text-sm sm:text-base">
-                03 Minutes Reviewed in June
-              </h2>
+              <div className="flex gap-2">
+                <h1 className="font-semibold">{"BP"}:</h1>
+                <h1>{threshold.blood_pressure || "N/A"}</h1>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="flex overflow-x-auto gap-4 p-3">
+        <div className="flex overflow-x-auto gap-4 p-2">
           {medReport.map((rep, index) => (
             <MedInfoCard
               key={index}
               title={rep.title}
               number={rep.number}
               sign={rep.sign}
-              predicted={rep.predicted}
+              threshold={rep.threshold}
               time={rep.time}
               color={rep.color}
               onClick={() => setCategory(rep.title)}
@@ -162,7 +170,7 @@ const Vitals = () => {
           ))}
         </div>
 
-        <div className="mt-4">
+        <div className="mt-2">
           {categories.map(
             (cat, index) =>
               category.toLowerCase() === cat.Header.toLowerCase() && (
@@ -173,8 +181,12 @@ const Vitals = () => {
                     labels: cat.dataPoints.map((data) =>
                       data.x.toLocaleTimeString()
                     ),
-                    data: cat.dataPoints.map((data) => data.y),
+                    data: medReport.filter((rep) => rep.title === cat.Header)[0]
+                      .number,
                     unit: cat.unit,
+                    threshold: medReport.filter(
+                      (rep) => rep.title === cat.Header
+                    )[0].threshold,
                   }}
                 />
               )
@@ -191,7 +203,7 @@ export function MedInfoCard({
   title,
   number,
   sign,
-  predicted,
+  threshold,
   time,
   color,
   onClick,
@@ -208,19 +220,21 @@ export function MedInfoCard({
     <button
       onClick={onClick}
       className={clsx(
-        "p-3 sm:p-4 flex flex-col gap-4 flex-grow rounded-xl ring-4 hover:shadow-lg hover:bg-white cursor-pointer transition duration-300",
+        "p-3 sm:p-4 flex flex-col gap-4 flex-grow rounded-xl ring-4 hover:shadow-lg hover:bg-white cursor-pointer whitespace-nowrap transition duration-300",
         colorClasses[color]
       )}
     >
       <div className="flex gap-1 items-end">
         <h1 className="text-3xl sm:text-4xl font-bold">{number}</h1>
-        <span className="text-sm sm:text-base font-semibold mb-1">{sign}</span>
+        <h1 className="text-sm">{sign}</h1>
       </div>
-      <div className="flex flex-col items-start">
-        <h1 className="text-lg sm:text-2xl font-bold">{title}</h1>
-        <div className="text-xs sm:text-sm flex gap-2 font-semibold">
-          <p>{predicted}</p>
-          <p>{time}</p>
+      <div className="text-left w-full">
+        <div className="text-xl font-semibold">{title}</div>
+        <div className="text-sm">
+          <span>Threshold: {threshold}</span>
+        </div>
+        <div className="text-xs font-light">
+          <span>{time}</span>
         </div>
       </div>
     </button>

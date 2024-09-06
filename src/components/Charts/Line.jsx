@@ -20,17 +20,35 @@ ChartJS.register(
 );
 
 const Line = ({ data }) => {
+  data.data = Array.isArray(data.data) ? data.data : [data.data];
+  const dataArray = [0, data.data[0], 0, 0];
+  const thresholdArray = [0, data.threshold, 0, 0];
+
+  if (data.label === "Blood Pressure") {
+    dataArray[1] = data.data[0].split("/")[0];
+  }
+
   const chartData = {
     labels: data?.labels || [],
     datasets: [
       {
         label: data?.label || "",
-        data: data?.data || [],
-        fill: true,
+        data: dataArray || [],
+        fill: false,
+        backgroundColor: "rgba(54, 162, 235, 0.2)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 2,
+        tension: 0.3,
+      },
+      {
+        label: "Threshold",
+        data: thresholdArray || [],
+        fill: false,
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         borderColor: "rgba(255, 99, 132, 1)",
+
         borderWidth: 2,
-        tension: 0.3, // Smooth lines
+        tension: 0.3,
       },
     ],
   };

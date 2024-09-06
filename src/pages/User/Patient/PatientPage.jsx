@@ -34,7 +34,7 @@ const PatientPage = () => {
             {/*Second Card*/}
             <Diagnoses patient={patient} />
             {/*Third Card*/}
-            {/* <Insurance patient={patient} /> */}
+            <Insurance patient={patient} />
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-4">
             <Card number={"Vitals"} link={"vitals"} color="bg-red-400" />

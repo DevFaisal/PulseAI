@@ -19,15 +19,38 @@ const AddPatientsBulk = () => {
       complete: async (result) => {
         const patients = result.data;
         for (let patient of patients) {
-          const { name, age, doctorAssigned, symptoms } = patient;
+          const {
+            name,
+            age,
+            gender,
+            email,
+            phone,
+            address,
+            insurance_name,
+            insurance_id,
+            relationship_to_insured,
+            doctorAssigned,
+          } = patient;
 
-          if (!name || !age || !doctorAssigned || !symptoms) {
-            console.error("Skipping invalid patient data:", patient);
-            continue;
+          if (
+            !name ||
+            !age ||
+            !gender ||
+            !email ||
+            !phone ||
+            !address ||
+            !insurance_name ||
+            !insurance_id ||
+            !relationship_to_insured ||
+            !doctorAssigned ||
+            !symptoms
+          ) {
+            toast.error("Invalid patient data");
+            break;
           }
 
           try {
-            await createNewPatient(name, age, doctorAssigned, symptoms);
+            await createNewPatient(patient);
             toast.success(`Added patient ${name}`);
           } catch (error) {
             console.error(`Error adding patient ${name}:`, error);
@@ -52,11 +75,22 @@ const AddPatientsBulk = () => {
         type="file"
         id="csvUpload"
       />
-      <div>
-        <p className="text-sm p-2 text-gray-500">
-          CSV file should have the following columns: name, age, doctorAssigned,
-          symptoms
+      <div className="flex flex-col p-3">
+        <p className="text-sm text-gray-500">
+          Please upload a CSV file with the following columns:{" "}
+          <span className="text-slate-600">
+            name, age, gender, email, phone, address, insurance_name,
+            insurance_id, relationship_to_insured, doctorAssigned, symptoms
+          </span>
         </p>
+        <div className="text-red-600 font-semibold text-xs">
+          Note:{" "}
+          <p>1. The columns should be in the same order as mentioned above</p>
+          <p>
+            2. The doctorAssigned Name should be the same as in the database
+            maintain the Case Sensitivity
+          </p>
+        </div>
       </div>
       <button
         onClick={handleBulkUpload}

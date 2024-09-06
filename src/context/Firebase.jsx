@@ -17,7 +17,6 @@ import {
   getFirestore,
   updateDoc,
 } from "firebase/firestore";
-import toast from "react-hot-toast";
 
 const FirebaseContext = createContext(null);
 
@@ -165,16 +164,67 @@ export const FirebaseProvider = ({ children }) => {
   };
 
   // Create a new patient
-  const createNewPatient = async (name, age, doctorAssigned, symptoms) => {
+  const createNewPatient = async (data) => {
     try {
       return await addDoc(
         collection(fireStore, `hospital/${user.hospitalId}/patients`),
         {
-          name,
-          age,
-          doctorAssigned,
+          name: data.name,
+          age: data.age,
+          gender: data.gender,
+          contact_info: {
+            email: data.email,
+            phone: data.phone,
+            address: data.address,
+          },
+          insurance_info: {
+            insurance_name: data.insurance_name,
+            insurance_id: data.insurance_id,
+            holder_name: data.name,
+            relationship_to_insured: data.relationship_to_insured,
+          },
+          vitals: {
+            //This data will be get from the device but for now we are using dummy data
+            blood_pressure: {
+              systolic: 135,
+              diastolic: 88,
+              unit: "mmHg",
+              timestamp: Date.now(),
+              status: "Normal",
+            },
+            blood_glucose: {
+              level: 6.2,
+              unit: "mmol/L",
+              timestamp: Date.now(),
+              status: "Normal",
+            },
+            heart_rate: {
+              bpm: 72,
+              timestamp: Date.now(),
+              status: "Normal",
+            },
+            body_temperature: {
+              temperature: 37.0,
+              unit: "°C",
+              timestamp: Date.now(),
+              status: "Normal",
+            },
+            oxygen_saturation: {
+              spO2: 98,
+              unit: "%",
+              timestamp: Date.now(),
+              status: "Normal",
+            },
+            respiratory_rate: {
+              rate: 17,
+              unit: "breaths/min",
+              timestamp: Date.now(),
+              status: "Normal",
+            },
+          },
+          doctorAssigned: data.doctorAssigned,
           hospitalId: user.hospitalId,
-          symptoms,
+          symptoms: data.symptoms,
         }
       );
     } catch (error) {
@@ -238,7 +288,6 @@ export const FirebaseProvider = ({ children }) => {
       throw error;
     }
   };
-
   // Get list of patients
   const getPatients = async () => {
     try {
@@ -254,7 +303,6 @@ export const FirebaseProvider = ({ children }) => {
       throw error;
     }
   };
-
   // Get list of doctors
   const getDoctors = async () => {
     try {
@@ -267,7 +315,6 @@ export const FirebaseProvider = ({ children }) => {
       throw error;
     }
   };
-
   // Get all hospitals
   const getHospitals = async () => {
     try {
@@ -280,7 +327,6 @@ export const FirebaseProvider = ({ children }) => {
       throw error;
     }
   };
-
   const getDoctorByEmail = async (email) => {
     try {
       const doctorsSnapshot = await getDocs(
@@ -294,7 +340,6 @@ export const FirebaseProvider = ({ children }) => {
       throw error;
     }
   };
-
   //Get all patient of a doctor mapped
   const getPatientsOfDoctor = async () => {
     try {
@@ -323,7 +368,6 @@ export const FirebaseProvider = ({ children }) => {
       throw error;
     }
   };
-
   //Delete a patient
   const deletePatient = async (id) => {
     try {
@@ -335,7 +379,6 @@ export const FirebaseProvider = ({ children }) => {
       throw error;
     }
   };
-
   // Get all patients from all hospitals
   const getAllPatientsFromHospitals = async () => {
     try {
@@ -385,6 +428,7 @@ export const FirebaseProvider = ({ children }) => {
           name,
           email,
           role,
+          hospitalName: user.hospitalName,
           hospitalId: user.hospitalId,
         }
       );
@@ -392,6 +436,7 @@ export const FirebaseProvider = ({ children }) => {
         email,
         role,
         hospitalId: user.hospitalId,
+        hospitalName: user.hospitalName,
       });
     } catch (error) {
       console.error("Error creating user:", error);
@@ -412,7 +457,6 @@ export const FirebaseProvider = ({ children }) => {
   };
 
   const updatePatient = async (id, updatedPatient) => {
-    
     try {
       await updateDoc(
         doc(fireStore, `hospital/${user.hospitalId}/patients/${id}`),

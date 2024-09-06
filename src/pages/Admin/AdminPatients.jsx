@@ -45,6 +45,10 @@ const AdminPatients = () => {
     setValue("doctorAssigned", selectedOption ? selectedOption.value : "");
   };
 
+  const handleGenderChange = (selectedOption) => {
+    setValue("gender", selectedOption ? selectedOption.value : "");
+  };
+
   const handleDeletePatient = async (id) => {
     try {
       const result = await firebase.deletePatient(id);
@@ -59,13 +63,13 @@ const AdminPatients = () => {
   };
 
   const onSubmit = async (data) => {
+    console.log(data);
     try {
       const result = await firebase.createNewPatient(
-        data.name,
-        data.age,
-        data.doctorAssigned,
-        data.symptoms
+        //Validation to be added
+        data
       );
+      console.log(result);
       toast.success("Patient added successfully");
       setPatients((prevPatients) => [...prevPatients, data]);
       reset();
@@ -88,22 +92,99 @@ const AdminPatients = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-cols-1 gap-6 md:grid-cols-2"
         >
-          <FormInput
-            label="Name"
-            type="text"
-            name="name"
-            register={register}
-            placeholder="Enter patient's name"
-            error={errors.name}
-          />
-          <FormInput
-            label="Age"
-            type="number"
-            name="age"
-            register={register}
-            placeholder="Enter patient's age"
-            error={errors.age}
-          />
+          <div className="grid grid-cols-2">
+            <FormInput
+              label="Name"
+              type="text"
+              name="name"
+              register={register}
+              placeholder="Enter patient's name"
+              error={errors.name}
+            />
+            <FormInput
+              label="Age"
+              type="number"
+              name="age"
+              register={register}
+              placeholder="Enter patient's age"
+              error={errors.age}
+            />
+            <div className="flex flex-col p-3 rounded-md">
+              <label
+                htmlFor="doctorAssigned"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Gender
+              </label>
+              <Select
+                options={[
+                  {
+                    label: "Male",
+                    value: "male",
+                  },
+                  {
+                    label: "Female",
+                    value: "female",
+                  },
+                ]}
+                onChange={handleGenderChange}
+                className="mt-1 block w-full"
+              />
+            </div>
+            <FormInput
+              label="Email"
+              type="email"
+              name="email"
+              register={register}
+              placeholder="Enter patient's email"
+              error={errors.email}
+            />
+            <FormInput
+              label="Phone"
+              type="tel"
+              name="phone"
+              register={register}
+              placeholder="Enter patient's phone number"
+              error={errors.phone}
+            />
+            <FormInput
+              label="Address"
+              type="text"
+              name="address"
+              register={register}
+              placeholder="Enter patient's address"
+              error={errors.address}
+            />
+          </div>
+          <div className="flex flex-col  p-3 rounded-md bg-slate-100">
+            <h1 className="text-xl md:text-2xl font-extrabold text-gray-900 text-center ">
+              Insurance Info
+            </h1>
+            <FormInput
+              label="Insurance Name"
+              type="text"
+              name="insurance_name"
+              register={register}
+              placeholder="Enter insurance name"
+              error={errors.insurance_name}
+            />
+            <FormInput
+              label="Insurance ID"
+              type="text"
+              name="insurance_id"
+              register={register}
+              placeholder="Enter insurance ID"
+              error={errors.insurance_id}
+            />
+            <FormInput
+              label="Relationship to Insured"
+              type="text"
+              name="relationship_to_insured"
+              register={register}
+              placeholder="Enter relationship to insured"
+              error={errors.relationship_to_insured}
+            />
+          </div>
           <div className="flex flex-col p-3 rounded-md">
             <label
               htmlFor="doctorAssigned"
