@@ -23,10 +23,9 @@ const Patients = () => {
 
   const handleAlert = (patients) => {
     patients.forEach((patient) => {
-      if (patient.alertEnabled) {
-        for (let key in patient) {
-        
-        }
+      for (let key in patient.vitals) {
+        // console.log(key);
+        console.log(patient.thresholds["blood_glucose"]);
       }
     });
   };

@@ -77,8 +77,7 @@ const LandingPage = () => {
           <div className="bg-white shadow-lg rounded-lg p-8 text-center w-full md:w-1/3">
             <h3 className="text-xl font-semibold text-gray-800">User Access</h3>
             <p className="mt-2 text-gray-600">
-              Access your health records and interact with healthcare providers
-              easily.
+              Remote monitoring for all patients
             </p>
             <Link
               to={"/login"}

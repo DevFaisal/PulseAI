@@ -9,7 +9,7 @@ import Doughnut from "../../components/Charts/Doughnut";
 const Dashboard = () => {
   return (
     <Wrapper>
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 pb-4">
         <Header />
         <div className="flex flex-col md:flex-row gap-2">
           <Program />

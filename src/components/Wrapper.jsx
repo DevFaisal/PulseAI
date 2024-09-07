@@ -34,13 +34,15 @@ const Wrapper = ({ children }) => {
   return (
     <div className="flex flex-col min-h-screen bg-slate-100">
       <div className="flex justify-between pl-5 items-center h-16">
-        <Logo />
+        <div>
+          <Logo />
+          <div className="flex justify-start  gap-1">
+            <span className="text-xs"> {hospital.name} </span>
+            <span className="text-xs font-bold text-red-500">Hospital</span>
+          </div>
+        </div>
 
         <div className="flex font-semibold items-center text-xl gap-2">
-          <h2>
-            {hospital.name}{" "}
-            <span className="text-xl font-bold text-red-500">Hospital</span>
-          </h2>
           <button
             onClick={handleLogout}
             className="ml-auto mr-5 font-bold  p-2 rounded-md"
@@ -49,7 +51,9 @@ const Wrapper = ({ children }) => {
           </button>
         </div>
       </div>
-      <div className="container mx-auto py-4 md:p-0 m-0 ">{children}</div>
+      <div className="container max-w-[20em] md:max-w-[102em] mx-auto py-4 md:p-0 m-0 ">
+        {children}
+      </div>
     </div>
   );
 };

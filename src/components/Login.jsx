@@ -7,12 +7,12 @@ import Select from "react-select";
 import ErrorBanner from "./ErrorBanner";
 import { useFirebase } from "../context/Firebase";
 import { HospitalIcon } from "lucide-react";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const firebase = useFirebase();
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
-  const [error, setError] = useState("");
   const [role, setRole] = useState("");
 
   const options = [
@@ -20,8 +20,6 @@ const Login = () => {
     { value: "admin", label: "Admin" },
     { value: "doctor", label: "Doctor" },
   ];
-
-  const clearError = () => setError("");
 
   useEffect(() => {
     if (firebase.isLoggedIn) {
@@ -45,17 +43,15 @@ const Login = () => {
     data.role = role;
 
     if (!data.role || !data.email || !data.password) {
-      setError("Please fill all the fields");
+      toast.error("Please fill in all fields.");
       return;
     }
-
     try {
       const result = await firebase.LoginUserWithEmailAndPassword(
         data.email,
         data.password,
         data.role
       );
-      console.log("User logged in successfully", result);
       const userRole = await firebase.checkRole(result.user.email);
       switch (userRole) {
         case "user":
@@ -71,14 +67,12 @@ const Login = () => {
           throw new Error("Invalid user role");
       }
     } catch (error) {
-      console.error("Login error:", error);
-      setError(error.message || "An error occurred during login.");
+      toast.error(error.message || "An error occurred during login.");
     }
   };
 
   return (
     <div className="flex flex-col h-screen justify-center items-center p-4">
-      <ErrorBanner error={error} clearError={clearError} />
       <header className="text-center mb-8">
         <h1 className="text-5xl font-extrabold text-gray-900 leading-tight mb-4">
           <span className="text-violet-600">Pulse</span> AI
@@ -89,7 +83,7 @@ const Login = () => {
         </p>
       </header>
       <form
-        className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg ring-1 ring-violet-300"
+        className="bg-white rounded-sm px-5 py-8 w-full max-w-lg ring-1 ring-gray-300"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="mb-6">
@@ -97,7 +91,7 @@ const Login = () => {
             Login As
           </label>
           <Select
-            className="w-full rounded-md border-gray-300 shadow-sm focus:ring-violet-500 focus:border-violet-500"
+            className="w-full rounded-md border-gray-300"
             options={options}
             placeholder="Select your role"
             required
@@ -112,7 +106,6 @@ const Login = () => {
           placeholder="example@gmail.com"
           name="email"
           register={register}
-          error={setError}
         />
 
         <FormInput
@@ -121,7 +114,6 @@ const Login = () => {
           placeholder="******"
           name="password"
           register={register}
-          error={setError}
         />
 
         <Button type="submit" name="Login" className="w-full mt-4" />
