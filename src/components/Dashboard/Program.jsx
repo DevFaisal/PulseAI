@@ -43,16 +43,6 @@ const Program = ({ className }) => {
       number: 30,
       color: "bg-[#086375]",
     },
-    {
-      title: "Mental Health Management",
-      number: 200,
-      color: "bg-[#227c9d]",
-    },
-    {
-      title: "Elderly and Palliative Care",
-      number: 210,
-      color: "bg-[#edafb8]",
-    },
   ];
 
   return (
