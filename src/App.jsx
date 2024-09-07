@@ -15,10 +15,15 @@ import DoctorDashboardOutlet from "./layout/DoctorDashboardOutlet";
 import ManageUsers from "./pages/Admin/ManageUsers";
 import DoctorPatients from "./pages/Doctor/DoctorPatients";
 import NotFound from "./pages/NotFound";
+import LandingPage from "./components/LandingPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <LandingPage />,
+  },
+  {
+    path: "/login",
     element: <LoginPage />,
   },
   {
