@@ -61,6 +61,7 @@ export const FirebaseProvider = ({ children }) => {
 
     return () => unsubscribe();
   }, []);
+  
   const LoginUserWithEmailAndPassword = async (email, password, role) => {
     try {
       const checkedRole = await checkRole(email);
@@ -228,14 +229,11 @@ export const FirebaseProvider = ({ children }) => {
   // Create a new doctor
   const createNewDoctor = async (name, specialty, contact, email, password) => {
     try {
-      const auth = firebaseAuth.currentUser;
-
       const userCredential = await createUserWithEmailAndPassword(
         firebaseAuth,
         email,
         password
       );
-      firebaseAuth.currentUser = auth;
       await addDoc(
         collection(fireStore, `hospital/${user.hospitalId}/doctors`),
         {

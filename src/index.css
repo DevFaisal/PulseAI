@@ -5,6 +5,7 @@
 @layer base {
   body {
     font-family: "Ubuntu", sans-serif;
+    background-color: rgb(232, 239, 239);
   }
 }
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useFirebase } from "../../context/Firebase";
 import Select from "react-select";
 import codes from "../../lib/icd10_codes.json";
+import toast from "react-hot-toast";
 
 const DoctorPatients = () => {
   const [patients, setPatients] = useState([]);
@@ -76,10 +77,15 @@ const DoctorPatients = () => {
           patient.id === patientId ? { ...patient, ...updatedPatient } : patient
         )
       );
+      toast.success("Patient updated successfully");
       setEditingPatientId(null); // Exit editing mode
     } catch (error) {
       console.error("Failed to update patient", error);
     }
+  };
+
+  const handelCancel = (patientId) => {
+    setEditingPatientId(null);
   };
 
   const addMedicine = () => {
@@ -93,8 +99,8 @@ const DoctorPatients = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-4xl font-extrabold text-gray-800 mb-6">
+    <div>
+      <h1 className="text-2xl font-extrabold text-gray-800 mb-6">
         Patients Assigned
       </h1>
 
@@ -105,7 +111,7 @@ const DoctorPatients = () => {
           {patients.map((patient) => (
             <div
               key={patient.id}
-              className="border border-gray-300 bg-white p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-500"
+              className="border border-gray-300 bg-white p-6 rounded-sm ring-1 ring-gray-300"
             >
               <h2 className="text-2xl font-semibold text-gray-800 mb-4">
                 {patient.name}
@@ -169,7 +175,7 @@ const DoctorPatients = () => {
                   <label className="block text-gray-700 mt-4">
                     Set Thresholds
                   </label>
-                  <div className="space-y-4">
+                  <div className=" grid grid-cols-2 gap-2">
                     {Object.keys(thresholds).map((key) => (
                       <input
                         key={key}
@@ -182,7 +188,7 @@ const DoctorPatients = () => {
                             [key]: e.target.value,
                           })
                         }
-                        className="block w-full border border-gray-300 p-3 rounded-lg"
+                        className="w-full rounded-sm ring-1 p-2 ring-gray-300"
                       />
                     ))}
                   </div>
@@ -205,7 +211,7 @@ const DoctorPatients = () => {
                         onChange={(e) =>
                           handleMedicineChange(index, "name", e.target.value)
                         }
-                        className="block w-full border border-gray-300 p-3 rounded-lg"
+                        className="rounded-sm ring-1 ring-gray-300 p-2"
                       />
                       <input
                         type="text"
@@ -214,7 +220,7 @@ const DoctorPatients = () => {
                         onChange={(e) =>
                           handleMedicineChange(index, "dosage", e.target.value)
                         }
-                        className="block w-full border border-gray-300 p-3 rounded-lg"
+                        className="rounded-sm ring-1 ring-gray-300 p-2"
                       />
                     </div>
                   ))}
@@ -226,19 +232,27 @@ const DoctorPatients = () => {
                     >
                       + Add Medicine
                     </button>
-                    <button
-                      onClick={() => handleSave(patient.id)}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
-                    >
-                      Save
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleSave(patient.id)}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={() => handelCancel(patient.id)}
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-sm"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </div>
                 </div>
               ) : (
                 <div>
                   <button
                     onClick={() => handleEdit(patient)}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mt-4"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm mt-4"
                   >
                     Edit
                   </button>

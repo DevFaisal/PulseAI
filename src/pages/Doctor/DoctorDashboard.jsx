@@ -22,11 +22,11 @@ const DoctorDashboard = () => {
     }
   }, [firebase, user]);
   return (
-    <div className="container mx-auto p-6">
+    <div>
       {/* Metrics Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+        <div className="bg-white rounded-sm ring-1 ring-gray-300 p-6">
+          <h2 className="text-md md:text-2xl font-semibold text-gray-700 mb-4">
             Total Patients Assigned
           </h2>
           <p className="text-3xl font-bold text-blue-600">{patients.length}</p>
@@ -34,7 +34,7 @@ const DoctorDashboard = () => {
       </div>
 
       {/* Patients List Section */}
-      <div className="bg-white shadow-md rounded-lg p-6">
+      <div className="bg-white  rounded-sm ring-1 ring-gray-300 p-6">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">
           Assigned Patients
         </h2>
@@ -42,7 +42,7 @@ const DoctorDashboard = () => {
           {patients.map((patient) => (
             <div
               key={patient.id}
-              className="border border-gray-300 p-4 rounded-lg shadow-sm"
+              className="border border-gray-300 p-4 rounded-sm ring-1 ring-gray-300"
             >
               <h2 className="text-xl font-semibold text-gray-800 mb-2">
                 {patient.name}
