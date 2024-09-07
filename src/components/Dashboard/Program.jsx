@@ -5,42 +5,42 @@ const Program = ({ className }) => {
   const programs = [
     {
       title: "New Enrollment",
-      number: 200,
+      number: 50,
       color: "bg-[#edafb8]",
     },
     {
       title: "Chronic Disease Management",
-      number: 150,
+      number: 120,
       color: "bg-[#6a994e]",
     },
     {
       title: "Post-Surgical Recovery",
-      number: 180,
+      number: 100,
       color: "bg-[#9e2a2b]",
     },
     {
       title: "Cardiac Monitoring",
-      number: 220,
+      number: 80,
       color: "bg-[#168aad]",
     },
     {
       title: "Cancer Treatment Monitoring",
-      number: 170,
+      number: 60,
       color: "bg-[#97d8c4]",
     },
     {
       title: "Respiratory Care Management",
-      number: 190,
+      number: 50,
       color: "bg-[#b6ad90]",
     },
     {
       title: "Pediatric Care",
-      number: 160,
+      number: 40,
       color: "bg-[#f4acb7]",
     },
     {
       title: "Pregnancy and Maternal Health",
-      number: 140,
+      number: 30,
       color: "bg-[#086375]",
     },
     {
