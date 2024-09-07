@@ -4,33 +4,33 @@ import Card from "../Card";
 const Header = () => {
   const headers = [
     {
-      title: "  Total Patients",
+      title: "Total Patients",
       number: "210",
       color: "bg-rose-400",
     },
     {
       title: "Critical",
-      number: "60%",
+      number: "50",
       color: "bg-purple-600",
     },
     {
       title: "Follow-Up",
-      number: "77%",
+      number: "70",
       color: "bg-sky-500",
     },
     {
       title: "Improvement",
-      number: "84%",
+      number: "40",
       color: "bg-teal-500",
     },
     {
       title: "New Admissions",
-      number: "520",
+      number: "30",
       color: "bg-amber-500",
     },
     {
       title: "Chronic",
-      number: "120",
+      number: "20",
       color: "bg-blue-500",
     },
   ];

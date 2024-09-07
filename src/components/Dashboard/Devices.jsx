@@ -68,9 +68,8 @@ const Devices = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setNote(doctorNotes[Math.floor(Math.random() * doctorNotes.length)]);
-    }, 3500); // Change note every 3.5 seconds
-
-    return () => clearInterval(interval); // Cleanup on unmount
+    }, 4000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
