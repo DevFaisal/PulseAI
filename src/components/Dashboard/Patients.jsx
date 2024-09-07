@@ -12,7 +12,17 @@ const Patients = () => {
     const fetchPatients = async () => {
       try {
         const patientsData = await getPatients();
-        setPatients(patientsData);
+        setPatients(
+          patientsData.sort((a, b) => {
+            //TODO: Sort patients by alertEnabled
+            return a.alertEnabled === b.alertEnabled
+              ? 0
+              : a.alertEnabled
+              ? -1
+              : 1;
+          })
+        );
+
         handleAlert(patientsData);
       } catch (error) {
         console.error("Failed to fetch patients", error);

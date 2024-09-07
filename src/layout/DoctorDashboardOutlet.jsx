@@ -121,7 +121,7 @@ const DoctorDashboardOutlet = () => {
             </h1>
           </div>
 
-          <div className="p-4 bg-white shadow-sm rounded-md">
+          <div className="p-4">
             <Outlet />
           </div>
         </main>
