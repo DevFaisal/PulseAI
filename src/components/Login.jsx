@@ -16,7 +16,7 @@ const Login = () => {
   const [role, setRole] = useState("");
 
   const options = [
-    { value: "user", label: "User" },
+    { value: "user", label: "Remote operator" },
     { value: "admin", label: "Admin" },
     { value: "doctor", label: "Doctor" },
   ];

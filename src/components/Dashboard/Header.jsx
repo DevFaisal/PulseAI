@@ -4,17 +4,17 @@ import Card from "../Card";
 const Header = () => {
   const headers = [
     {
-      title: "Patient Info",
+      title: "  Total Patients",
       number: "210",
       color: "bg-rose-400",
     },
     {
-      title: "Engagement",
+      title: "Critical",
       number: "60%",
       color: "bg-purple-600",
     },
     {
-      title: "Compliance",
+      title: "Follow-Up",
       number: "77%",
       color: "bg-sky-500",
     },
@@ -24,14 +24,19 @@ const Header = () => {
       color: "bg-teal-500",
     },
     {
-      title: "Active Patients",
+      title: "New Admissions",
       number: "520",
       color: "bg-amber-500",
+    },
+    {
+      title: "Chronic",
+      number: "120",
+      color: "bg-blue-500",
     },
   ];
 
   return (
-    <div className="grid md:grid-cols-5 grid-cols-2 justify-between gap-2">
+    <div className="grid md:grid-cols-6 grid-cols-3 justify-between gap-2">
       {headers?.map((header, index) => (
         <Card
           key={index}

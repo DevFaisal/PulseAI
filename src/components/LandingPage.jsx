@@ -28,9 +28,12 @@ const LandingPage = () => {
             AI-Driven Healthcare Solutions
           </h2>
           <p className="mt-4 text-gray-600">
-            Pulse AI helps hospitals manage and enhance patient care using
-            cutting-edge artificial intelligence. Seamlessly integrate AI to
-            improve diagnosis, administration, and patient experience.
+            Pulse AI: Transforming Remote Patient Care Pulse AI empowers
+            healthcare providers with AI-driven solutions for real-time
+            monitoring, chronic disease management, post-op care, and cancer
+            treatment. Enhance patient outcomes with seamless, personalized
+            care—anytime, anywhere. Pulse AI is your partner in delivering the
+            future of remote healthcare.
           </p>
         </section>
 
@@ -83,7 +86,7 @@ const LandingPage = () => {
               to={"/login"}
               className="inline-block mt-6 bg-blue-600 text-white py-2 px-6 rounded-full shadow hover:bg-blue-700 transition duration-200"
             >
-              Login as User
+              Login as Remote operator
             </Link>
           </div>
         </section>
