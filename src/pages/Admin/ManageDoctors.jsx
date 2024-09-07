@@ -3,6 +3,7 @@ import { useFirebase } from "../../context/Firebase";
 import { useForm } from "react-hook-form";
 import FormInput from "../../components/Inputs/FormInput";
 import toast from "react-hot-toast";
+import { Trash } from "lucide-react";
 
 const ManageDoctors = () => {
   const [doctors, setDoctors] = useState([]);
@@ -52,56 +53,71 @@ const ManageDoctors = () => {
     }
   };
 
+  const handleDoctorDelete = async (doctorId) => {
+    try {
+      await firebase.deleteDoctor(doctorId);
+      setDoctors((prevDoctors) =>
+        prevDoctors.filter((doctor) => doctor.id !== doctorId)
+      );
+      toast.success("Doctor deleted successfully");
+    } catch (error) {
+      console.error("Failed to delete doctor", error);
+    }
+  };
+
   return (
-    <div className="">
+    <div>
       <h1 className="text-2xl md:text-4xl font-extrabold text-gray-900 text-center mb-8">
         Manage Doctors
       </h1>
-      <div className="bg-white rounded-lg p-2 md:p-6 mb-8">
-        <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4">
+
+      <div className="mb-5">
+        <h2 className="text-xl md:text-left text-center md:text-2xl font-semibold text-gray-800 mb-3">
           Add New Doctor
         </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          <FormInput
-            label="Name"
-            type="text"
-            name="name"
-            placeholder="Enter doctor's name"
-            register={register}
-            error={errors.name}
-          />
-          <FormInput
-            label="Specialty"
-            type="text"
-            name="specialty"
-            placeholder="Enter doctor's specialty"
-            register={register}
-            error={errors.specialty}
-          />
-          <FormInput
-            label="Contact Number"
-            type="text"
-            name="contact"
-            placeholder="Enter doctor's contact number"
-            register={register}
-            error={errors.contact}
-          />
-          <FormInput
-            label="Email"
-            type="email"
-            name="email"
-            placeholder="Enter doctor's email"
-            register={register}
-            error={errors.email}
-          />
-          <FormInput
-            label="Password"
-            type="password"
-            name="password"
-            placeholder="Set doctor's password"
-            register={register}
-            error={errors.password}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            <FormInput
+              label="Name"
+              type="text"
+              name="name"
+              placeholder="Enter doctor's name"
+              register={register}
+              error={errors.name}
+            />
+            <FormInput
+              label="Specialty"
+              type="text"
+              name="specialty"
+              placeholder="Enter doctor's specialty"
+              register={register}
+              error={errors.specialty}
+            />
+            <FormInput
+              label="Contact Number"
+              type="text"
+              name="contact"
+              placeholder="Enter doctor's contact number"
+              register={register}
+              error={errors.contact}
+            />
+            <FormInput
+              label="Email"
+              type="email"
+              name="email"
+              placeholder="Enter doctor's email"
+              register={register}
+              error={errors.email}
+            />
+            <FormInput
+              label="Password"
+              type="password"
+              name="password"
+              placeholder="Set doctor's password"
+              register={register}
+              error={errors.password}
+            />
+          </div>
           <button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md"
@@ -111,33 +127,40 @@ const ManageDoctors = () => {
         </form>
       </div>
 
-      <div className="bg-white shadow-lg rounded-lg p-6">
+      <div className="bg-white shadow-lg rounded-lg p-4 md:p-6">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
           Doctors List
         </h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {doctors.map((doctor, index) => (
-            <div
-              key={index}
-              className="border border-gray-300 p-4 rounded-lg shadow-sm"
-            >
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                {doctor.name}
-              </h3>
-              <p className="text-gray-700">
-                <strong>Specialty:</strong> {doctor.specialty}
-              </p>
-              <p className="text-gray-700">
-                <strong>Hospital ID:</strong> {doctor.hospitalId}
-              </p>
-              <p className="text-gray-700">
-                <strong>Contact:</strong> {doctor.contact}
-              </p>
-              <p className="text-gray-700">
-                <strong>Email:</strong> {doctor.email}
-              </p>
-            </div>
-          ))}
+        <div className="overflow-x-auto w-80 md:w-full">
+          <table className="min-w-fit md:min-w-full ">
+            <thead>
+              <tr>
+                <th className="border px-4 py-2 text-left">Name</th>
+                <th className="border px-4 py-2 text-left">Specialty</th>
+                <th className="border px-4 py-2 text-left">Contact</th>
+                <th className="border px-4 py-2 text-left">Email</th>
+                <th className="border px-4 py-2 text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {doctors.map((doctor, index) => (
+                <tr key={index} className="border">
+                  <td className="border px-4 py-2">{doctor.name}</td>
+                  <td className="border px-4 py-2">{doctor.specialty}</td>
+                  <td className="border px-4 py-2">{doctor.contact}</td>
+                  <td className="border px-4 py-2">{doctor.email}</td>
+                  <td className="border px-4 py-2 flex justify-center">
+                    <button onClick={() => handleDoctorDelete(doctor.id)}>
+                      <Trash
+                        className="cursor-pointer text-red-300 hover:text-red-500"
+                        size={23}
+                      />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

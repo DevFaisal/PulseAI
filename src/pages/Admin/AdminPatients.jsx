@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import FormInput from "../../components/Inputs/FormInput";
 import toast from "react-hot-toast";
 import AddPatientsBulk from "../../components/AddPatientsBulk";
+import z from "zod";
 
 const AdminPatients = () => {
   const [patients, setPatients] = useState([]);
@@ -62,15 +63,38 @@ const AdminPatients = () => {
     }
   };
 
+  const patientSchema = z.object({
+    name: z.string().nonempty(),
+    age: z.string(),
+    gender: z.string().nonempty(),
+    email: z.string().email(),
+    phone: z.string().min(10),
+    address: z.string().nonempty(),
+    insurance_name: z.string().nonempty(),
+    insurance_id: z.string().nonempty(),
+    relationship_to_insured: z.string().nonempty(),
+    doctorAssigned: z.string().nonempty(),
+    symptoms: z.string().nonempty(),
+  });
+
   const onSubmit = async (data) => {
-    console.log(data);
+    const result = patientSchema.safeParse(data);
+
+    if (!result.success) {
+      result.error.errors.forEach((error) => {
+        if (error.path) {
+          toast.error(`Error in field: ${error.path.join(".")}`);
+        } else {
+          toast.error(error.message);
+        }
+      });
+      return;
+    }
     try {
-      const result = await firebase.createNewPatient(
-        //Validation to be added
-        data
-      );
-      console.log(result);
-      toast.success("Patient added successfully");
+      const result = await firebase.createNewPatient(data);
+      if (result) {
+        toast.success("Patient added successfully");
+      }
       setPatients((prevPatients) => [...prevPatients, data]);
       reset();
     } catch (error) {
@@ -84,7 +108,7 @@ const AdminPatients = () => {
       <h1 className="text-2xl md:text-4xl font-extrabold text-gray-900 text-center mb-8">
         Manage Patients
       </h1>
-      <div className="bg-white rounded-lg p-2 md:p-6 mb-8">
+      <div className="bg-white rounded-lg mb-8 p-4 md:p-6">
         <h2 className="text-xl md:text-2xl font-semibold text-gray-800 mb-4">
           Add New Patient
         </h2>
@@ -92,13 +116,13 @@ const AdminPatients = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="grid grid-cols-1 gap-6 md:grid-cols-2"
         >
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-1 md:grid-cols-2">
             <FormInput
               label="Name"
               type="text"
               name="name"
               register={register}
-              placeholder="Enter patient's name"
+              placeholder="Enter Patient's name"
               error={errors.name}
             />
             <FormInput
@@ -109,23 +133,17 @@ const AdminPatients = () => {
               placeholder="Enter patient's age"
               error={errors.age}
             />
-            <div className="flex flex-col p-3 rounded-md">
+            <div className="flex flex-col">
               <label
-                htmlFor="doctorAssigned"
-                className="block text-sm font-medium text-gray-700"
+                htmlFor="gender"
+                className="text-left pt-2.5 font-semibold text-md text-gray-700"
               >
                 Gender
               </label>
               <Select
                 options={[
-                  {
-                    label: "Male",
-                    value: "male",
-                  },
-                  {
-                    label: "Female",
-                    value: "female",
-                  },
+                  { label: "Male", value: "male" },
+                  { label: "Female", value: "female" },
                 ]}
                 onChange={handleGenderChange}
                 className="mt-1 block w-full"
@@ -156,8 +174,9 @@ const AdminPatients = () => {
               error={errors.address}
             />
           </div>
-          <div className="flex flex-col  p-3 rounded-md bg-slate-100">
-            <h1 className="text-xl md:text-2xl font-extrabold text-gray-900 text-center ">
+
+          <div className="flex flex-col p-2 rounded-md bg-slate-100">
+            <h1 className="text-xl md:text-2xl font-extrabold text-gray-900 text-center">
               Insurance Info
             </h1>
             <FormInput
@@ -185,10 +204,11 @@ const AdminPatients = () => {
               error={errors.relationship_to_insured}
             />
           </div>
-          <div className="flex flex-col p-3 rounded-md">
+
+          <div className="flex flex-col p-2 rounded-md">
             <label
               htmlFor="doctorAssigned"
-              className="block text-sm font-medium text-gray-700"
+              className="text-left pt-2.5 font-semibold text-md text-gray-700"
             >
               Doctor Assigned
             </label>
@@ -199,6 +219,7 @@ const AdminPatients = () => {
               className="mt-1 block w-full"
             />
           </div>
+
           <FormInput
             label="Symptoms"
             type="text"
@@ -223,7 +244,7 @@ const AdminPatients = () => {
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">
           Patients List
         </h2>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto w-80 md:w-auto">
           <table className="min-w-full divide-y divide-gray-200 overflow-scroll">
             <thead className="bg-gray-50">
               <tr>

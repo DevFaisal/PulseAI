@@ -24,12 +24,9 @@ const Patients = () => {
   const handleAlert = (patients) => {
     patients.forEach((patient) => {
       if (patient.alertEnabled) {
-        for (const key in patient.vitals) {
-          console.log(key, patient.vitals[key]);
+        for (let key in patient) {
+        
         }
-          for (const key in patient.thresholds) {
-            console.log(key, patient.thresholds[key]);
-          }
       }
     });
   };

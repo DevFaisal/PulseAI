@@ -4,10 +4,13 @@ import { RouterProvider } from "react-router-dom";
 import router from "./App.jsx";
 import { FirebaseProvider } from "./context/Firebase.jsx";
 import { Toaster } from "react-hot-toast";
+import { Suspense } from "react";
 
 createRoot(document.getElementById("root")).render(
   <FirebaseProvider>
-    <Toaster />
-    <RouterProvider router={router} />
+    <Suspense fallback={<div>Loading...</div>}>
+      <Toaster />
+      <RouterProvider router={router} />
+    </Suspense>
   </FirebaseProvider>
 );

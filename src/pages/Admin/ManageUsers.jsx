@@ -22,7 +22,7 @@ const ManageUsers = () => {
     };
 
     fetchUsers();
-  }, []);
+  }, [firebase]);
 
   const onSubmit = async (data) => {
     try {
@@ -31,7 +31,6 @@ const ManageUsers = () => {
         data.email,
         data.password
       );
-      console.log("User created successfully", user);
       toast.success("User created successfully");
     } catch (error) {
       console.error(error);

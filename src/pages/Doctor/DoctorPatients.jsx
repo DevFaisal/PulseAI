@@ -28,7 +28,6 @@ const DoctorPatients = () => {
     const getPatientsOfDoctor = async () => {
       try {
         const patients = await firebase.getPatientsOfDoctor(user.uid);
-        console;
         setPatients(patients);
         setLoading(false);
       } catch (error) {
@@ -95,7 +94,7 @@ const DoctorPatients = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">
+      <h1 className="text-4xl font-extrabold text-gray-800 mb-6">
         Patients Assigned
       </h1>
 
@@ -106,42 +105,52 @@ const DoctorPatients = () => {
           {patients.map((patient) => (
             <div
               key={patient.id}
-              className="border border-gray-300 p-4 rounded-lg shadow-sm"
+              className="border border-gray-300 bg-white p-6 rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-500"
             >
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
                 {patient.name}
               </h2>
 
-              <table className="table-auto w-full">
+              <table className="table-auto w-full mb-4">
                 <tbody>
-                  <tr>
-                    <td className="font-semibold">Age:</td>
-                    <td>{patient.age}</td>
+                  <tr className="border-b border-gray-200">
+                    <td className="font-semibold text-gray-700 py-2">Age:</td>
+                    <td className="text-gray-600 py-2">{patient.age}</td>
                   </tr>
-                  <tr>
-                    <td className="font-semibold">Diagnosis:</td>
-                    <td>{patient.diagnosis}</td>
+                  <tr className="border-b border-gray-200">
+                    <td className="font-semibold text-gray-700 py-2">
+                      Diagnosis:
+                    </td>
+                    <td className="text-gray-600 py-2">
+                      {patient.diagnosis || "N/A"}
+                    </td>
                   </tr>
-                  <tr>
-                    <td className="font-semibold">Symptoms:</td>
-                    <td>{patient.symptoms}</td>
+                  <tr className="border-b border-gray-200">
+                    <td className="font-semibold text-gray-700 py-2">
+                      Symptoms:
+                    </td>
+                    <td className="text-gray-600 py-2">
+                      {patient.symptoms || "N/A"}
+                    </td>
                   </tr>
-                  <tr>
-                    <td className="font-semibold">Hospital ID:</td>
-                    <td>{patient.hospitalId}</td>
+                  <tr className="border-b border-gray-200">
+                    <td className="font-semibold text-gray-700 py-2">
+                      Hospital ID:
+                    </td>
+                    <td className="text-gray-600 py-2">
+                      {patient.hospitalId || "N/A"}
+                    </td>
                   </tr>
                 </tbody>
               </table>
 
-              {/* Diagnosis and Notes Section */}
               {editingPatientId === patient.id ? (
                 <div className="mt-4">
-                  {/* Diagnosis */}
                   <label className="block text-gray-700">Diagnosis</label>
                   <Select
                     options={codes.map((c) => ({
                       value: c.code,
-                      label: c.code + "--" + c.description,
+                      label: `${c.code} — ${c.description}`,
                     }))}
                     onChange={(selectedOption) =>
                       setDiagnosis(selectedOption.value)
@@ -149,102 +158,43 @@ const DoctorPatients = () => {
                     placeholder="Select a diagnosis"
                     className="mt-1 block w-full"
                   />
-                  {/* Clinical Notes */}
                   <label className="block text-gray-700 mt-4">
                     Clinical Notes
                   </label>
                   <textarea
                     value={clinicalNotes}
                     onChange={(e) => setClinicalNotes(e.target.value)}
-                    className="block w-full border border-gray-300 p-2 rounded mb-4"
+                    className="block w-full border border-gray-300 p-3 rounded-lg mb-4"
                   />
-                  {/* Thresholds */}
                   <label className="block text-gray-700 mt-4">
                     Set Thresholds
                   </label>
-                  <input
-                    type="number"
-                    placeholder="Blood Pressure"
-                    value={thresholds.blood_pressure}
-                    onChange={(e) =>
-                      setThresholds({
-                        ...thresholds,
-                        blood_pressure: e.target.value,
-                      })
-                    }
-                    className="block w-full border border-gray-300 p-2 rounded mb-2"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Blood Glucose"
-                    value={thresholds.blood_glucose}
-                    onChange={(e) =>
-                      setThresholds({
-                        ...thresholds,
-                        blood_glucose: e.target.value,
-                      })
-                    }
-                    className="block w-full border border-gray-300 p-2 rounded mb-4"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Heart Rate"
-                    value={thresholds.heart_rate}
-                    onChange={(e) =>
-                      setThresholds({
-                        ...thresholds,
-                        heart_rate: e.target.value,
-                      })
-                    }
-                    className="block w-full border border-gray-300 p-2 rounded mb-4"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Body Temperature"
-                    value={thresholds.body_temperature}
-                    onChange={(e) =>
-                      setThresholds({
-                        ...thresholds,
-                        body_temperature: e.target.value,
-                      })
-                    }
-                    className="block w-full border border-gray-300 p-2 rounded mb-4"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Respiratory Rate"
-                    value={thresholds.respiratory_rate}
-                    onChange={(e) =>
-                      setThresholds({
-                        ...thresholds,
-                        respiratory_rate: e.target.value,
-                      })
-                    }
-                    className="block w-full border border-gray-300 p-2 rounded mb-4"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Oxygen Saturation"
-                    value={thresholds.oxygen_saturation}
-                    onChange={(e) =>
-                      setThresholds({
-                        ...thresholds,
-                        respiratory_rate: e.target.value,
-                      })
-                    }
-                    className="block w-full border border-gray-300 p-2 rounded mb-4"
-                  />
-                  {/* Alert Settings */}
-                  <div className="flex items-center">
+                  <div className="space-y-4">
+                    {Object.keys(thresholds).map((key) => (
+                      <input
+                        key={key}
+                        type="text"
+                        placeholder={key.replace("_", " ").toUpperCase()}
+                        value={thresholds[key]}
+                        onChange={(e) =>
+                          setThresholds({
+                            ...thresholds,
+                            [key]: e.target.value,
+                          })
+                        }
+                        className="block w-full border border-gray-300 p-3 rounded-lg"
+                      />
+                    ))}
+                  </div>
+                  <div className="flex items-center mt-4">
                     <input
                       type="checkbox"
                       checked={alertEnabled}
                       onChange={(e) => setAlertEnabled(e.target.checked)}
-                      className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                      className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                     />
                     <label className="ml-2 text-gray-700">Enable Alerts</label>
                   </div>
-                  {/* Medicines */}
                   <label className="block text-gray-700 mt-4">Medicines</label>
                   {medicines.map((med, index) => (
                     <div key={index} className="flex space-x-2 mt-2">
@@ -255,7 +205,7 @@ const DoctorPatients = () => {
                         onChange={(e) =>
                           handleMedicineChange(index, "name", e.target.value)
                         }
-                        className="block w-full border border-gray-300 p-2 rounded"
+                        className="block w-full border border-gray-300 p-3 rounded-lg"
                       />
                       <input
                         type="text"
@@ -264,23 +214,21 @@ const DoctorPatients = () => {
                         onChange={(e) =>
                           handleMedicineChange(index, "dosage", e.target.value)
                         }
-                        className="block w-full border border-gray-300 p-2 rounded"
+                        className="block w-full border border-gray-300 p-3 rounded-lg"
                       />
                     </div>
                   ))}
-                  <div className="flex justify-between">
+                  <div className="flex justify-between mt-4">
                     <button
                       type="button"
                       onClick={addMedicine}
-                      className="mt-2 text-blue-500 hover:underline"
+                      className="text-blue-500 hover:underline"
                     >
                       + Add Medicine
                     </button>
-
-                    {/* Save Button */}
                     <button
                       onClick={() => handleSave(patient.id)}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
                     >
                       Save
                     </button>
@@ -288,47 +236,9 @@ const DoctorPatients = () => {
                 </div>
               ) : (
                 <div>
-                  <table className="table-auto w-full">
-                    <tbody>
-                      <tr>
-                        <td className="font-semibold">Diagnosis:</td>
-                        <td className="text-gray-600">
-                          {patient.diagnosis || "N/A"}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="font-semibold whitespace-nowrap text-gray-600">
-                          Clinical Notes:
-                        </td>
-                        <td className="text-gray-600">
-                          {patient.clinicalNotes || "N/A"}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="font-semibold text-gray-600">
-                          Thresholds:
-                        </td>
-                        <td className="text-gray-600">
-                          HR: {patient.thresholds?.heartRate || "N/A"}, BP:{" "}
-                          {patient.thresholds?.bloodPressure || "N/A"}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="font-semibold text-gray-600">
-                          Medicines:
-                        </td>
-                        <td className="text-gray-600">
-                          {patient.medicines
-                            ?.map((med) => `${med.name} (${med.dosage})`)
-                            .join(", ") || "N/A"}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-
                   <button
                     onClick={() => handleEdit(patient)}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mt-4"
                   >
                     Edit
                   </button>
@@ -343,5 +253,4 @@ const DoctorPatients = () => {
     </div>
   );
 };
-
 export default DoctorPatients;

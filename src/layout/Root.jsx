@@ -1,18 +1,28 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useFirebase } from "../context/Firebase";
 
-const Root = () => {
-  const user = useFirebase().user;
+// A simple loading component
+const Loading = () => <div>Loading...</div>;
 
-  if (user.role === "user") {
-    return (
-      <div>
-        <Outlet />
-      </div>
-    );
+const Root = () => {
+  const { user, isLoading } = useFirebase(); // Assuming isLoading is provided
+
+  if (isLoading) {
+    return <Loading />;
   }
-  return <Navigate to="/" />;
+
+  if (!user || user.role !== "user") {
+    return <Navigate to="/" />;
+  }
+
+  return (
+    <div>
+      <Suspense fallback={<Loading />}>
+        <Outlet />
+      </Suspense>
+    </div>
+  );
 };
 
 export default Root;

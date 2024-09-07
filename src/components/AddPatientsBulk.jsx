@@ -75,15 +75,15 @@ const AddPatientsBulk = () => {
         type="file"
         id="csvUpload"
       />
-      <div className="flex flex-col p-3">
-        <p className="text-sm text-gray-500">
+      <div className="flex flex-col p-3 md:text-sm text-xs">
+        <p className=" text-gray-500">
           Please upload a CSV file with the following columns:{" "}
           <span className="text-slate-600">
             name, age, gender, email, phone, address, insurance_name,
             insurance_id, relationship_to_insured, doctorAssigned, symptoms
           </span>
         </p>
-        <div className="text-red-600 font-semibold text-xs">
+        <div className="md:text-sm text-xs text-red-600 font-semibold">
           Note:{" "}
           <p>1. The columns should be in the same order as mentioned above</p>
           <p>
