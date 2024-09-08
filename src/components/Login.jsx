@@ -8,6 +8,7 @@ import ErrorBanner from "./ErrorBanner";
 import { useFirebase } from "../context/Firebase";
 import { HospitalIcon } from "lucide-react";
 import toast from "react-hot-toast";
+import SelectInput from "./Inputs/SelectInput";
 
 const Login = () => {
   const firebase = useFirebase();
@@ -52,7 +53,7 @@ const Login = () => {
         data.password,
         data.role
       );
-  
+
       const userRole = await firebase.checkRole(result.user.email);
       switch (userRole) {
         case "user":
@@ -87,19 +88,14 @@ const Login = () => {
         className="bg-white rounded-sm px-5 py-8 w-full max-w-lg ring-1 ring-gray-300"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="mb-6">
-          <label className="block text-gray-700 text-md font-semibold mb-2">
-            Login As
-          </label>
-          <Select
-            className="w-full rounded-md border-gray-300"
-            options={options}
-            placeholder="Select your role"
-            required
-            value={options.find((c) => c.value === role)}
-            onChange={(option) => setRole(option.value)}
-          />
-        </div>
+        <SelectInput
+          label={"Login As"}
+          options={options}
+          value={options.find((c) => c.value === role)}
+          onChange={(option) => setRole(option.value)}
+          placeholder="Select your role"
+          required={true}
+        />
 
         <FormInput
           label="Email"

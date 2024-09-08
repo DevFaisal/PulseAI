@@ -6,6 +6,7 @@ const SelectInput = ({
   options,
   value,
   onChange,
+  required = false,
   placeholder,
   error = false,
 }) => {
@@ -17,6 +18,7 @@ const SelectInput = ({
       <Select
         options={options}
         value={value}
+        required={required}
         onChange={onChange}
         placeholder={placeholder}
         classNamePrefix="react-select"
