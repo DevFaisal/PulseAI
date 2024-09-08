@@ -20,6 +20,14 @@ const PatientInfo = ({ patient }) => {
             </span>
           </p>
         </div>
+        <div className="flex flex-col text-center sm:text-left">
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold"></h1>
+
+          <p className="text-gray-500">{patient.contact_info?.address}</p>
+          <p className="text-gray-500">
+            {patient.contact_info?.email}, {patient.contact_info?.phone}
+          </p>
+        </div>
       </div>
     </div>
   );

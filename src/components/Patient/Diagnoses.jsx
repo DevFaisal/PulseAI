@@ -6,7 +6,7 @@ const Diagnoses = ({ patient }) => {
       <h1 className="text-xl font-semibold">Diagnoses</h1>
       <div className="flex flex-wrap gap-2 mt-2">
         <span className="p-2 rounded-md bg-sky-500 text-white">
-          {patient.diagnosis}
+          {patient.diagnosis?.value || "No Diagnosis"}
         </span>
       </div>
     </div>

@@ -9,6 +9,7 @@ import Medication from "../../../components/Patient/Medication";
 import CurrentProgram from "../../../components/Patient/CurrentProgram";
 import Insurance from "../../../components/Patient/Insurance";
 import { useFirebase } from "../../../context/Firebase";
+import DetailedInfo from "./DeatiledInfo";
 
 const PatientPage = () => {
   const { id } = useParams();
@@ -46,13 +47,10 @@ const PatientPage = () => {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <CurrentProgram patient={patient} />
-           <Medication patient={patient} />
+          <Medication patient={patient} />
         </div>
-        <div className="flex gap-2 ring-1 rounded-lg ring-gray-400">
-          <div className="bg-white w-full h-80 p-6 rounded-lg shadow-lg">
-            <h1 className="text-xl font-bold mb-4">Current RPM Program</h1>
-            <h1>More to be Added</h1>
-          </div>
+        <div className="flex  ring-1  ring-gray-400">
+          <DetailedInfo patient={patient} />
         </div>
       </div>
     </Wrapper>
