@@ -49,7 +49,6 @@ export const FirebaseProvider = ({ children }) => {
     hospitalId: "",
     hospitalName: "",
   });
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
       if (user) {
@@ -138,6 +137,7 @@ export const FirebaseProvider = ({ children }) => {
   // Check user's role and set user data
   const checkRole = async (email) => {
     try {
+      // Fetch all users from Firestore
       const usersSnapshot = await getDocs(collection(fireStore, "users"));
       const userDoc = usersSnapshot.docs.find(
         (doc) => doc.data().email === email
@@ -146,13 +146,22 @@ export const FirebaseProvider = ({ children }) => {
       if (userDoc) {
         const userData = userDoc.data();
 
-        setUser({
-          id: userDoc.id,
-          email: userData.email,
-          role: userData.role,
-          hospitalId: userData.hospitalId,
-          hospitalName: userData.hospitalName,
-        });
+        // Only update state if role or other relevant user data has changed
+        if (
+          user.email !== email ||
+          user.role !== userData.role ||
+          user.hospitalId !== userData.hospitalId ||
+          user.hospitalName !== userData.hospitalName
+        ) {
+          setUser({
+            id: userDoc.id,
+            email: userData.email,
+            role: userData.role,
+            hospitalId: userData.hospitalId,
+            hospitalName: userData.hospitalName,
+          });
+        }
+
         setLoading(false);
         return userData.role;
       } else {
@@ -164,6 +173,7 @@ export const FirebaseProvider = ({ children }) => {
       throw error;
     }
   };
+
   // Create a new patient
   const createNewPatient = async (data) => {
     try {
@@ -437,13 +447,11 @@ export const FirebaseProvider = ({ children }) => {
   };
   const createUser = async (name, email, password, role = "user") => {
     try {
-      const auth = firebaseAuth.currentUser;
       const signUpUser = await createUserWithEmailAndPassword(
         firebaseAuth,
         email,
         password
       );
-      firebaseAuth.currentUser = auth;
       const newUser = await addDoc(
         collection(fireStore, `hospital/${user.hospitalId}/users`),
         {
@@ -478,13 +486,12 @@ export const FirebaseProvider = ({ children }) => {
   };
   const updatePatient = async (id, updatedPatient) => {
     try {
-      await updateDoc(
+      return await updateDoc(
         doc(fireStore, `hospital/${user.hospitalId}/patients/${id}`),
         {
           ...updatedPatient,
         }
       );
-      console.log("Patient updated successfully");
     } catch (error) {
       console.error("Error updating patient:", error);
       throw error;

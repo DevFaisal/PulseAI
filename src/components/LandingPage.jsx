@@ -3,18 +3,44 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const LandingPage = () => {
+  const links = [
+    {
+      title: "Admin",
+      description:
+        "Manage hospital operations and patient data with advanced AI tools.",
+      link: "/login",
+    },
+    {
+      title: "Doctor",
+      description:
+        "Use AI-driven insights to improve patient diagnosis and treatment plans.",
+      link: "/login",
+    },
+    {
+      title: "Remote Operator",
+      description:
+        "Access remote patient care tools and personalized health insights.",
+      link: "/login",
+    },
+  ];
+
   return (
-    <div className="bg-white min-h-screen flex flex-col justify-between">
+    <div className="bg-slate-900 text-white min-h-screen flex flex-col">
       {/* Hero Section */}
-      <header className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-12 px-6 text-center">
-        <h1 className="text-5xl font-bold">Welcome to Pulse AI</h1>
-        <p className="mt-4 text-lg">
+      <header className="bg-gradient-to-r from-gray-700 to-slate-800 text-white py-16 px-4 sm:px-6 text-center">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl flex sm:flex-row justify-center gap-3 flex-col font-bold leading-tight">
+          Welcome to{" "}
+          <span className="text-violet-500 bg-white px-3 py-1 rounded-md shadow-md">
+            Pulse AI
+          </span>
+        </h1>
+        <p className="mt-6 text-base sm:text-lg text-slate-300 max-w-xl mx-auto">
           Revolutionizing Healthcare with Advanced AI Solutions for Hospitals
         </p>
         <div className="mt-8">
           <Link
             to={"/login"}
-            className="inline-block bg-white text-blue-600 font-semibold py-3 px-6 rounded-full shadow-lg hover:bg-blue-100 transition duration-200"
+            className="inline-block bg-violet-600 text-white font-semibold py-3 px-6 sm:px-8 rounded-lg shadow-lg hover:bg-violet-700 transition-all duration-300 transform hover:scale-105"
           >
             Get Started
           </Link>
@@ -22,80 +48,47 @@ const LandingPage = () => {
       </header>
 
       {/* Features and Sign-Up/Login */}
-      <main className="py-16 px-6">
-        <section className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-3xl font-semibold text-gray-800">
+      <main className="py-12 px-4 sm:px-6 flex-1">
+        <section className="max-w-5xl mx-auto text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-white">
             AI-Driven Healthcare Solutions
           </h2>
-          <p className="mt-4 text-gray-600">
-            Pulse AI: Transforming Remote Patient Care Pulse AI empowers
-            healthcare providers with AI-driven solutions for real-time
-            monitoring, chronic disease management, post-op care, and cancer
-            treatment. Enhance patient outcomes with seamless, personalized
-            care—anytime, anywhere. Pulse AI is your partner in delivering the
-            future of remote healthcare.
+          <p className="mt-4 text-base sm:text-lg text-gray-300 max-w-3xl mx-auto">
+            Pulse AI empowers healthcare providers with AI-driven solutions for
+            real-time monitoring, chronic disease management, post-op care, and
+            cancer treatment. Enhance patient outcomes with seamless,
+            personalized care—anytime, anywhere.
           </p>
         </section>
 
         {/* Sign Up & Login Section */}
         <section
           id="signup"
-          className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8"
+          className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8"
         >
-          {/* Admin */}
-          <div className="bg-white shadow-lg rounded-lg p-8 text-center w-full md:w-1/3">
-            <h3 className="text-xl font-semibold text-gray-800">
-              Admin Access
-            </h3>
-            <p className="mt-2 text-gray-600">
-              Manage hospital operations and patient data with advanced AI
-              tools.
-            </p>
-            <Link
-              to={"/login"}
-              className="inline-block mt-6 bg-blue-600 text-white py-2 px-6 rounded-full shadow hover:bg-blue-700 transition duration-200"
-            >
-              Login as Admin
-            </Link>
-          </div>
-
-          {/* Doctor */}
-          <div className="bg-white shadow-lg rounded-lg p-8 text-center w-full md:w-1/3">
-            <h3 className="text-xl font-semibold text-gray-800">
-              Doctor Access
-            </h3>
-            <p className="mt-2 text-gray-600">
-              Use AI-driven insights to improve patient diagnosis and treatment
-              plans.
-            </p>
-            <Link
-              to={"/login"}
-              className="inline-block mt-6 bg-blue-600 text-white py-2 px-6 rounded-full shadow hover:bg-blue-700 transition duration-200"
-            >
-              Login as Doctor
-            </Link>
-          </div>
-
-          {/* User */}
-          <div className="bg-white shadow-lg rounded-lg p-8 text-center w-full md:w-1/3">
-            <h3 className="text-xl font-semibold text-gray-800">User Access</h3>
-            <p className="mt-2 text-gray-600">
-              Remote monitoring for all patients
-            </p>
-            <Link
-              to={"/login"}
-              className="inline-block mt-6 bg-blue-600 text-white py-2 px-6 rounded-full shadow hover:bg-blue-700 transition duration-200"
-            >
-              Login as Remote operator
-            </Link>
-          </div>
+          {links.map((link) => (
+            <Qube
+              key={link.title}
+              title={link.title}
+              description={link.description}
+              link={link.link}
+            />
+          ))}
         </section>
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-6 text-center">
+      <footer className="bg-slate-800 text-white py-6 text-center">
         <p className="text-sm">
           &copy; {new Date().getFullYear()} Pulse AI. All Rights Reserved.
+        </p>
+        <p className="mt-2">
+          <Link
+            to="/contact"
+            className="text-violet-500 hover:text-violet-400 transition duration-200"
+          >
+            Contact Us
+          </Link>
         </p>
       </footer>
     </div>
@@ -103,3 +96,23 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
+export function Qube({ title, description, link }) {
+  return (
+    <div
+      className="bg-white shadow-lg rounded-lg p-6 text-center transform transition duration-500 hover:scale-105 hover:shadow-2xl 
+      w-full mx-auto md:mx-0 my-4"
+    >
+      <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-4">
+        {title}
+      </h3>
+      <p className="text-sm md:text-base text-gray-700 mb-6">{description}</p>
+      <Link
+        to={link}
+        className="inline-block mt-4 bg-violet-600 text-white py-3 px-6 md:px-8 rounded-full shadow-md hover:bg-violet-700 transition-all duration-300"
+      >
+        Login as {title}
+      </Link>
+    </div>
+  );
+}
