@@ -68,6 +68,9 @@ export const FirebaseProvider = ({ children }) => {
   const LoginUserWithEmailAndPassword = async (email, password, role) => {
     try {
       const checkedRole = await checkRole(email);
+      if (checkedRole == null) {
+        throw new Error("User not found");
+      }
       if (checkedRole !== role) {
         throw new Error("Invalid role");
       }
