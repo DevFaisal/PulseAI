@@ -100,16 +100,18 @@ export default LandingPage;
 export function Qube({ title, description, link }) {
   return (
     <div
-      className="bg-white shadow-lg rounded-lg p-6 text-center transform transition duration-500 hover:scale-105 hover:shadow-2xl 
+      className="bg-white flex flex-col justify-between  rounded-md p-6 text-center transform transition duration-500 hover:scale-105 hover:shadow-2xl 
       w-full mx-auto md:mx-0 my-4"
     >
-      <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-4">
-        {title}
-      </h3>
-      <p className="text-sm md:text-base text-gray-700 mb-6">{description}</p>
+      <div>
+        <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-4">
+          {title}
+        </h3>
+        <p className="text-sm md:text-base text-gray-700 mb-6">{description}</p>
+      </div>
       <Link
         to={link}
-        className="inline-block mt-4 bg-violet-600 text-white py-3 px-6 md:px-8 rounded-full shadow-md hover:bg-violet-700 transition-all duration-300"
+        className="inline-flex justify-center mt-4 bg-violet-600 text-white py-3 px-5 md:px-8 rounded-full shadow-md hover:bg-violet-700 transition-all duration-300"
       >
         Login as {title}
       </Link>
