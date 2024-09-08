@@ -10,6 +10,12 @@ const AdminPatients = () => {
 
   return (
     <div>
+      <div className="overflow-hidden">
+        <div className="animate-marquee whitespace-nowrap text-md font-extrabold bg-red-600 my-8 text-white p-2 text-center">
+          Add Patients is under construction and will be available soon
+        </div>
+      </div>
+
       <h1 className="text-2xl md:text-4xl font-extrabold text-gray-900 text-center mb-8">
         Manage Patients
       </h1>
