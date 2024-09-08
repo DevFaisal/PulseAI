@@ -58,6 +58,7 @@ export const FirebaseProvider = ({ children }) => {
       } else {
         setIsLoggedIn(false);
         setUser({ email: "", role: "", hospitalId: "", hospitalName: "" });
+        setLoading(false);
       }
     });
 
