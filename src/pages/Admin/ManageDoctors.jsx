@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import FormInput from "../../components/Inputs/FormInput";
 import toast from "react-hot-toast";
 import { Trash } from "lucide-react";
+import z from "zod";
 
 const ManageDoctors = () => {
   const [doctors, setDoctors] = useState([]);
@@ -36,19 +37,34 @@ const ManageDoctors = () => {
     fetchDoctors();
   }, [firebase]);
 
+  const doctorSchema = z.object({
+    name: z.string().nonempty("Name is required"),
+    specialty: z.string().nonempty("Specialty is required"),
+    contact: z.string().nonempty("Contact is required"),
+    email: z.string().email("Invalid email address"),
+    password: z.string().nonempty("Password is required"),
+  });
+
   const onSubmit = async (data) => {
     try {
-      const result = await firebase.createNewDoctor(
+      const { result, error } = doctorSchema.safeParse(data);
+      if (error) {
+        toast.error(error.errors[0].message);
+        return;
+      }
+      const res = await firebase.createNewDoctor(
         "Dr. " + data.name,
         data.specialty,
         data.contact,
         data.email.toLowerCase(),
         data.password
       );
+      console.log(res);
       toast.success("Doctor added successfully");
       setDoctors((prevDoctors) => [...prevDoctors, data]);
       reset();
     } catch (error) {
+      toast.error(error.code);
       console.error("Failed to add doctor", error);
     }
   };
@@ -61,7 +77,8 @@ const ManageDoctors = () => {
       );
       toast.success("Doctor deleted successfully");
     } catch (error) {
-      console.error("Failed to delete doctor", error);
+      toast.error("Failed to delete doctor", error);
+      console.error("Failed to delete doctor");
     }
   };
 

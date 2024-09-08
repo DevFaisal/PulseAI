@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { LogOut, Menu, X } from "lucide-react"; // Import Menu and X icons from lucide-react
+import { BriefcaseMedical, LogOut, Menu, X } from "lucide-react"; // Import Menu and X icons from lucide-react
 import Logo from "../components/Logo";
 import { HospitalIcon } from "lucide-react";
 import { useFirebase } from "../context/Firebase";
+import Loading from "../components/Loading";
 
 const DoctorDashboardOutlet = () => {
   const links = [
@@ -14,6 +15,7 @@ const DoctorDashboardOutlet = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [doctor, setDoctor] = useState(null);
   const [hospital, setHospital] = useState("");
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const firebase = useFirebase();
   const user = firebase.user;
@@ -25,8 +27,11 @@ const DoctorDashboardOutlet = () => {
           firebase.user?.hospitalId
         );
         const doctor = await firebase.getDoctorByEmail(user.email);
+        const Loading = firebase.isLoading;
+
         setDoctor(doctor);
         setHospital(hospital);
+        setLoading(Loading);
       } catch (error) {
         console.error("Failed to fetch hospital name", error);
       }
@@ -37,6 +42,9 @@ const DoctorDashboardOutlet = () => {
   if (user.role !== "doctor") {
     navigate("/");
     return null;
+  }
+  if (loading) {
+    return <Loading />;
   }
 
   const handleLogOut = async () => {
@@ -66,7 +74,7 @@ const DoctorDashboardOutlet = () => {
             <X size={24} />
           </button>
         </div>
-        <div className="flex flex-col h-[calc(100vh-56px)] justify-between p-4">
+        <div className="flex flex-col h-[calc(100vh-800px)] md:h-[calc(100vh-56px)] justify-between p-4">
           <ul className="flex-1 space-y-2">
             {links.map((link, index) => (
               <li key={index}>
@@ -101,7 +109,10 @@ const DoctorDashboardOutlet = () => {
         </button>
 
         <header className="flex bg-white text-gray-800 px-4 h-16 py-2 border-b border-gray-300 justify-between items-center shadow-md">
-          <h1 className="text-xl md:text-2xl font-bold">Doctor Dashboard</h1>
+          <div className="flex items-center gap-2">
+            <BriefcaseMedical color="red" size={28} strokeWidth={2} />
+            <h2 className="text-xl md:text-2xl font-bold">Doctor Dashboard</h2>
+          </div>
           <div className="flex gap-4 items-center">
             <HospitalIcon color="#4B5563" size={24} />
             <div className="flex flex-col">
@@ -109,7 +120,9 @@ const DoctorDashboardOutlet = () => {
                 <span>{hospital.name || "ABC"} </span>
                 <span className="text-red-400">Hospital</span>
               </div>
-              <span className="hidden md:flex text-sm">{hospital.location}</span>
+              <span className="hidden md:flex text-sm">
+                {hospital.location}
+              </span>
             </div>
           </div>
         </header>

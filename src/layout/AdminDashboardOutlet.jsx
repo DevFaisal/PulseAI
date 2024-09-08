@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Menu, X, LogOut } from "lucide-react";
+import { Menu, X, LogOut, ShieldHalf } from "lucide-react";
 import Logo from "../components/Logo";
 import { HospitalIcon } from "lucide-react";
 import { useFirebase } from "../context/Firebase";
+import Loading from "../components/Loading";
 
-const AdminDashboardOutlet = ({
-  headerTitle = "Admin Dashboard",
-  sidebarColor = "bg-gray-900",
-  bannerColor = "bg-sky-600",
-}) => {
+const AdminDashboardOutlet = ({ sidebarColor = "bg-gray-900" }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const firebase = useFirebase();
+  const auth = firebase.isLoggedIn;
+  const role = firebase.user.role;
 
   const links = [
     { name: "Dashboard", path: "/admin-dashboard" },
@@ -20,6 +20,11 @@ const AdminDashboardOutlet = ({
     { name: "Doctors", path: "/admin-dashboard/doctors" },
     { name: "Users", path: "/admin-dashboard/users" },
   ];
+
+  useEffect(() => {
+    const Loading = firebase.isLoading;
+    setLoading(Loading);
+  }, []);
 
   const handleLogOut = async () => {
     try {
@@ -33,6 +38,13 @@ const AdminDashboardOutlet = ({
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+  if (loading) {
+    <Loading />;
+  }
+  if (!auth || role !== "admin") {
+    navigate("/");
+    return null;
+  }
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -48,29 +60,31 @@ const AdminDashboardOutlet = ({
             <X size={24} />
           </button>
         </div>
-        <ul className="flex flex-col gap-2 p-4">
-          {links.map((link, index) => (
-            <li key={index}>
-              <NavLink
-                to={link.path}
-                className={({ isActive }) =>
-                  `block py-2 px-4 rounded-lg text-white hover:bg-gray-700 ${
-                    isActive ? "bg-gray-900 text-violet-300" : ""
-                  }`
-                }
-              >
-                {link.name}
-              </NavLink>
-            </li>
-          ))}
+        <div className="flex flex-col h-[calc(100vh-800px)] md:h-[calc(100vh-56px)] justify-between p-4">
+          <ul className="flex-1 space-y-2">
+            {links.map((link, index) => (
+              <li key={index}>
+                <NavLink
+                  to={link.path}
+                  className={({ isActive }) =>
+                    `block py-2 px-4 rounded-md text-white hover:bg-gray-700 ${
+                      isActive ? "bg-gray-600" : ""
+                    }`
+                  }
+                >
+                  {link.name}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
           <button
             onClick={handleLogOut}
-            className="bg-red-500 text-white p-2 rounded-lg mt-auto flex items-center gap-2"
+            className="text-white flex items-center gap-2 p-2 mt-4 hover:bg-gray-700 rounded-md"
           >
-            <LogOut size={20} />
-            <span className="text-sm">Logout</span>
+            <LogOut size={24} />
+            <span>Logout</span>
           </button>
-        </ul>
+        </div>
       </aside>
 
       {/* Main Content */}
@@ -80,12 +94,14 @@ const AdminDashboardOutlet = ({
           <Menu size={24} />
         </button>
 
-        <header
-          className={`flex ${bannerColor} p-3 md:p-4 justify-between items-center`}
-        >
-          <h1 className="text-lg text-white md:text-xl lg:text-2xl font-bold">
-            {headerTitle}
-          </h1>
+        <header className="flex bg-cyan-800 text-gray-800 px-4 h-16 py-2 border-b border-gray-300 justify-between items-center shadow-md">
+          <div className="flex gap-2 items-center">
+            <ShieldHalf color="white" size={28} strokeWidth={3} />
+            <h1 className="text-lg text-white md:text-xl lg:text-2xl font-bold">
+              Admin Dashboard
+            </h1>
+          </div>
+
           <div className="flex items-center gap-4">
             <HospitalIcon
               color="yellow"

@@ -41,6 +41,8 @@ const fireStore = getFirestore(firebaseApp);
 
 export const FirebaseProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const [user, setUser] = useState({
     email: "",
     role: "",
@@ -61,7 +63,7 @@ export const FirebaseProvider = ({ children }) => {
 
     return () => unsubscribe();
   }, []);
-  
+
   const LoginUserWithEmailAndPassword = async (email, password, role) => {
     try {
       const checkedRole = await checkRole(email);
@@ -147,6 +149,7 @@ export const FirebaseProvider = ({ children }) => {
           hospitalId: userData.hospitalId,
           hospitalName: userData.hospitalName,
         });
+        setLoading(false);
         return userData.role;
       } else {
         console.log("User not found");
@@ -490,6 +493,7 @@ export const FirebaseProvider = ({ children }) => {
         LoginUserWithEmailAndPassword,
         SignUpWithEmailAndPassword,
         isLoggedIn,
+        isLoading: loading,
         getHospitalName,
         createNewPatient,
         getDoctorById,

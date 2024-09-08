@@ -44,14 +44,11 @@ const DoctorDashboard = () => {
               key={patient.id}
               className="border border-gray-300 p-4 rounded-sm ring-1 ring-gray-300"
             >
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
+              <h2 className="text-xl font-semibold text-sky-800 mb-2">
                 {patient.name}
               </h2>
               <p className="text-gray-600">
                 <strong>Age:</strong> {patient.age}
-              </p>
-              <p className="text-gray-600">
-                <strong>Hospital ID:</strong> {patient.hospitalId}
               </p>
               <p className="text-gray-600">
                 <strong>Symptoms:</strong> {patient.symptoms}

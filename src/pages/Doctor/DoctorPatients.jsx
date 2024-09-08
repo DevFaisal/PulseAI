@@ -3,24 +3,14 @@ import { useFirebase } from "../../context/Firebase";
 import Select from "react-select";
 import codes from "../../lib/icd10_codes.json";
 import toast from "react-hot-toast";
+import { useForm, Controller } from "react-hook-form";
+import FormInput from "../../components/Inputs/FormInput";
 
 const DoctorPatients = () => {
+  const { control, handleSubmit, setValue, reset, watch } = useForm();
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingPatientId, setEditingPatientId] = useState(null);
-  const [diagnosis, setDiagnosis] = useState("");
-  const [note, setNote] = useState("");
-  const [thresholds, setThresholds] = useState({
-    blood_pressure: "",
-    blood_glucose: "",
-    heart_rate: "",
-    body_temperature: "",
-    oxygen_saturation: "",
-    respiratory_rate: "",
-  });
-  const [alertEnabled, setAlertEnabled] = useState(false);
-  const [medicines, setMedicines] = useState([]);
-  const [clinicalNotes, setClinicalNotes] = useState("");
 
   const firebase = useFirebase();
   const { user } = firebase;
@@ -29,6 +19,7 @@ const DoctorPatients = () => {
     const getPatientsOfDoctor = async () => {
       try {
         const patients = await firebase.getPatientsOfDoctor(user.uid);
+
         setPatients(patients);
         setLoading(false);
       } catch (error) {
@@ -44,37 +35,35 @@ const DoctorPatients = () => {
 
   const handleEdit = (patient) => {
     setEditingPatientId(patient.id);
-    setDiagnosis(patient.diagnosis || "");
-    setNote(patient.note || "");
-    setThresholds(
-      patient.thresholds || {
+    reset({
+      diagnosis: patient.diagnosis || "",
+      note: patient.note || "",
+      thresholds: patient.thresholds || {
         blood_pressure: "",
         blood_glucose: "",
         heart_rate: "",
         body_temperature: "",
         oxygen_saturation: "",
         respiratory_rate: "",
-      }
-    );
-    setAlertEnabled(patient.alertEnabled || false);
-    setMedicines(patient.medicines || []);
-    setClinicalNotes(patient.clinicalNotes || "");
+      },
+      alertEnabled: patient.alertEnabled || false,
+      medicines: patient.medicines || [],
+      clinicalNotes: patient.clinicalNotes || "",
+    });
   };
 
-  const handleSave = async (patientId) => {
+  const handleSave = async (data) => {
     try {
       const updatedPatient = {
-        diagnosis,
-        note,
-        thresholds,
-        alertEnabled,
-        medicines,
-        clinicalNotes,
+        ...data,
+        diagnosed: true,
       };
-      await firebase.updatePatient(patientId, updatedPatient);
+      await firebase.updatePatient(editingPatientId, updatedPatient);
       setPatients((prevPatients) =>
         prevPatients.map((patient) =>
-          patient.id === patientId ? { ...patient, ...updatedPatient } : patient
+          patient.id === editingPatientId
+            ? { ...patient, ...updatedPatient }
+            : patient
         )
       );
       toast.success("Patient updated successfully");
@@ -84,18 +73,13 @@ const DoctorPatients = () => {
     }
   };
 
-  const handelCancel = (patientId) => {
+  const handleCancel = () => {
     setEditingPatientId(null);
   };
 
   const addMedicine = () => {
-    setMedicines([...medicines, { name: "", dosage: "" }]);
-  };
-
-  const handleMedicineChange = (index, field, value) => {
-    const updatedMedicines = [...medicines];
-    updatedMedicines[index][field] = value;
-    setMedicines(updatedMedicines);
+    const currentMedicines = watch("medicines") || [];
+    setValue("medicines", [...currentMedicines, { name: "", dosage: "" }]);
   };
 
   return (
@@ -105,13 +89,19 @@ const DoctorPatients = () => {
       </h1>
 
       {loading ? (
-        <p className="text-gray-500">Loading patients...</p>
+        <div className="flex justify-center items-center h-screen">
+          <h1 className="text-2xl font-semibold">Loading patients ...</h1>
+        </div>
       ) : patients.length > 0 ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {patients.map((patient) => (
             <div
               key={patient.id}
-              className="border border-gray-300 bg-white p-6 rounded-sm ring-1 ring-gray-300"
+              className={`border border-gray-300 ${
+                patient.diagnosed
+                  ? "ring-2 bg-green-100 ring-green-600"
+                  : "bg-white"
+              } p-6 rounded-sm ring-1 ring-gray-300`}
             >
               <h2 className="text-2xl font-semibold text-gray-800 mb-4">
                 {patient.name}
@@ -128,7 +118,7 @@ const DoctorPatients = () => {
                       Diagnosis:
                     </td>
                     <td className="text-gray-600 py-2">
-                      {patient.diagnosis || "N/A"}
+                      {patient.diagnosis?.value || patient.diagnosis || "N/A"}
                     </td>
                   </tr>
                   <tr className="border-b border-gray-200">
@@ -139,88 +129,102 @@ const DoctorPatients = () => {
                       {patient.symptoms || "N/A"}
                     </td>
                   </tr>
-                  <tr className="border-b border-gray-200">
-                    <td className="font-semibold text-gray-700 py-2">
-                      Hospital ID:
-                    </td>
-                    <td className="text-gray-600 py-2">
-                      {patient.hospitalId || "N/A"}
-                    </td>
-                  </tr>
                 </tbody>
               </table>
 
               {editingPatientId === patient.id ? (
-                <div className="mt-4">
+                <form onSubmit={handleSubmit(handleSave)}>
                   <label className="block text-gray-700">Diagnosis</label>
-                  <Select
-                    options={codes.map((c) => ({
-                      value: c.code,
-                      label: `${c.code} — ${c.description}`,
-                    }))}
-                    onChange={(selectedOption) =>
-                      setDiagnosis(selectedOption.value)
-                    }
-                    placeholder="Select a diagnosis"
-                    className="mt-1 block w-full"
+                  <Controller
+                    name="diagnosis"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={codes.map((c) => ({
+                          value: c.code,
+                          label: `${c.code} — ${c.description}`,
+                        }))}
+                        placeholder="Select a diagnosis"
+                        className="mt-1 block w-full"
+                      />
+                    )}
                   />
                   <label className="block text-gray-700 mt-4">
                     Clinical Notes
                   </label>
-                  <textarea
-                    value={clinicalNotes}
-                    onChange={(e) => setClinicalNotes(e.target.value)}
-                    className="block w-full border border-gray-300 p-3 rounded-lg mb-4"
+                  <Controller
+                    name="clinicalNotes"
+                    control={control}
+                    render={({ field }) => (
+                      <textarea
+                        {...field}
+                        placeholder="Enter clinical notes"
+                        className="block w-full border border-gray-300 p-3 rounded-lg mb-4"
+                      />
+                    )}
                   />
                   <label className="block text-gray-700 mt-4">
                     Set Thresholds
                   </label>
-                  <div className=" grid grid-cols-2 gap-2">
-                    {Object.keys(thresholds).map((key) => (
-                      <input
+                  <div className="grid grid-cols-2 gap-2">
+                    {Object.keys(watch("thresholds") || {}).map((key) => (
+                      <Controller
                         key={key}
-                        type="text"
-                        placeholder={key.replace("_", " ").toUpperCase()}
-                        value={thresholds[key]}
-                        onChange={(e) =>
-                          setThresholds({
-                            ...thresholds,
-                            [key]: e.target.value,
-                          })
-                        }
-                        className="w-full rounded-sm ring-1 p-2 ring-gray-300"
+                        name={`thresholds.${key}`}
+                        control={control}
+                        render={({ field }) => (
+                          <FormInput
+                            label={key.replace("_", " ").toUpperCase()}
+                            type="text"
+                            placeholder={key.replace("_", " ").toUpperCase()}
+                            {...field}
+                          />
+                        )}
                       />
                     ))}
                   </div>
                   <div className="flex items-center mt-4">
-                    <input
-                      type="checkbox"
-                      checked={alertEnabled}
-                      onChange={(e) => setAlertEnabled(e.target.checked)}
-                      className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    <Controller
+                      name="alertEnabled"
+                      control={control}
+                      render={({ field }) => (
+                        <input
+                          type="checkbox"
+                          {...field}
+                          checked={field.value}
+                          className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        />
+                      )}
                     />
                     <label className="ml-2 text-gray-700">Enable Alerts</label>
                   </div>
                   <label className="block text-gray-700 mt-4">Medicines</label>
-                  {medicines.map((med, index) => (
+                  {watch("medicines")?.map((med, index) => (
                     <div key={index} className="flex space-x-2 mt-2">
-                      <input
-                        type="text"
-                        placeholder="Medicine Name"
-                        value={med.name}
-                        onChange={(e) =>
-                          handleMedicineChange(index, "name", e.target.value)
-                        }
-                        className="rounded-sm ring-1 ring-gray-300 p-2"
+                      <Controller
+                        name={`medicines.${index}.name`}
+                        control={control}
+                        render={({ field }) => (
+                          <FormInput
+                            label="Medicine Name"
+                            type="text"
+                            placeholder="Medicine Name"
+                            {...field}
+                          />
+                        )}
                       />
-                      <input
-                        type="text"
-                        placeholder="Dosage"
-                        value={med.dosage}
-                        onChange={(e) =>
-                          handleMedicineChange(index, "dosage", e.target.value)
-                        }
-                        className="rounded-sm ring-1 ring-gray-300 p-2"
+                      <Controller
+                        name={`medicines.${index}.dosage`}
+                        control={control}
+                        render={({ field }) => (
+                          <FormInput
+                            label="Dosage"
+                            type="text"
+                            placeholder="Dosage"
+                            {...field}
+                          />
+                        )}
                       />
                     </div>
                   ))}
@@ -234,20 +238,21 @@ const DoctorPatients = () => {
                     </button>
                     <div className="flex gap-2">
                       <button
-                        onClick={() => handleSave(patient.id)}
+                        type="submit"
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm"
                       >
                         Save
                       </button>
                       <button
-                        onClick={() => handelCancel(patient.id)}
+                        type="button"
+                        onClick={handleCancel}
                         className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-sm"
                       >
                         Cancel
                       </button>
                     </div>
                   </div>
-                </div>
+                </form>
               ) : (
                 <div>
                   <button
@@ -267,4 +272,5 @@ const DoctorPatients = () => {
     </div>
   );
 };
+
 export default DoctorPatients;

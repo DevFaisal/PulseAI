@@ -1,14 +1,18 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useFirebase } from "../context/Firebase";
-
-// A simple loading component
-const Loading = () => <div>Loading...</div>;
+import Loading from "../components/Loading";
 
 const Root = () => {
-  const { user, isLoading } = useFirebase(); // Assuming isLoading is provided
+  const [loading, setLoading] = useState(true);
 
-  if (isLoading) {
+  const { user, isLoading } = useFirebase();
+
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [user, isLoading]);
+
+  if (loading) {
     return <Loading />;
   }
 
@@ -18,9 +22,7 @@ const Root = () => {
 
   return (
     <div>
-      <Suspense fallback={<Loading />}>
-        <Outlet />
-      </Suspense>
+      <Outlet />
     </div>
   );
 };

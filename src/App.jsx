@@ -16,19 +16,26 @@ import ManageUsers from "./pages/Admin/ManageUsers";
 import DoctorPatients from "./pages/Doctor/DoctorPatients";
 import NotFound from "./pages/NotFound";
 import LandingPage from "./components/LandingPage";
+import GeneralOutlet from "./layout/GeneralOutlet";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingPage />,
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/sign-up",
-    element: <SignUp />,
+    element: <GeneralOutlet />,
+    children: [
+      {
+        index: true,
+        element: <LandingPage />,
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/sign-up",
+        element: <SignUp />,
+      },
+    ],
   },
   {
     path: "/user-dashboard",

@@ -6,19 +6,24 @@ const FormInput = ({
   type,
   name,
   placeholder,
-  register,
-  error,
   value,
+  onChange,
+  register,
+  error = false,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
-
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
 
   return (
     <div className="relative flex flex-col p-2 rounded-sm">
-      <label htmlFor={name} className="font-semibold text-gray-700 mb-1">
+      <label
+        htmlFor={name}
+        className={`font-semibold mb-1 ${
+          error ? "text-red-500" : "text-gray-700"
+        }`}
+      >
         {label}
       </label>
       <input
@@ -26,8 +31,14 @@ const FormInput = ({
         name={name}
         type={type === "password" && showPassword ? "text" : type}
         placeholder={placeholder}
-        {...register(name)}
-        className={`bg-white border border-gray-300 rounded-sm w-full px-3 py-2 pr-12 focus:outline-none focus:ring-2 focus:ring-blue-500 `}
+        value={value}
+        onChange={onChange}
+        {...(register && register(name))}
+        className={`bg-white border w-full px-3 py-2 pr-12 rounded-sm focus:outline-none focus:ring-2 ${
+          error
+            ? "border-red-500 focus:ring-red-500"
+            : "border-gray-300 focus:ring-blue-500"
+        }`}
       />
       {error && <p className="text-red-500 text-sm mt-1">{error.message}</p>}
       {type === "password" && (

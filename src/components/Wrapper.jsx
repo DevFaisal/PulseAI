@@ -51,7 +51,7 @@ const Wrapper = ({ children }) => {
           </button>
         </div>
       </div>
-      <div className="container max-w-[20em] md:max-w-[102em] mx-auto py-4 md:p-0 m-0 ">
+      <div className="container max-w-[20em]  md:max-w-[45em] lg:max-w-[70em] xl:max-w-[100em] mx-auto py-4 sm:p-0 m-0 ">
         {children}
       </div>
     </div>

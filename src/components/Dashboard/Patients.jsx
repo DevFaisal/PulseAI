@@ -72,7 +72,7 @@ const Patients = () => {
                 <td className="p-2">{String(patient.gender) || "N/A"}</td>
                 <td className="p-2">{patient.doctorAssigned}</td>
                 <td className="p-2">{patient.symptoms}</td>
-                <td className="p-2">{patient.diagnosis || "Pending"}</td>
+                <td className="p-2">{patient.diagnosis?.value || "Pending"}</td>
                 <td className="p-2">
                   {patient.alertEnabled ? (
                     <div>

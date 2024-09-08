@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useFirebase } from "../../context/Firebase";
+import Loading from "../../components/Loading";
 
 const AdminDashboard = () => {
   const [totalPatients, setTotalPatients] = useState(0);
   const [totalDoctors, setTotalDoctors] = useState(0);
   const [totalHospitals, setTotalHospitals] = useState(0);
+
 
   const firebase = useFirebase();
 
@@ -16,9 +18,11 @@ const AdminDashboard = () => {
         const doctorsData = await firebase.getDoctors();
         const hospitalsData = await firebase.getHospitals();
 
+
         setTotalPatients(patientsData.length);
         setTotalDoctors(doctorsData.length);
         setTotalHospitals(hospitalsData.length);
+    
       } catch (error) {
         console.error("Failed to fetch data", error);
       }
