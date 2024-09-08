@@ -144,7 +144,7 @@ const ManageDoctors = () => {
         </form>
       </div>
 
-      <div className="bg-white shadow-lg rounded-lg p-4 md:p-6">
+      <div className="bg-white rounded-sm ring-1 ring-gray-300 p-4 md:p-6">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">
           Doctors List
         </h2>

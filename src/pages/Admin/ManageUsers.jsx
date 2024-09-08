@@ -42,13 +42,13 @@ const ManageUsers = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
+    <div>
       <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
         Manage Users
       </h1>
 
       {/* Add User Form */}
-      <div className="bg-white shadow-md rounded-lg p-6 mb-8">
+      <div className="bg-white rounded-sm p-6 ring-1 ring-gray-300 mb-8">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">
           Add New User
         </h2>
@@ -87,7 +87,7 @@ const ManageUsers = () => {
           <div className="md:col-span-2">
             <button
               type="submit"
-              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow"
+              className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-sm"
             >
               Add User
             </button>
@@ -96,7 +96,7 @@ const ManageUsers = () => {
       </div>
 
       {/* Users List */}
-      <div className="bg-white shadow-md rounded-lg p-6">
+      <div className="bg-white rounded-sm p-6 ring-1 ring-gray-300">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">
           Users List
         </h2>
@@ -104,7 +104,7 @@ const ManageUsers = () => {
           {users?.map((user, index) => (
             <div
               key={index}
-              className="border border-gray-300 p-4 rounded-lg shadow-sm"
+              className="border border-gray-300 rounded-sm p-2 ring-1 ring-gray-300"
             >
               <h3 className="text-xl font-semibold text-gray-800 mb-2">
                 {user.name}

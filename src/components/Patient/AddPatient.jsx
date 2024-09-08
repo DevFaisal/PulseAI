@@ -71,7 +71,7 @@ const AddPatient = ({ setPatients }) => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-md shadow-lg mb-8">
+    <div className="bg-white rounded-sm p-6 ring-1 ring-gray-300 mb-8">
       <h2 className="text-2xl font-semibold text-gray-800 mb-6">
         Add New Patient
       </h2>
