@@ -4,26 +4,26 @@ import FormInput from "./Inputs/FormInput";
 import Button from "./Inputs/Button";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
-import ErrorBanner from "./ErrorBanner";
 import { useFirebase } from "../context/Firebase";
+import Wrapper from "./Wrapper";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
   const firebase = useFirebase();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [error, setError] = useState("");
   const clearError = () => setError("");
   const navigate = useNavigate();
   const [role, setRole] = useState("");
 
-  const options = [
-    { value: "user", label: "User" },
-    { value: "admin", label: "Admin" },
-    { value: "doctor", label: "Doctor" },
-  ];
+  const options = [{ value: "admin", label: "Admin" }];
 
   const onSubmit = async (data) => {
     data.role = role;
-    console.log(data);
     try {
       // Register user with email and password
       const userCredential = await firebase.SignUpWithEmailAndPassword(
@@ -34,6 +34,8 @@ const SignUp = () => {
         data.hospitalName
       );
       console.log("User signed up successfully", userCredential);
+      toast.success("Account created successfully");
+      navigate("/login");
     } catch (error) {
       console.error("Error signing up:", error);
       setError(error.message);
@@ -41,26 +43,27 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen justify-around items-center">
-      <ErrorBanner error={error} clearError={clearError} />
-      <header className="flex flex-col justify-around h-1/2 gap-6">
-        <h1 className="text-6xl font-bold text-center whitespace-nowrap">
+    <div>
+      <header className="flex flex-col items-center justify-center py-8">
+        <h1 className="text-6xl font-extrabold text-center">
           Pulse <span className="text-violet-600">AI</span>
         </h1>
-        <div className="flex flex-col md:px-44 px-5">
-          <h2 className="text-2xl font-semibold mb-5">Sign Up 👋</h2>
-          <p>
-            Create an account to access your dashboard and Pulse AI's
-            intelligent solutions.
-          </p>
-        </div>
+        <p className="text-lg mt-4 text-center">
+          Create an account to access your dashboard and Pulse AI's intelligent
+          solutions.
+        </p>
       </header>
+
       <form
-        className="flex p-2 flex-col gap-3 justify-center items-center mb-60"
+        className="w-full max-w-lg mx-auto flex flex-col gap-4 p-4 md:p-8 bg-white shadow-lg rounded-lg"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="w-full p-2">
-          <label className="font-semibold" htmlFor="">
+        {/* Role Selector */}
+        <div>
+          <label
+            className="block text-gray-700 font-semibold mb-2"
+            htmlFor="role"
+          >
             Role
           </label>
           <Select
@@ -73,13 +76,14 @@ const SignUp = () => {
           />
         </div>
 
+        {/* Form Inputs */}
         <FormInput
           label="Hospital Name"
           type="text"
           placeholder="Hospital Name"
           name="hospitalName"
           register={register}
-          error={setError}
+          error={errors.hospitalName?.message}
         />
         <FormInput
           label="Address"
@@ -87,7 +91,7 @@ const SignUp = () => {
           placeholder="Hospital Address"
           name="address"
           register={register}
-          error={setError}
+          error={errors.address?.message}
         />
         <FormInput
           label="Email"
@@ -95,19 +99,26 @@ const SignUp = () => {
           placeholder="example@gmail.com"
           name="email"
           register={register}
-          error={setError}
+          error={errors.email?.message}
         />
-
         <FormInput
           label="Password"
           type="password"
           placeholder="******"
           name="password"
           register={register}
-          error={setError}
+          error={errors.password?.message}
         />
 
-        <Button type="submit" name="Sign Up" />
+        {/* Error Handling */}
+        {error && <p className="text-red-500 text-sm">{error}</p>}
+
+        {/* Sign Up Button */}
+        <Button
+          type="submit"
+          name="Sign Up"
+          className="bg-violet-600 hover:bg-violet-700 text-white w-full py-2 rounded-lg font-semibold shadow-md transition duration-300"
+        />
       </form>
     </div>
   );

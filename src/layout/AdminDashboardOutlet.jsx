@@ -8,7 +8,10 @@ import Loading from "../components/Loading";
 
 const AdminDashboardOutlet = ({ sidebarColor = "bg-gray-900" }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [hospital, setHospital] = useState("");
+
   const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
   const firebase = useFirebase();
   const auth = firebase.isLoggedIn;
@@ -22,6 +25,13 @@ const AdminDashboardOutlet = ({ sidebarColor = "bg-gray-900" }) => {
   ];
 
   useEffect(() => {
+    const fetchHospitalName = async () => {
+      const hospital = await firebase.getHospitalName(
+        firebase.user?.hospitalId
+      );
+      setHospital(hospital);
+    };
+    fetchHospitalName();
     const Loading = firebase.isLoading;
     setLoading(Loading);
   }, []);
@@ -109,11 +119,11 @@ const AdminDashboardOutlet = ({ sidebarColor = "bg-gray-900" }) => {
             />
             <div className="flex flex-col text-white">
               <h2 className="text-sm md:text-md lg:text-lg font-semibold">
-                {firebase.user.hospitalName || "ABC"}{" "}
+                {hospital.name || "ABC"}{" "}
                 <span className="text-red-200">Hospital</span>
               </h2>
               <span className="text-xs md:text-sm lg:text-md">
-                {firebase.user.hospitalLocation || "Location"}
+                {hospital.location || "Location"}
               </span>
             </div>
           </div>
