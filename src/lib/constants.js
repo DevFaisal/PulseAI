@@ -97,8 +97,8 @@ export const MEDICAL_INFORMATION_INPUTS = [
 export const THRESHOLDS_INPUTS = [
   {
     label: "Blood Pressure Threshold",
-    subLabelOne: "Low",
-    subLabelTwo: "High",
+    subLabelOne: "120/80",
+    subLabelTwo: "140/90",
     type: "text",
     nameOne: "blood_pressure_threshold_low",
     nameTwo: "blood_pressure_threshold_high",

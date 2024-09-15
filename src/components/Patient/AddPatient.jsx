@@ -142,7 +142,7 @@ const AddPatient = ({ setPatients }) => {
             {THRESHOLDS_INPUTS.map((input) => (
               <div>
                 <label className="text-gray-800 font-semibold">
-                  {input.label} (min/max)
+                  {input.label}
                 </label>
                 <div>
                   <FormInput
