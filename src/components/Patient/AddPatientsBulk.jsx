@@ -178,18 +178,7 @@ const AddPatientsBulk = () => {
       <div className="flex flex-col p-3 md:text-sm text-xs">
         <p className="text-gray-500">
           Please upload a CSV file with the following columns:{" "}
-          <span className="text-slate-600">
-            name, age, gender, email, phone, address, insurance_name,
-            insurance_id, relationship_to_insured, blood_pressure,
-            blood_glucose, heart_rate, body_temperature, oxygen_saturation,
-            respiratory_rate, blood_pressure_threshold_high,
-            blood_pressure_threshold_low, blood_glucose_threshold_high,
-            blood_glucose_threshold_low, heart_rate_threshold_high,
-            heart_rate_threshold_low, body_temperature_threshold_high,
-            body_temperature_threshold_low, oxygen_saturation_threshold_high,
-            oxygen_saturation_threshold_low, respiratory_rate_threshold_high,
-            respiratory_rate_threshold_low, doctorAssigned, symptoms,
-          </span>
+          <span className="text-slate-600">{/* TODO: to be filled */}</span>
         </p>
         <div className="md:text-sm text-xs text-red-600 font-semibold">
           Note:{" "}
