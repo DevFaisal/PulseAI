@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useFirebase } from "../../context/Firebase";
+import { useFirebase } from "../../context/FirebaseContext";
 import FormInput from "../Inputs/FormInput";
 import SelectInput from "../Inputs/SelectInput";
 import toast from "react-hot-toast";
@@ -54,12 +54,14 @@ const AddPatient = ({ setPatients }) => {
   };
 
   const onSubmit = async (data) => {
-    const res = await validatePatientSchema(data);
+    // const res = await validatePatientSchema(data);
     console.log(data);
-    if (res.error) {
-      toast.error(res.error.errors[0].message);
-      return;
-    }
+
+    // if (res.error) {
+    //   toast.error(res.error.errors[0].message);
+    //   return;
+    // }
+
     try {
       await firebase.createNewPatient(data);
       setPatients((prevPatients) => [...prevPatients, data]);
@@ -69,7 +71,6 @@ const AddPatient = ({ setPatients }) => {
       toast.error("Failed to add patient");
     }
   };
-
   return (
     <div className="bg-white rounded-sm p-6 ring-1 ring-gray-300 mb-8">
       <h2 className="text-2xl font-semibold text-gray-800 mb-6">
@@ -115,7 +116,7 @@ const AddPatient = ({ setPatients }) => {
         </div>
 
         {/* Medical Information Section */}
-        <div className=" p-3 rounded-md mb-6">
+        {/* <div className=" p-3 rounded-md mb-6">
           <h3 className="text-xl bg-red-100 p-2 font-semibold mb-4">
             Medical Information
           </h3>
@@ -132,22 +133,38 @@ const AddPatient = ({ setPatients }) => {
               />
             ))}
           </div>
-        </div>
+        </div> */}
         <div className=" p-3 rounded-md mb-6">
           <h3 className="text-xl bg-blue-100 p-2 font-semibold mb-4">
             Threshold Information
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {THRESHOLDS_INPUTS.map((input) => (
-              <FormInput
-                key={input.name}
-                label={input.label}
-                type={input.type}
-                name={input.name}
-                register={register}
-                placeholder={input.placeholder}
-                error={errors[input.name]}
-              />
+              <div>
+                <label className="text-gray-800 font-semibold">
+                  {input.label} (min/max)
+                </label>
+                <div>
+                  <FormInput
+                    key={input.nameOne}
+                    type={input.type}
+                    name={input.nameOne}
+                    register={register}
+                    placeholder={input.subLabelOne}
+                    error={errors[input.nameOne]}
+                  />
+                </div>
+                <div>
+                  <FormInput
+                    key={input.nameTwo}
+                    type={input.type}
+                    name={input.nameTwo}
+                    register={register}
+                    placeholder={input.subLabelTwo}
+                    error={errors[input.nameTwo]}
+                  />
+                </div>
+              </div>
             ))}
           </div>
         </div>

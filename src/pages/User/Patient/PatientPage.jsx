@@ -8,7 +8,7 @@ import Diagnoses from "../../../components/Patient/Diagnoses";
 import Medication from "../../../components/Patient/Medication";
 import CurrentProgram from "../../../components/Patient/CurrentProgram";
 import Insurance from "../../../components/Patient/Insurance";
-import { useFirebase } from "../../../context/Firebase";
+import { useFirebase } from "../../../context/FirebaseContext";
 import DetailedInfo from "./DeatiledInfo";
 
 const PatientPage = () => {

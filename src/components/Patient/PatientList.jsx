@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useFirebase } from "../../context/Firebase";
+import { useFirebase } from "../../context/FirebaseContext";
 import { toast } from "react-hot-toast";
 
 const PatientList = ({ patients, setPatients }) => {
@@ -36,9 +36,7 @@ const PatientList = ({ patients, setPatients }) => {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Doctor Assigned
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Hospital ID
-              </th>
+
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Symptoms
               </th>
@@ -64,9 +62,6 @@ const PatientList = ({ patients, setPatients }) => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {patient.doctorAssigned}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {patient.hospitalId}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {patient.symptoms}

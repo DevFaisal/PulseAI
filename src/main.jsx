@@ -2,7 +2,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import router from "./App.jsx";
-import { FirebaseProvider } from "./context/Firebase.jsx";
+import { FirebaseProvider } from "./context/FirebaseContext.jsx";
 import { Toaster } from "react-hot-toast";
 import { Suspense } from "react";
 

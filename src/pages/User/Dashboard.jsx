@@ -4,7 +4,6 @@ import Program from "../../components/Dashboard/Program";
 import Devices from "../../components/Dashboard/Devices";
 import Patients from "../../components/Dashboard/Patients";
 import Wrapper from "../../components/Wrapper";
-import Doughnut from "../../components/Charts/Doughnut";
 
 const Dashboard = () => {
   return (
@@ -13,7 +12,6 @@ const Dashboard = () => {
         <Header />
         <div className="flex flex-col md:flex-row gap-2">
           <Program />
-          {/* <Doughnut />*/}
           <Devices />
         </div>
         <Patients />

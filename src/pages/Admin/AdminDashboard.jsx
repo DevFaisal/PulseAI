@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useFirebase } from "../../context/Firebase";
+import { useFirebase } from "../../context/FirebaseContext";
 import Loading from "../../components/Loading";
 
 const AdminDashboard = () => {

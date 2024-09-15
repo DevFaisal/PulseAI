@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to Pulse AI</title>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f4f8;
+        color: #333;
+      }
+
+      .email-container {
+        max-width: 600px;
+        margin: 40px auto;
+        background-color: #fff;
+        padding: 0;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        transition: all 0.3s ease;
+      }
+
+      .email-header {
+        background-image: linear-gradient(135deg, #7f00ff, #e100ff);
+        color: #ffffff;
+        padding: 30px;
+        text-align: center;
+        border-radius: 15px 15px 0 0;
+      }
+
+      .email-header img {
+        max-width: 100px;
+        margin-bottom: 20px;
+      }
+
+      .email-header h1 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+
+      .email-body {
+        padding: 40px 20px;
+        text-align: center;
+      }
+
+      .email-body h3 {
+        font-size: 22px;
+        color: #111827;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+
+      .email-body p {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #4b5563;
+        margin-bottom: 30px;
+      }
+
+      .email-body p.important {
+        font-size: 18px;
+        font-weight: bold;
+        color: #111827;
+        margin-top: 20px;
+      }
+
+      .activation-code {
+        display: inline-block;
+        background-color: #e0f7ff;
+        color: #0369a1;
+        padding: 15px 30px;
+        border-radius: 8px;
+        font-size: 20px;
+        letter-spacing: 2px;
+        margin-top: 20px;
+        font-weight: bold;
+      }
+
+      .download-links {
+        margin: 30px 0;
+      }
+
+      .download-links a {
+        display: inline-block;
+        background-color: #7f00ff;
+        color: #fff;
+        padding: 12px 30px;
+        margin: 10px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      .download-links a:hover {
+        background-color: #5900cc;
+      }
+
+      .email-footer {
+        background-color: #f8fafc;
+        color: #9ca3af;
+        padding: 20px;
+        text-align: center;
+        font-size: 12px;
+        border-top: 1px solid #e5e7eb;
+      }
+
+      .email-footer a {
+        color: #7f00ff;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .btn-contact {
+        background-color: #ff477e;
+        color: #fff;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+        display: inline-block;
+      }
+
+      .btn-contact:hover {
+        background-color: #e6395e;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="email-container">
+      <!-- Header -->
+      <div class="email-header">
+        <img
+          src="https://pulsehealthcare.ai/pulse-ai.svg"
+          alt="Pulse AI Logo"
+        />
+        <h1>Welcome to Pulse AI</h1>
+      </div>
+
+      <!-- Body -->
+      <div class="email-body">
+        <h3>Hello {{name}},</h3>
+        <p>
+          We’re excited to have you onboard! Your healthcare provider has added
+          you to the Pulse AI system. Access your health details by downloading
+          our app and using the activation code below.
+        </p>
+
+        <p class="important">Your Activation Code:</p>
+        <div class="activation-code">{{token}}</div>
+
+        <div class="download-links">
+          <a href="https://play.google.com/store/apps/details?id=pulse.ai"
+            >Download for Android</a
+          >
+          <a href="https://apps.apple.com/app/pulse-ai/id123456789"
+            >Download for iOS</a
+          >
+        </div>
+
+        <p>
+          If you have any questions, we’re here to help. Just reply to this
+          email!
+        </p>
+
+        <a href="https://pulseai.com/contact" class="btn-contact">Contact Us</a>
+      </div>
+
+      <!-- Footer -->
+      <div class="email-footer">&copy; 2024 Pulse AI | All rights reserved</div>
+    </div>
+  </body>
+</html>

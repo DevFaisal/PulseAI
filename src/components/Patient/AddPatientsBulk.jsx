@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import papaparse from "papaparse";
-import { useFirebase } from "../../context/Firebase";
+import { useFirebase } from "../../context/FirebaseContext";
 import toast from "react-hot-toast";
 
 const AddPatientsBulk = () => {
@@ -34,31 +34,99 @@ const AddPatientsBulk = () => {
             insurance_name,
             insurance_id,
             relationship_to_insured,
+            blood_pressure,
+            blood_glucose,
+            heart_rate,
+            body_temperature,
+            oxygen_saturation,
+            respiratory_rate,
+            blood_pressure_threshold_high,
+            blood_pressure_threshold_low,
+            blood_glucose_threshold_high,
+            blood_glucose_threshold_low,
+            heart_rate_threshold_high,
+            heart_rate_threshold_low,
+            body_temperature_threshold_high,
+            body_temperature_threshold_low,
+            oxygen_saturation_threshold_high,
+            oxygen_saturation_threshold_low,
+            respiratory_rate_threshold_high,
+            respiratory_rate_threshold_low,
             doctorAssigned,
             symptoms,
           } = patient;
 
-          // Validate mandatory fields
-          if (
-            !name ||
-            !age ||
-            !gender ||
-            !email ||
-            !phone ||
-            !address ||
-            !insurance_name ||
-            !insurance_id ||
-            !relationship_to_insured ||
-            !doctorAssigned ||
-            !symptoms
-          ) {
-            toast.error(`Invalid data in row ${index + 1}`);
-            uploadErrors = true;
-            continue;
-          }
+          // // Validate mandatory fields
+          // if (
+          //   !name ||
+          //   !age ||
+          //   !gender ||
+          //   !email ||
+          //   !phone ||
+          //   !address ||
+          //   !insurance_name ||
+          //   !insurance_id ||
+          //   !relationship_to_insured ||
+          //   !blood_pressure ||
+          //   !blood_glucose ||
+          //   !heart_rate ||
+          //   !body_temperature ||
+          //   !oxygen_saturation ||
+          //   !respiratory_rate ||
+          //   !blood_pressure_threshold_high ||
+          //   !blood_pressure_threshold_low ||
+          //   !blood_glucose_threshold_high ||
+          //   !blood_glucose_threshold_low ||
+          //   !heart_rate_threshold_high ||
+          //   !heart_rate_threshold_low ||
+          //   !body_temperature_threshold_high ||
+          //   !body_temperature_threshold_low ||
+          //   !oxygen_saturation_threshold_high ||
+          //   !oxygen_saturation_threshold_low ||
+          //   !respiratory_rate_threshold_high ||
+          //   !respiratory_rate_threshold_low ||
+          //   !doctorAssigned ||
+          //   !symptoms
+          // ) {
+          //   toast.error(`Invalid data in row ${index + 1}`);
+          //   uploadErrors = true;
+          //   continue;
+          // }
 
           try {
-            await createNewPatient(patient);
+            await createNewPatient({
+              ...patient,
+              age: Number(age),
+              blood_glucose: Number(blood_glucose),
+              heart_rate: Number(heart_rate),
+              body_temperature: Number(body_temperature),
+              oxygen_saturation: Number(oxygen_saturation),
+              respiratory_rate: Number(respiratory_rate),
+              blood_glucose_threshold_high: Number(
+                blood_glucose_threshold_high
+              ),
+              blood_glucose_threshold_low: Number(blood_glucose_threshold_low),
+              heart_rate_threshold_high: Number(heart_rate_threshold_high),
+              heart_rate_threshold_low: Number(heart_rate_threshold_low),
+              body_temperature_threshold_high: Number(
+                body_temperature_threshold_high
+              ),
+              body_temperature_threshold_low: Number(
+                body_temperature_threshold_low
+              ),
+              oxygen_saturation_threshold_high: Number(
+                oxygen_saturation_threshold_high
+              ),
+              oxygen_saturation_threshold_low: Number(
+                oxygen_saturation_threshold_low
+              ),
+              respiratory_rate_threshold_high: Number(
+                respiratory_rate_threshold_high
+              ),
+              respiratory_rate_threshold_low: Number(
+                respiratory_rate_threshold_low
+              ),
+            });
             toast.success(`Added patient: ${name}`);
           } catch (error) {
             toast.error(`Error adding patient: ${name}`);
@@ -112,7 +180,15 @@ const AddPatientsBulk = () => {
           Please upload a CSV file with the following columns:{" "}
           <span className="text-slate-600">
             name, age, gender, email, phone, address, insurance_name,
-            insurance_id, relationship_to_insured, doctorAssigned, symptoms
+            insurance_id, relationship_to_insured, blood_pressure,
+            blood_glucose, heart_rate, body_temperature, oxygen_saturation,
+            respiratory_rate, blood_pressure_threshold_high,
+            blood_pressure_threshold_low, blood_glucose_threshold_high,
+            blood_glucose_threshold_low, heart_rate_threshold_high,
+            heart_rate_threshold_low, body_temperature_threshold_high,
+            body_temperature_threshold_low, oxygen_saturation_threshold_high,
+            oxygen_saturation_threshold_low, respiratory_rate_threshold_high,
+            respiratory_rate_threshold_low, doctorAssigned, symptoms,
           </span>
         </p>
         <div className="md:text-sm text-xs text-red-600 font-semibold">

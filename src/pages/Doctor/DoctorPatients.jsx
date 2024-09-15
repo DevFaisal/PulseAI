@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useFirebase } from "../../context/Firebase";
+import { useFirebase } from "../../context/FirebaseContext";
 import Select from "react-select";
 import codes from "../../lib/icd10_codes.json";
 import toast from "react-hot-toast";

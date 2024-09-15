@@ -5,18 +5,22 @@ import Line from "../../../components/Charts/Line";
 import PatientInfo from "../../../components/Patient/PatientInfo";
 import Medication from "../../../components/Patient/Medication";
 import { useParams } from "react-router-dom";
-import { useFirebase } from "../../../context/Firebase";
+import { useFirebase } from "../../../context/FirebaseContext";
 import { AlertCircleIcon } from "lucide-react";
+import { IoIosArrowDropupCircle } from "react-icons/io";
+import { FaChevronCircleDown } from "react-icons/fa";
 
 const Vitals = () => {
   const firebase = useFirebase();
   const { id } = useParams();
   const [patient, setPatient] = useState({});
+  const [threshold, setThreshold] = useState({});
 
   useEffect(() => {
     const fetchPatient = async () => {
       const res = await firebase.getSinglePatient(id);
       setPatient(res);
+      setThreshold(res.thresholds || {});
     };
     fetchPatient();
   }, [id, firebase]);
@@ -77,11 +81,21 @@ const Vitals = () => {
         { x: new Date(2023, 7, 19, 20, 0), y: 98.8 },
       ],
     },
+    {
+      Header: "Respiratory Rate",
+      unit: "bpm",
+      yAxisTitle: "Respiratory Rate (in bpm)",
+      dataPoints: [
+        { x: new Date(2023, 7, 19, 8, 0), y: 16 },
+        { x: new Date(2023, 7, 19, 12, 0), y: 18 },
+        { x: new Date(2023, 7, 19, 16, 0), y: 20 },
+        { x: new Date(2023, 7, 19, 20, 0), y: 22 },
+      ],
+    },
   ];
 
   const [category, setCategory] = useState(categories[0].Header);
   const vitals = patient?.vitals || {};
-  const threshold = patient?.thresholds || {};
 
   const medReport = [
     {
@@ -90,7 +104,10 @@ const Vitals = () => {
         vitals.blood_pressure?.diastolic || 0
       }`,
       sign: vitals.blood_pressure?.unit || "",
-      threshold: threshold.blood_pressure || "",
+      threshold: {
+        low: threshold.blood_pressure?.low || "",
+        high: threshold.blood_pressure?.high || "",
+      },
       time: vitals.blood_pressure?.timestamp
         ? new Date(vitals.blood_pressure.timestamp).toLocaleString()
         : "",
@@ -100,7 +117,10 @@ const Vitals = () => {
       title: "Heart Rate",
       number: vitals.heart_rate?.bpm || 0,
       sign: "bpm",
-      threshold: threshold.heart_rate || "",
+      threshold: {
+        low: threshold.heart_rate?.low || "",
+        high: threshold.heart_rate?.high || "",
+      },
       time: vitals.heart_rate?.timestamp
         ? new Date(vitals.heart_rate.timestamp).toLocaleString()
         : "",
@@ -110,7 +130,10 @@ const Vitals = () => {
       title: "Blood Sugar",
       number: vitals.blood_glucose?.level || 0,
       sign: vitals.blood_glucose?.unit || "",
-      threshold: threshold.blood_glucose || "",
+      threshold: {
+        low: threshold.blood_glucose?.low || "",
+        high: threshold.blood_glucose?.high || "",
+      },
       time: vitals.blood_glucose?.timestamp
         ? new Date(vitals.blood_glucose.timestamp).toLocaleString()
         : "",
@@ -120,7 +143,10 @@ const Vitals = () => {
       title: "Oxygen Saturation",
       number: vitals.oxygen_saturation?.spO2 || 0,
       sign: vitals.oxygen_saturation?.unit || "",
-      threshold: threshold.oxygen_saturation || "",
+      threshold: {
+        low: threshold.oxygen_saturation?.low || "",
+        high: threshold.oxygen_saturation?.high || "",
+      },
       time: vitals.oxygen_saturation?.timestamp
         ? new Date(vitals.oxygen_saturation.timestamp).toLocaleString()
         : "",
@@ -130,11 +156,27 @@ const Vitals = () => {
       title: "Body Temperature",
       number: vitals.body_temperature?.temperature || 0,
       sign: vitals.body_temperature?.unit || "",
-      threshold: threshold.body_temperature || "",
+      threshold: {
+        low: threshold.body_temperature?.low || "",
+        high: threshold.body_temperature?.high || "",
+      },
       time: vitals.body_temperature?.timestamp
         ? new Date(vitals.body_temperature.timestamp).toLocaleString()
         : "",
       color: "violet",
+    },
+    {
+      title: "Respiratory Rate",
+      number: vitals.respiratory_rate?.rate || 0,
+      sign: vitals.respiratory_rate?.unit || "",
+      threshold: {
+        low: threshold.respiratory_rate?.low || "",
+        high: threshold.respiratory_rate?.high || "",
+      },
+      time: vitals.respiratory_rate?.timestamp
+        ? new Date(vitals.respiratory_rate.timestamp).toLocaleString()
+        : "",
+      color: "red",
     },
   ];
 
@@ -148,8 +190,12 @@ const Vitals = () => {
             <h1 className="text-lg sm:text-xl font-semibold">Threshold</h1>
             <div className="mt-2">
               <div className="flex gap-2">
-                <h1 className="font-semibold">{"BP"}:</h1>
-                <h1>{threshold.blood_pressure || "N/A"}</h1>
+                <h1 className="font-semibold">Blood Pressure:</h1>
+                <h1>
+                  {threshold.blood_pressure
+                    ? `${threshold.blood_pressure.low}/${threshold.blood_pressure.high}`
+                    : "N/A"}
+                </h1>
               </div>
             </div>
           </div>
@@ -215,7 +261,6 @@ export function MedInfoCard({
     pink: "bg-pink-200 text-pink-600 ring-pink-600",
     violet: "bg-violet-200 text-violet-600 ring-violet-600",
   };
-
   return (
     <button
       onClick={onClick}
@@ -230,8 +275,15 @@ export function MedInfoCard({
       </div>
       <div className="text-left w-full">
         <div className="text-xl font-semibold">{title}</div>
-        <div className="text-sm">
-          <span>Threshold: {threshold}</span>
+        <div className="flex justify-between text-sm">
+          <span className="flex items-center gap-1">
+            <FaChevronCircleDown />
+            {threshold.low}
+          </span>
+          <span className="flex items-center gap-1">
+            <IoIosArrowDropupCircle />
+            {threshold.high}
+          </span>
         </div>
         <div className="text-xs font-light">
           <span>{time}</span>

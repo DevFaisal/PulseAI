@@ -5,7 +5,7 @@ import Button from "./Inputs/Button";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import ErrorBanner from "./ErrorBanner";
-import { useFirebase } from "../context/Firebase";
+import { useFirebase } from "../context/FirebaseContext";
 import { HospitalIcon } from "lucide-react";
 import toast from "react-hot-toast";
 import SelectInput from "./Inputs/SelectInput";

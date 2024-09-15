@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import FormInput from "../../components/Inputs/FormInput"; // Assuming you have this component
-import { useFirebase } from "../../context/Firebase";
+import { useFirebase } from "../../context/FirebaseContext";
 import toast from "react-hot-toast";
 
 const ManageUsers = () => {

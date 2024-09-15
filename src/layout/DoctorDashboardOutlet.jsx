@@ -3,7 +3,7 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { BriefcaseMedical, LogOut, Menu, X } from "lucide-react"; // Import Menu and X icons from lucide-react
 import Logo from "../components/Logo";
 import { HospitalIcon } from "lucide-react";
-import { useFirebase } from "../context/Firebase";
+import { useFirebase } from "../context/FirebaseContext";
 import Loading from "../components/Loading";
 
 const DoctorDashboardOutlet = () => {

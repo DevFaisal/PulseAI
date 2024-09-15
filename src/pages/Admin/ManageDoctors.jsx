@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useFirebase } from "../../context/Firebase";
+import { useFirebase } from "../../context/FirebaseContext";
 import { useForm } from "react-hook-form";
 import FormInput from "../../components/Inputs/FormInput";
 import toast from "react-hot-toast";

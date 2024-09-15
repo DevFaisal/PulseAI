@@ -4,7 +4,7 @@ import FormInput from "./Inputs/FormInput";
 import Button from "./Inputs/Button";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
-import { useFirebase } from "../context/Firebase";
+import { useFirebase } from "../context/FirebaseContext";
 import Wrapper from "./Wrapper";
 import toast from "react-hot-toast";
 

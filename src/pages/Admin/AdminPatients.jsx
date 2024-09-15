@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import AddPatientsBulk from "../../components/Patient/AddPatientsBulk";
-import { useFirebase } from "../../context/Firebase";
+import { useFirebase } from "../../context/FirebaseContext";
 import PatientList from "../../components/Patient/PatientList";
 import AddPatient from "../../components/Patient/AddPatient";
 
@@ -10,10 +10,6 @@ const AdminPatients = () => {
 
   return (
     <div>
-      <div className="sticky top-0  z-50 flex justify-center items-center text-md font-extrabold bg-red-600 my-8 text-white p-2 text-center">
-        Add Patients is under construction and will be available soon
-      </div>
-
       <h1 className="text-2xl md:text-4xl font-extrabold text-gray-900 text-center mb-8">
         Manage Patients
       </h1>

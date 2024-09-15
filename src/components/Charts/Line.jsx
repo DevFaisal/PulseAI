@@ -22,10 +22,12 @@ ChartJS.register(
 const Line = ({ data }) => {
   data.data = Array.isArray(data.data) ? data.data : [data.data];
   const dataArray = [0, data.data[0], 0, 0];
-  const thresholdArray = [0, data.threshold, 0, 0];
-
+  const LowthresholdArray = [0, data.threshold.low, 0, 0];
+  const HighthresholdArray = [0, data.threshold.high, 0, 0];
   if (data.label === "Blood Pressure") {
     dataArray[1] = data.data[0].split("/")[0];
+    LowthresholdArray[1] = data.threshold.low.split("/")[1];
+    HighthresholdArray[1] = data.threshold.high.split("/")[0];
   }
 
   const chartData = {
@@ -41,8 +43,18 @@ const Line = ({ data }) => {
         tension: 0.3,
       },
       {
-        label: "Threshold",
-        data: thresholdArray || [],
+        label: "Low Threshold",
+        data: LowthresholdArray || [],
+        fill: false,
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
+
+        borderWidth: 2,
+        tension: 0.3,
+      },
+      {
+        label: "High Threshold",
+        data: HighthresholdArray || [],
         fill: false,
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         borderColor: "rgba(255, 99, 132, 1)",

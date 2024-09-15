@@ -1,0 +1,9 @@
+﻿name,age,gender,email,phone,address,insurance_name,insurance_id,relationship_to_insured,blood_pressure,blood_glucose,heart_rate,body_temperature,oxygen_saturation,respiratory_rate,blood_pressure_threshold_high,blood_pressure_threshold_low,blood_glucose_threshold_high,blood_glucose_threshold_low,heart_rate_threshold_high,heart_rate_threshold_low,body_temperature_threshold_high,body_temperature_threshold_low,oxygen_saturation_threshold_high,oxygen_saturation_threshold_low,respiratory_rate_threshold_high,respiratory_rate_threshold_low,doctorAssigned,symptoms
+John Doe,45,M,johndoe@example.com,123-456-7890,123 Elm St,HealthCare Inc,INS123456,Self,120/80,90,70,98.6,98,16,140/90,90/60,130,70,100,60,99,97,95,90,Dr. Faisal Farooq,Fever, headache
+Jane Smith,34,F,janesmith@example.com,987-654-3210,456 Oak St,Wellness Co,INS789101,Spouse,100/60,70,85,97.8,94,22,130/85,85/55,120,65,95,55,98,95,92,85,Dr. Faisal Farooq,Cold, cough
+Alice Johnson,28,F,alicej@example.com,555-123-4567,789 Pine St,Secure Health,INS112233,Self,140/90,105,85,99.0,100,20,150/100,100/70,140,80,110,70,100,98,96,91,Dr. Faisal Farooq,Headache, nausea
+Bob Brown,52,M,bobbrown@example.com,321-654-9870,101 Maple St,HealthPlus,INS445566,Self,160/100,120,90,100.2,93,24,170/110,110/80,150,85,120,80,102,92,94,88,Dr. Faisal Farooq,High blood pressure, dizziness
+Emily Davis,40,F,emilyd@example.com,654-321-0987,202 Birch St,MedCare,INS334455,Self,120/80,85,78,98.5,98,17,135/85,85/65,125,75,100,60,97,96,91,87,Dr. Faisal Farooq,Joint pain, fatigue
+Michael Wilson,60,M,michaelw@example.com,789-321-4560,303 Cedar St,Total Health,INS556677,Self,110/70,80,72,97.9,97,15,125/75,75/50,115,65,90,50,95,93,90,85,Dr. Faisal Farooq,Shortness of breath, chest pain
+Sophia Martinez,32,F,sophiam@example.com,456-789-0123,404 Elm St,Prime Health,INS778899,Spouse,130/85,95,76,98.4,99,19,140/90,90/60,130,70,95,55,98,95,93,90,Dr. Faisal Farooq,Abdominal pain, nausea
+

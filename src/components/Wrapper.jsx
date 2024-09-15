@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Logo from "./Logo";
-import { useFirebase } from "../context/Firebase";
+import { useFirebase } from "../context/FirebaseContext";
 import { useNavigate } from "react-router-dom";
 import { LogOut } from "lucide-react";
 

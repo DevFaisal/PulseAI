@@ -3,7 +3,7 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Menu, X, LogOut, ShieldHalf } from "lucide-react";
 import Logo from "../components/Logo";
 import { HospitalIcon } from "lucide-react";
-import { useFirebase } from "../context/Firebase";
+import { useFirebase } from "../context/FirebaseContext";
 import Loading from "../components/Loading";
 
 const AdminDashboardOutlet = ({ sidebarColor = "bg-gray-900" }) => {

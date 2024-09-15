@@ -3,14 +3,11 @@ import React, { useState, useEffect } from "react";
 const DeatiledInfo = ({ patient }) => {
   const [isLoading, setIsLoading] = useState(true);
 
-  // Simulate component mounting (fetching or receiving data)
   useEffect(() => {
-    // Simulate a network request delay (2 seconds)
     const timer = setTimeout(() => {
-      setIsLoading(false); // Data is "ready"
+      setIsLoading(false);
     }, 2000);
 
-    // Cleanup timer on component unmount
     return () => clearTimeout(timer);
   }, []);
 
@@ -28,7 +25,16 @@ const DeatiledInfo = ({ patient }) => {
   return (
     <div className="p-6 bg-white w-full ">
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Patient Details</h2>
-
+      {patient.alertEnabled && (
+        <div className="bg-red-100 text-red-600 p-2 rounded-md mb-4">
+          <p className="font-semibold">Alerts:</p>
+          <ul className="list-disc ml-5">
+            {patient.alerts.map((alert, index) => (
+              <li key={index}>{alert}</li>
+            ))}
+          </ul>
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Personal Information */}
         <div className="flex flex-col space-y-2">
