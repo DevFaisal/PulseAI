@@ -93,7 +93,7 @@ const DoctorPatients = () => {
           <h1 className="text-2xl font-semibold">Loading patients ...</h1>
         </div>
       ) : patients.length > 0 ? (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 w-screen">
           {patients.map((patient) => (
             <div
               key={patient.id}
@@ -169,19 +169,47 @@ const DoctorPatients = () => {
                   </label>
                   <div className="grid grid-cols-2 gap-2">
                     {Object.keys(watch("thresholds") || {}).map((key) => (
-                      <Controller
-                        key={key}
-                        name={`thresholds.${key}`}
-                        control={control}
-                        render={({ field }) => (
-                          <FormInput
-                            label={key.replace("_", " ").toUpperCase()}
-                            type="text"
-                            placeholder={key.replace("_", " ").toUpperCase()}
-                            {...field}
+                      <div className="ring-1 ring-gray-400 bg-white p-1 rounded-md">
+                        <label className="block font-bold text-gray-700">
+                          {key.replace("_", " ").toUpperCase()}
+                        </label>
+                        <div className="flex">
+                          <Controller
+                            key={key}
+                            name={`thresholds.${key}.high`}
+                            control={control}
+                            render={({ field }) => (
+                              <>
+                                <FormInput
+                                  label={"High"}
+                                  type="text"
+                                  placeholder={key
+                                    .replace("_", " ")
+                                    .toUpperCase()}
+                                  {...field}
+                                />
+                              </>
+                            )}
                           />
-                        )}
-                      />
+                          <Controller
+                            key={key}
+                            name={`thresholds.${key}.low`}
+                            control={control}
+                            render={({ field }) => (
+                              <>
+                                <FormInput
+                                  label={"Low"}
+                                  type="text"
+                                  placeholder={key
+                                    .replace("_", " ")
+                                    .toUpperCase()}
+                                  {...field}
+                                />
+                              </>
+                            )}
+                          />
+                        </div>
+                      </div>
                     ))}
                   </div>
                   <div className="flex items-center mt-4">
