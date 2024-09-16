@@ -8,6 +8,8 @@ import {
   LineElement,
   CategoryScale,
   LinearScale,
+  PointElement,
+  Chart,
 } from "chart.js";
 
 ChartJS.register(
@@ -16,7 +18,8 @@ ChartJS.register(
   Legend,
   LineElement,
   CategoryScale,
-  LinearScale
+  LinearScale,
+  PointElement
 );
 
 const Line = ({ data }) => {

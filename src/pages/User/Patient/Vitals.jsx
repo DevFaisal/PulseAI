@@ -20,7 +20,7 @@ const Vitals = () => {
     const fetchPatient = async () => {
       const res = await firebase.getSinglePatient(id);
       setPatient(res);
-      setThreshold(res.thresholds || {});
+      setThreshold(res.thresholds);
     };
     fetchPatient();
   }, [id, firebase]);
